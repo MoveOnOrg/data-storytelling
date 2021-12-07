@@ -1,0 +1,95 @@
+body {
+  background-color: #FFF;
+  font-family: 'Roboto', sans-serif;
+  margin: 0 auto;
+}
+
+#chart {
+  background-color: #E5F5FF;
+}
+#map {
+  background-color: #005680; 
+  color: #FFF;
+}
+
+h1 {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 60px;
+  font-weight: bold;
+  margin-bottom: 50px;
+  text-align: center;
+  text-transform: uppercase;
+}
+h2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  margin: 4rem 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  line-height: 32px;
+}
+
+.filler article {
+  padding: 0 1rem;
+  margin: 50px auto;
+  max-width: 40rem;
+}
+
+.scrolly-overlay .scrolly {
+  max-width: 60rem;
+  margin: 3rem auto;
+  padding: 1rem;
+}
+.scrolly-overlay .scrolly article {
+  padding: 0;
+  max-width: 30rem;
+  margin: 0 auto;
+  position: relative;
+}
+.scrolly-overlay .scrolly article .step {
+  min-height: 67vh;
+  margin-bottom: 1rem;
+}
+.scrolly-overlay .scrolly article .step:last-of-type {
+  margin-bottom: 0;
+}
+.scrolly-overlay .scrolly article .step.is-active p {
+  background-color: #008080;
+}
+.scrolly-overlay .scrolly article .step p {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 400;
+  background-color: #5b5b5b;
+  transition: background-color 250ms ease-in-out;
+  color: #f4f4f4;
+}
+.scrolly-overlay .scrolly figure.sticky {
+  position: sticky;
+  width: 100%;
+  height: 50vh;
+  margin: 0;
+  top: 25vh;
+  left: 0;
+}
+.scrolly-overlay .scrolly figure.sticky .bar-outer {
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  width: 90%;
+  height: 4rem;
+  background-color: #fff;
+}
+.scrolly-overlay .scrolly figure.sticky .bar-inner {
+  width: 10%;
+  height: 100%;
+  transition: width 1s ease-in-out;
+  background-color: #daa520;
+}
