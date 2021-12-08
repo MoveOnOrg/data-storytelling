@@ -1,20 +1,31 @@
 /**** CHART FUNCTIONS *****/
 const chart = d3.select('#chart');
 const chartStep = chart.selectAll('.step');
+const bar = chart.selectAll('.bar');
+let resetTimeout;
 
 function updateChart(index) {
+	clearTimeout(resetTimeout);
+
 	const sel = chart.select(`[data-index='${index}']`);
 	const width = sel.attr('data-width');
+	const barChart = d3.select('.bar-chart');
+	const chartRow = barChart.select(`.chart-row:nth-child(${index+1})`);
+
+	//bar.classed('is-active', (d, i) => i === index);
 	chartStep.classed('is-active', (d, i) => i === index);
-	chart.select('.bar-inner').style('width', width);
+	barChart.style('opacity', 1);
+	chartRow.style('opacity', 1);
+	chartRow.select('.bar-fill').style('width', width);
+	chartRow.select('.value').style('opacity', 1);
 }
 
 function initChart() {
-	Stickyfill.add(d3.select('.sticky').node());
+	Stickyfill.add(chart.select('.sticky').node());
 
 	enterView({
 		selector: chartStep.nodes(),
-		offset: 0.5,
+		offset: 0.2,
 		enter: el => {
 			const index = +d3.select(el).attr('data-index');
 			updateChart(index);
@@ -22,10 +33,22 @@ function initChart() {
 		exit: el => {
 			let index = +d3.select(el).attr('data-index');
 			index = Math.max(0, index - 1);
-			updateChart(index);
+			if (index<1) resetChart();
 		}
 	});
 }
+
+function resetChart() {
+	const barChart = d3.select('.bar-chart');
+	barChart.style('opacity', 0);
+	resetTimeout = setTimeout(function() {
+		const bar = barChart.selectAll('.chart-row');
+		bar.style('opacity', 0);
+		bar.select('.bar-fill').style('width', 0);
+		bar.select('.value').style('opacity', 0);
+	}, 700);
+}
+
 
 /**** MAP FUNCTIONS *****/
 const map = d3.select('#map');
