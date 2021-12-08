@@ -46,7 +46,7 @@
 
     <section class='filler'>
       <article>
-        <p>If this Credit was made permanent it would lift millions of children out of poverty:* [[tooltip:] Source: Urban League, Sept 2021]
+        <p>If this Credit was made permanent it would make a huge difference on childhood poverty:* [[tooltip:] Source: Urban League, Sept 2021]
         </p>
       </article>
     </section>
@@ -56,22 +56,21 @@
         
         <!--  sticky graphic   -->
         <figure class='sticky'>
-          <div class='bar-outer'>
-            <div class='bar-inner'></div>
-          </div>
+          <div id="childPovertyMap"></div>
         </figure>
 
         <!--  step text   -->
         <article>
-          <div class='step' data-width='10%' data-index='0'>
-              <p>Bar is 10%</p>
+          <div class='map-step'  data-width='50%' data-index='0'>
+              <p>Here's a map of childhood poverty rates around the country before the expanded Child Tax Credit</p>
           </div>
-          <div class='step' data-width='90%' data-index='1'>
-             <p>Bar is 90%</p>
-          </div>
-          <div class='step' data-width='50%' data-index='2'>
-            <p>Bar is 50%</p>
-          </div>
+          <div class='map-step' data-width='50%' data-index='1' progress-map-step = "1"> 
+            <p>Here's what would happen if the expanded credit was made permanent.</p>
+        </div>
+        <div class='map-step' data-width='50%' data-index='2' >
+          <p>That's over 4 million children lifted out of poverty.</p>
+      </div>
+
         </article>
         
       </div>
@@ -87,7 +86,7 @@
     </section>
 
     <script type='text/javascript' src='https://unpkg.com/d3@5.4.0/dist/d3.min.js'></script>
-    <script type='text/javascript' src='https://unpkg.com/enter-view@1.0.0/enter-view.min.js'></script>
+    <script src='https://unpkg.com/enter-view@2.0.1/enter-view.min.js'></script>
     <script type='text/javascript' src='https://unpkg.com/stickyfilljs@2.0.5/dist/stickyfill.js'></script>
     <script type='text/javascript' src='js/scripts.js'></script>
   </body>

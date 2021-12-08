@@ -70,6 +70,21 @@ p {
   transition: background-color 250ms ease-in-out;
   color: #f4f4f4;
 }
+
+
+.scrolly-overlay .scrolly article .map-step {
+  min-height: 120vh;
+  margin-bottom: 1rem;
+}
+.scrolly-overlay .scrolly article .map-step p {
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 400;
+  background-color: #254747;
+  color: #f4f4f4;
+}
+
 .scrolly-overlay .scrolly figure.sticky {
   position: sticky;
   width: 100%;

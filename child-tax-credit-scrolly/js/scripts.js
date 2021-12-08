@@ -29,24 +29,74 @@ function initChart() {
 
 /**** MAP FUNCTIONS *****/
 const map = d3.select('#map');
-const mapStep = map.selectAll('.step');
+const mapStep = map.selectAll('.map-step');
 
-function initMap() {
+const mapScale = .93;
+const width = map.node().offsetWidth;
+const height = width * 0.7;
+
+const colorScale = d3.scaleSequential()
+.interpolator(d3.interpolateLab('rgb(234,28,36)', "black"))
+.domain([20.5,0]); // hard-coded max 
+
+const bgColor = "#005680" ;//"#222"
+
+function initMap(d) {
+	const shapesWithData = d.shapesWithData;
+	const usMesh = d.usMesh; 
+	const projection = d3.geoAlbersUsa()
+		.fitSize([width*mapScale, height*mapScale], usMesh) 
+	
+	const svg = d3.select('#childPovertyMap')
+		.append("svg").attr("viewBox", [0, 0, width, height]).style('background-color', bgColor);
+
+	const clipPath = svg.append('clipPath').attr('id', "myClip")
+		.append('rect').attr('x',0).attr('y',0).attr('width','100%')
+
+	const svgMapAfter = svg.append('g').selectAll( "path" )
+		.data( shapesWithData )
+		.enter()
+		.append( "path" )
+		.attr("class", 'poly')
+		.attr("id", d => 'poly' + d.id)
+		.attr( "fill", d => colorScale(d.pct_after))
+		.attr( "stroke", "#DDD")
+		.attr( "d", d3.geoPath().projection(projection) )
+
+	const svgMapBefore = svg.append('g').selectAll( "path" )
+		.data( shapesWithData )
+		.enter()
+		.append( "path" )
+		.attr("class", 'poly')
+		.attr("id", d => 'poly' + d.id)
+		.attr( "fill", d => colorScale(d.pct_before))
+		.attr( "stroke", "#DDD")
+		.attr( "d", d3.geoPath().projection(projection) )
+
+	const clipPathLine = svg.append('line')
+		.attr('x1', 0).attr('x2', width).attr('y1', height).attr('y2', height)
+		.attr('stroke','white').attr('stroke-width','3px')
+	
 	Stickyfill.add(d3.select('.sticky').node());
 
 	enterView({
 		selector: mapStep.nodes(),
-		offset: 0.5,
+		offset: 0.0,
 		enter: el => {
 			const index = +d3.select(el).attr('data-index');
 			updateMap(index);
 		},
-		exit: el => {
-			let index = +d3.select(el).attr('data-index');
-			index = Math.max(0, index - 1);
-			updateMap(index);
+		progress: function(el, progress) {
+			if (d3.select(el).attr('progress-map-step') == "1"){ // I manually added this attribute to the text step I want to transition the map
+				progressMap(progress, clipPath, clipPathLine, svgMapBefore);
+			}
 		}
 	});
+}
+function progressMap(progress,clipPath, clipPathLine, svgMapBefore) {
+	clipPathLine.attr('y1', height - (height * progress)).attr('y2',  height - (height * progress))
+	clipPath.attr('height', (1 - progress)*100 + '%')
+	svgMapBefore.attr("clip-path", "url(#myClip)")
 }
 
 function updateMap(index) {
@@ -59,4 +109,8 @@ function updateMap(index) {
 
 
 initChart();
-initMap();
+
+d3.json("/child-tax-credit-scrolly/data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
+	.then( function (d) {
+		initMap(d);
+});
