@@ -57,7 +57,7 @@ const mapStep = map.selectAll('.map-step');
 const mapScale = .93;
 const width = map.node().offsetWidth;
 const height = width * 0.7;
-d3.select('.map-step:first-of-type').style('margin-top', -Math.round(height) + 'px')
+// d3.select('.map-step:first-of-type').style('margin-top', -Math.round(height) + 'px') // trying to raise first map step so it wasn't below the map, but this raised it too much. 
 
 const colorScale = d3.scaleSequential()
 .interpolator(d3.interpolateLab('rgb(234,28,36)', "black"))
@@ -133,7 +133,7 @@ function initMap(d) {
 		},
 		progress: function(el, progress) {
 			if (d3.select(el).attr('show-map') == "1"){ // I manually added this attribute to the text step I want to transition the map
-				console.log('show map progress', progress)
+				//d3.select('#map-intro').style('opacity', 1-progress)
 				d3.select('#childPovertyMap').style('opacity',progress)
 			}
 			if (d3.select(el).attr('progress-map-step') == "1"){ // I manually added this attribute to the text step I want to transition the map

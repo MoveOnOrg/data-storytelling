@@ -124,6 +124,14 @@ p {
   padding: 10px;
 }
 
+.ctc #map .source {
+  color: white;
+  text-align: center;
+}
+.ctc #map .source a {
+  color: white;
+}
+
 /**** CHART STYLES *****/
 #chart {
   background-color: #E5F5FF;
@@ -188,5 +196,9 @@ p {
 
 #childPovertyMap { 
   opacity: 0;
+}
+
+#map-intro {
+  text-align: center;
 }
 
