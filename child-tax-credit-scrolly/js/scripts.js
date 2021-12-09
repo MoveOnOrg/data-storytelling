@@ -160,7 +160,7 @@ function updateMap(index) {
 initChart();
 
 //https://data-storytelling.s3.us-west-1.amazonaws.com/dataForExport.json
-d3.json("./data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
+d3.json("/child-tax-credit-scrolly/data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
 	.then( function (d) {
 		initMap(d);
 });
