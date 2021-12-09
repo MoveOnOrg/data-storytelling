@@ -13,6 +13,7 @@ nav {
 .ctc {
   font-family: 'Roboto', sans-serif;
   margin: 0 auto;
+  background-color: #E5F5FF;
 }
 
 
@@ -21,7 +22,7 @@ nav {
   color: #FFF;
 }
 
-h1 {
+/* h1 {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 60px;
   font-weight: bold;
@@ -30,6 +31,24 @@ h1 {
   text-transform: uppercase;
   background-color: black;
   color: #99ddff;
+*/ 
+h1 {
+    font-size: 3rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+ h1 span {
+    display: inline-block;
+    background-color: #000;
+    color: #00abff;
+    position: relative;
+    font-family: "Roboto Condensed",sans-serif;
+    font-weight: bolder;
+    /*font-size: 32px;*/
+    line-height: 1;
+    letter-spacing: 0;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
 }
 h2 {
   font-family: 'Roboto', sans-serif;
@@ -85,11 +104,11 @@ p {
   padding: 1rem;
   text-align: center;
   font-size: 20px;
+  font-weight: bold;
   background-color: #5b5b5b;
   transition: background-color 250ms ease-in-out;
   color: #f4f4f4;
 }
-
 
 .scrolly-overlay .scrolly article .map-step {
   min-height: 120vh;
@@ -99,7 +118,7 @@ p {
   margin: 0;
   padding: 1rem;
   text-align: center;
-  font-weight: 400;
+  font-weight: bold;
   background-color: #254747;
   color: #f4f4f4;
 }
@@ -111,7 +130,7 @@ p {
   margin: 0;
   top: 10vh;
   left: 0;
-  padding-top: 120px;
+  padding-top: 50px;
 }
 .scrolly-overlay .scrolly figure.sticky .bar-outer {
   position: absolute;
@@ -212,8 +231,12 @@ p {
   background-color: rgba(178,178,178,1);
 }
 
-#childPovertyMap {
+#child-poverty-map {
   opacity: 0;
+}
+
+#map-svg-div{
+  margin: 0px auto;
 }
 
 #map-intro {
@@ -225,7 +248,7 @@ p {
 }
 
 /* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
-@media (max-width:481px)  {
+@media (max-width:768px)  {
   h1 {
     font-size: 42px;
     margin-bottom: 20px;

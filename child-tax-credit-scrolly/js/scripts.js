@@ -53,15 +53,17 @@ function resetChart() {
 /**** MAP FUNCTIONS *****/
 const map = d3.select('#map');
 const mapStep = map.selectAll('.map-step');
+const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
 
+const width = d3.select("#map").node().offsetWidth;
 const mapScale = .93;
-const width = map.node().offsetWidth;
-const height = width * 0.6;
-// d3.select('.map-step:first-of-type').style('margin-top', -Math.round(height) + 'px') // trying to raise first map step so it wasn't below the map, but this raised it too much.
+const mapWidth = width  ; // I thought this needed to be scaled down, but doesn't if we scale the div containing the svg down 
+const mapHeight = mapWidth * 0.6;
+d3.select("#map-svg-div").style('width', vw < 768 ? "100%" : "80%" ) // mapWidth+'px')
 
-const colorScale = d3.scaleSequential()
-.interpolator(d3.interpolateLab('rgb(234,28,36)', "black"))
-.domain([20.5,0]); // hard-coded max
+const colorScale = d3.scaleThreshold()
+	.domain([10,15])
+	.range(["rgb(47, 19, 12)", "rgb(110, 29, 22)", "rgb(235, 28, 36)"]) 
 
 const bgColor = "#005680" ;//"#222"
 
@@ -69,29 +71,27 @@ function initMap(d) {
 	const shapesWithData = d.shapesWithData;
 	const usMesh = d.usMesh;
 	const projection = d3.geoAlbersUsa()
-		.fitSize([width*mapScale, height*mapScale], usMesh)
+		.fitSize([mapWidth*mapScale, mapHeight*mapScale], usMesh)
 
-	const legendSvg = d3.select('#childPovertyMap')
-		.append("svg").attr("viewBox", [0, 0, width, 200]).style('background-color', bgColor);
+	const legendSvg = d3.select('#map-legend').attr("viewBox", [0, 0, width, 200]).style('background-color', bgColor);
 	legendSvg.append('text').text('PERCENT OF CHILDREN IN POVERTY').attr('y',50).attr('x',width/2)
-		.attr("text-anchor","middle").attr("font-size","1.5em").attr("fill","white").attr("font-weight","bold")
-	const povertyRates = [0, 5, 10, 15, 20];
-	legendSvg.append('g').selectAll('rect').data(povertyRates).join('rect')
-		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRates.length/2)  - width / 60)
+		.attr("text-anchor","middle").attr("font-size","1.5rem").attr("fill","white").attr("font-weight","bold")
+	const povertyRateLabels = ['<10%', "10-15%", ">15%"];
+	legendSvg.append('g').selectAll('rect').data(povertyRateLabels).join('rect')
+		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRateLabels.length/2)  - width / 60)
 		.attr('y', 80)
 		.attr('width', width / 40).attr('height', width / 40)
-		.attr("fill",d=> colorScale(d))
-	legendSvg.append('g').selectAll('text').data(povertyRates).join('text')
-		.text(d=> d + "%")
-		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRates.length/2) )
+		.attr("fill",(d,i)=> colorScale.range()[i])
+	legendSvg.append('g').selectAll('text').data(povertyRateLabels).join('text')
+		.text(d=> d )
+		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRateLabels.length/2) )
 		.attr('y', 140)
 		.attr("fill","white").attr("font-weight","bold")
 		.attr("font-size","1.3em")
 		.attr("text-anchor","middle")
 
 
-	const svg = d3.select('#childPovertyMap')
-		.append("svg").attr("viewBox", [0, 0, width, height]).style('background-color', bgColor);
+	const svg = d3.select('#map-svg').attr("viewBox", [0, 0, mapWidth, mapHeight]).style('background-color', bgColor);
 
 	const clipPath = svg.append('clipPath').attr('id', "myClip")
 		//.append('rect').attr('x',0).attr('y',0).attr('width','100%')
@@ -118,7 +118,7 @@ function initMap(d) {
 		.attr( "d", d3.geoPath().projection(projection) )
 
 	const clipPathLine = svg.append('line')
-		.attr('x1', width).attr('x2', width).attr('y1', 0).attr('y2', height)
+		.attr('x1', mapWidth).attr('x2', mapWidth).attr('y1', 0).attr('y2', mapHeight)
 		.attr('stroke','white').attr('stroke-width','3px').attr('opacity',0)
 
 	Stickyfill.add(d3.select('.sticky').node());
@@ -134,7 +134,7 @@ function initMap(d) {
 			if (d3.select(el).attr('show-map') == "1"){ // I manually added this attribute to the text step I want to transition the map
 				//d3.select('#map-intro').style('opacity', 1-progress)
 				console.log(d3.min([1, progress*2]));
-				d3.select('#childPovertyMap').style('opacity', d3.min([1, progress*2]));
+				d3.select('#child-poverty-map').style('opacity', d3.min([1, progress*2]));
 			}
 			if (d3.select(el).attr('progress-map-step') == "1"){ // I manually added this attribute to the text step I want to transition the map
 				progressMap(progress, clipPath, clipPathLine, svgMapBefore);
@@ -143,7 +143,7 @@ function initMap(d) {
 	});
 }
 function progressMap(progress,clipPath, clipPathLine, svgMapBefore) {
-	clipPathLine.attr('x1', width - (width * progress)).attr('x2',  width - (width * progress))
+	clipPathLine.attr('x1', mapWidth - (mapWidth * progress)).attr('x2',  mapWidth - (mapWidth * progress))
 		.attr('opacity', progress < 0.9 ? 10 * progress : progress > 0.9 ? 1 - 10 * (progress - 0.9)  : 1)
 	clipPath.attr('width', (1 - progress)*100 + '%')
 	svgMapBefore.attr("clip-path", "url(#myClip)")
