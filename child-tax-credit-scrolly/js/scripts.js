@@ -73,8 +73,8 @@ function initMap(d) {
 
 	const legendSvg = d3.select('#childPovertyMap')
 		.append("svg").attr("viewBox", [0, 0, width, 200]).style('background-color', bgColor);
-	legendSvg.append('text').text('Percent of Children in Poverty').attr('y',50).attr('x',width/2)
-		.attr("text-anchor","middle").attr("font-size","1.5em").attr("fill","white").attr("font-weight","bold").attr("text-decoration","underline")
+	legendSvg.append('text').text('PERCENT OF CHILDREN IN POVERTY').attr('y',50).attr('x',width/2)
+		.attr("text-anchor","middle").attr("font-size","1.5em").attr("fill","white").attr("font-weight","bold")
 	const povertyRates = [0, 5, 10, 15, 20];
 	legendSvg.append('g').selectAll('rect').data(povertyRates).join('rect')
 		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRates.length/2)  - width / 60)
@@ -120,7 +120,7 @@ function initMap(d) {
 	const clipPathLine = svg.append('line')
 		.attr('x1', width).attr('x2', width).attr('y1', 0).attr('y2', height)
 		.attr('stroke','white').attr('stroke-width','3px').attr('opacity',0)
-	
+
 	Stickyfill.add(d3.select('.sticky').node());
 
 	enterView({
