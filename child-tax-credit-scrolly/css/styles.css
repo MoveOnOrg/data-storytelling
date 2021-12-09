@@ -1,5 +1,6 @@
 body {
   margin: 0 auto;
+  background-color: #E5F5FF;
 }
 
 nav {
@@ -10,14 +11,13 @@ nav {
 }
 
 .ctc {
-  background-color: #FFF;
   font-family: 'Roboto', sans-serif;
   margin: 0 auto;
 }
 
 
 #map {
-  background-color: #005680; 
+  background-color: #005680;
   color: #FFF;
 }
 
@@ -28,6 +28,8 @@ h1 {
   margin-bottom: 50px;
   text-align: center;
   text-transform: uppercase;
+  background-color: black;
+  color: #99ddff;
 }
 h2 {
   font-family: 'Roboto', sans-serif;
@@ -35,6 +37,14 @@ h2 {
   margin: 4rem 0;
   text-align: center;
   text-transform: uppercase;
+}
+h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  margin: 4rem 0;
+  margin-bottom: 0;
+  font-size: 24px;
+  line-height: 32px;
 }
 
 p {
@@ -46,7 +56,7 @@ p {
 .filler article {
   padding: 0 1rem;
   margin: 50px auto;
-  max-width: 40rem;
+  max-width: 50rem;
 }
 
 .scrolly-overlay .scrolly {
@@ -74,7 +84,7 @@ p {
   margin: 0;
   padding: 1rem;
   text-align: center;
-  font-weight: 400;
+  font-size: 20px;
   background-color: #5b5b5b;
   transition: background-color 250ms ease-in-out;
   color: #f4f4f4;
@@ -140,6 +150,11 @@ p {
   margin: 50px auto;
   max-width: 40rem;
 }
+#chart .sticky .sticky--copy {
+  margin: 50px auto;
+  max-width: 30rem;
+  text-align: center;
+}
 #chart .bar-chart {
   opacity: 0;
   transition: opacity 0.7s ease-out;
@@ -158,6 +173,7 @@ p {
   padding-right: 20px;
   text-align: right;
   width: 263px;
+  text-transform: uppercase;
 }
 #chart .chart-row .value {
   color: #00ABFF;
@@ -188,17 +204,16 @@ p {
   margin-bottom: 50px;
 }
 #chart .scrolly article .step.is-active p {
-  background-color: rgba(0,128,191,0.9);
+  background-color: rgba(0,128,191,1);
 }
 #chart .scrolly article .step p {
-  background-color: rgba(178,178,178,0.9);
+  background-color: rgba(178,178,178,1);
 }
 
-#childPovertyMap { 
+#childPovertyMap {
   opacity: 0;
 }
 
 #map-intro {
   text-align: center;
 }
-

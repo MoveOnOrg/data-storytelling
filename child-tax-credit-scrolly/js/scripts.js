@@ -57,20 +57,20 @@ const mapStep = map.selectAll('.map-step');
 const mapScale = .93;
 const width = map.node().offsetWidth;
 const height = width * 0.7;
-// d3.select('.map-step:first-of-type').style('margin-top', -Math.round(height) + 'px') // trying to raise first map step so it wasn't below the map, but this raised it too much. 
+// d3.select('.map-step:first-of-type').style('margin-top', -Math.round(height) + 'px') // trying to raise first map step so it wasn't below the map, but this raised it too much.
 
 const colorScale = d3.scaleSequential()
 .interpolator(d3.interpolateLab('rgb(234,28,36)', "black"))
-.domain([20.5,0]); // hard-coded max 
+.domain([20.5,0]); // hard-coded max
 
 const bgColor = "#005680" ;//"#222"
 
 function initMap(d) {
 	const shapesWithData = d.shapesWithData;
-	const usMesh = d.usMesh; 
+	const usMesh = d.usMesh;
 	const projection = d3.geoAlbersUsa()
-		.fitSize([width*mapScale, height*mapScale], usMesh) 
-	
+		.fitSize([width*mapScale, height*mapScale], usMesh)
+
 	const legendSvg = d3.select('#childPovertyMap')
 		.append("svg").attr("viewBox", [0, 0, width, 200]).style('background-color', bgColor);
 	legendSvg.append('text').text('Percent of Children in Poverty').attr('y',40).attr('x',width/2)
@@ -89,7 +89,7 @@ function initMap(d) {
 		.attr("font-size","2rem")
 		.attr("text-anchor","middle")
 
-	 
+
 
 	const svg = d3.select('#childPovertyMap')
 		.append("svg").attr("viewBox", [0, 0, width, height]).style('background-color', bgColor);
@@ -97,7 +97,7 @@ function initMap(d) {
 	const clipPath = svg.append('clipPath').attr('id', "myClip")
 		//.append('rect').attr('x',0).attr('y',0).attr('width','100%')
 		.append('rect').attr('x',0).attr('y',0).attr('height','100%')
-		
+
 	const svgMapAfter = svg.append('g').selectAll( "path" )
 		.data( shapesWithData )
 		.enter()
@@ -121,7 +121,7 @@ function initMap(d) {
 	const clipPathLine = svg.append('line')
 		.attr('x1', width).attr('x2', width).attr('y1', 0).attr('y2', height)
 		.attr('stroke','white').attr('stroke-width','3px')
-	
+
 	Stickyfill.add(d3.select('.sticky').node());
 
 	enterView({
