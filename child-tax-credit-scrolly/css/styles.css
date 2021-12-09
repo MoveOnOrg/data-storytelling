@@ -101,6 +101,7 @@ p {
   margin: 0;
   top: 10vh;
   left: 0;
+  padding-top: 120px;
 }
 .scrolly-overlay .scrolly figure.sticky .bar-outer {
   position: absolute;

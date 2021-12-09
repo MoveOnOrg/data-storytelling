@@ -120,7 +120,7 @@ function initMap(d) {
 
 	const clipPathLine = svg.append('line')
 		.attr('x1', width).attr('x2', width).attr('y1', 0).attr('y2', height)
-		.attr('stroke','white').attr('stroke-width','3px')
+		.attr('stroke','white').attr('stroke-width','3px').attr('opacity',0)
 	
 	Stickyfill.add(d3.select('.sticky').node());
 
@@ -134,7 +134,8 @@ function initMap(d) {
 		progress: function(el, progress) {
 			if (d3.select(el).attr('show-map') == "1"){ // I manually added this attribute to the text step I want to transition the map
 				//d3.select('#map-intro').style('opacity', 1-progress)
-				d3.select('#childPovertyMap').style('opacity',progress)
+				console.log(d3.min([1, progress*2]));
+				d3.select('#childPovertyMap').style('opacity', d3.min([1, progress*2]));
 			}
 			if (d3.select(el).attr('progress-map-step') == "1"){ // I manually added this attribute to the text step I want to transition the map
 				progressMap(progress, clipPath, clipPathLine, svgMapBefore);
@@ -161,7 +162,8 @@ function updateMap(index) {
 initChart();
 
 //https://data-storytelling.s3.us-west-1.amazonaws.com/dataForExport.json
-d3.json("/child-tax-credit-scrolly/data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
+// d3.json("/child-tax-credit-scrolly/data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
+d3.json('https://raw.githubusercontent.com/MoveOnOrg/data-storytelling/main/child-tax-credit-scrolly/data/dataForExport.json')
 	.then( function (d) {
 		initMap(d);
 });
