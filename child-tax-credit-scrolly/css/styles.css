@@ -132,6 +132,7 @@ p {
   font-size: 12px;
   margin-top: 50px;
   padding: 10px;
+  text-align: center;
 }
 
 .ctc #map .source {
@@ -150,7 +151,7 @@ p {
   margin: 50px auto;
   max-width: 40rem;
 }
-#chart .sticky .sticky--copy {
+.sticky .sticky--copy {
   margin: 50px auto;
   max-width: 30rem;
   text-align: center;
@@ -218,6 +219,10 @@ p {
   text-align: center;
 }
 
+#map .sticky .sticky--copy {
+  margin-bottom: 0px;
+}
+
 /* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
 @media (max-width:481px)  {
   h1 {
@@ -227,9 +232,5 @@ p {
 
   #chart .sticky .sticky--copy, h3 {
     margin: 0;
-  }
-
-  .ctc .source {
-    text-align: center;
   }
 }

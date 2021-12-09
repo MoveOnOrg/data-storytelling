@@ -56,7 +56,7 @@ const mapStep = map.selectAll('.map-step');
 
 const mapScale = .93;
 const width = map.node().offsetWidth;
-const height = width * 0.7;
+const height = width * 0.6;
 // d3.select('.map-step:first-of-type').style('margin-top', -Math.round(height) + 'px') // trying to raise first map step so it wasn't below the map, but this raised it too much.
 
 const colorScale = d3.scaleSequential()
@@ -73,22 +73,21 @@ function initMap(d) {
 
 	const legendSvg = d3.select('#childPovertyMap')
 		.append("svg").attr("viewBox", [0, 0, width, 200]).style('background-color', bgColor);
-	legendSvg.append('text').text('Percent of Children in Poverty').attr('y',40).attr('x',width/2)
-		.attr("text-anchor","middle").attr("font-size","3rem").attr("fill","white").attr("font-weight","bold")
+	legendSvg.append('text').text('Percent of Children in Poverty').attr('y',50).attr('x',width/2)
+		.attr("text-anchor","middle").attr("font-size","1.5em").attr("fill","white").attr("font-weight","bold").attr("text-decoration","underline")
 	const povertyRates = [0, 5, 10, 15, 20];
 	legendSvg.append('g').selectAll('rect').data(povertyRates).join('rect')
 		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRates.length/2)  - width / 60)
-		.attr('y', 100)
-		.attr('width', width / 30).attr('height', width / 30)
+		.attr('y', 80)
+		.attr('width', width / 40).attr('height', width / 40)
 		.attr("fill",d=> colorScale(d))
 	legendSvg.append('g').selectAll('text').data(povertyRates).join('text')
 		.text(d=> d + "%")
 		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRates.length/2) )
-		.attr('y', 200)
+		.attr('y', 140)
 		.attr("fill","white").attr("font-weight","bold")
-		.attr("font-size","2rem")
+		.attr("font-size","1.3em")
 		.attr("text-anchor","middle")
-
 
 
 	const svg = d3.select('#childPovertyMap')
@@ -161,7 +160,7 @@ function updateMap(index) {
 initChart();
 
 //https://data-storytelling.s3.us-west-1.amazonaws.com/dataForExport.json
-d3.json("/child-tax-credit-scrolly/data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
+d3.json("./data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
 	.then( function (d) {
 		initMap(d);
 });
