@@ -247,6 +247,31 @@ p {
   margin-bottom: 0px;
 }
 
+#map-legend-div {
+  text-align: center;
+}
+#map-legend-div span {
+  display: inline-block;
+  width: 10%;
+}
+
+#map-legend-div span.swatch {
+  width: 1.3rem;
+  height: 1.3rem; 
+}
+
+#map-legend-div span.col1 {
+  background-color: rgb(47, 19, 12); 
+}
+
+#map-legend-div span.col2 {
+  background-color: rgb(110, 29, 22); 
+}
+
+#map-legend-div span.col3 {
+  background-color: rgb(235, 28, 36); 
+}
+
 /* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
 @media (max-width:768px)  {
   h1 {
