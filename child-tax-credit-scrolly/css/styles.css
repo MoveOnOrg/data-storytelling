@@ -217,3 +217,19 @@ p {
 #map-intro {
   text-align: center;
 }
+
+/* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
+@media (max-width:481px)  {
+  h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+  }
+
+  #chart .sticky .sticky--copy, h3 {
+    margin: 0;
+  }
+
+  .ctc .source {
+    text-align: center;
+  }
+}
