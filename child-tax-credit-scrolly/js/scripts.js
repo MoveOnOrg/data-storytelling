@@ -73,24 +73,6 @@ function initMap(d) {
 	const projection = d3.geoAlbersUsa()
 		.fitSize([mapWidth*mapScale, mapHeight*mapScale], usMesh)
 
-	const legendSvg = d3.select('#map-legend').attr("viewBox", [0, 0, width, 200]).style('background-color', bgColor);
-	legendSvg.append('text').text('PERCENT OF CHILDREN IN POVERTY').attr('y',50).attr('x',width/2)
-		.attr("text-anchor","middle").attr("font-size","1.5rem").attr("fill","white").attr("font-weight","bold")
-	const povertyRateLabels = ['<10%', "10-15%", ">15%"];
-	legendSvg.append('g').selectAll('rect').data(povertyRateLabels).join('rect')
-		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRateLabels.length/2)  - width / 60)
-		.attr('y', 80)
-		.attr('width', width / 40).attr('height', width / 40)
-		.attr("fill",(d,i)=> colorScale.range()[i])
-	legendSvg.append('g').selectAll('text').data(povertyRateLabels).join('text')
-		.text(d=> d )
-		.attr('x', (d,i) => width / 2 +  width / 13 * (i + 0.5 - povertyRateLabels.length/2) )
-		.attr('y', 140)
-		.attr("fill","white").attr("font-weight","bold")
-		.attr("font-size","1.3em")
-		.attr("text-anchor","middle")
-
-
 	const svg = d3.select('#map-svg').attr("viewBox", [0, 0, mapWidth, mapHeight]).style('background-color', bgColor);
 
 	const clipPath = svg.append('clipPath').attr('id', "myClip")

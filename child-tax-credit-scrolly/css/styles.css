@@ -1,3 +1,5 @@
+
+
 body {
   margin: 0 auto;
   background-color: #E5F5FF;
@@ -14,6 +16,38 @@ nav {
   font-family: 'Roboto', sans-serif;
   margin: 0 auto;
   background-color: #E5F5FF;
+}
+
+.scroll-arrow-container {
+  bottom: 20px;
+  left: 50%;
+  opacity: 1;
+  position: absolute;
+  transform: translateX(-50%);
+  transition: opacity 0.5s ease-out;
+  z-index: 2;
+}
+.scroll-arrow-container.hide {
+  opacity: 0;
+}
+.scroll-arrow {
+  animation: arrowAnim 3s ease-in-out infinite;
+  color: #00ABFF;
+  font-size: 10rem;
+  text-align: center;
+}
+
+@keyframes arrowAnim {
+  0%, 100% {
+    transform: translateY(1rem);
+  }
+  50% {
+    transform: translateY(-1rem);
+  }
+}
+
+.ctc #chart .source {
+  opacity: 0;
 }
 
 
@@ -256,6 +290,7 @@ p {
 }
 
 #map-legend-div span.swatch {
+  margin: 0 37px;
   width: 1.3rem;
   height: 1.3rem; 
 }
