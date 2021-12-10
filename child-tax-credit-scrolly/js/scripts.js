@@ -18,6 +18,12 @@ function updateChart(index) {
 	chartRow.style('opacity', 1);
 	chartRow.select('.bar-fill').style('width', width);
 	chartRow.select('.value').style('opacity', 1);
+
+	//dont show source until last bar is drawn
+	if (index==4) chart.select('.source').style('opacity', 1);
+
+	//hide scroll arrow
+	d3.select('.scroll-arrow-container').classed('hide', true);
 }
 
 function initChart() {
@@ -41,6 +47,8 @@ function initChart() {
 function resetChart() {
 	const barChart = d3.select('.bar-chart');
 	barChart.style('opacity', 0);
+	chart.select('.source').style('opacity', 0);
+	d3.select('.scroll-arrow-container').classed('hide', false);
 	resetTimeout = setTimeout(function() {
 		const bar = barChart.selectAll('.chart-row');
 		bar.style('opacity', 0);
