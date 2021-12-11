@@ -2,7 +2,7 @@ html {
   font-size: 16px; /* to get the root in rem's to match default for MoveOn */ 
 }
 
-body {
+#scrolly-body { 
   margin: 0 auto;
   background-color: #E5F5FF;
 }
@@ -14,10 +14,7 @@ nav {
   text-align: center;
 }
 
-#scrolly-body { 
-  margin: 0 auto;
-  background-color: #E5F5FF;
-}
+
 .ctc {
   font-family: 'Roboto', sans-serif;
   margin: 0 auto;
@@ -162,9 +159,8 @@ p {
   width: 100%;
   height: auto;
   margin: 0;
-  top: 10vh;
+  top: 160px; /* 40px below 120px nav bar */
   left: 0;
-  padding-top: 35px !important;
 }
 .scrolly-overlay .scrolly figure.sticky .bar-outer {
   position: absolute;
@@ -381,4 +377,13 @@ p {
   #chart .sticky .sticky--copy, h3 {
     margin: 0;
   }
+  .scrolly-overlay .scrolly figure.sticky {
+    top: 75px;
+  }
+  #map-legend-div span.swatch {
+    margin: 0 1.8rem;
+    width: 1rem;
+    height: 1rem; 
+  }
+
 }

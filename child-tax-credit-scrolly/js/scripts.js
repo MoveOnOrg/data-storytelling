@@ -73,7 +73,7 @@ const colorScale = d3.scaleThreshold()
 	.domain([10,15])
 	.range(["rgb(47, 19, 12)", "rgb(110, 29, 22)", "rgb(235, 28, 36)"]) 
 
-const bgColor = "#005680" ;//"#222"
+const bgColor = "#005680" ;
 
 function initMap(d) {
 	const shapesWithData = d.shapesWithData;
@@ -84,7 +84,6 @@ function initMap(d) {
 	const svg = d3.select('#map-svg').attr("viewBox", [0, 0, mapWidth, mapHeight]).style('background-color', bgColor);
 
 	const clipPath = svg.append('clipPath').attr('id', "myClip")
-		//.append('rect').attr('x',0).attr('y',0).attr('width','100%')
 		.append('rect').attr('x',0).attr('y',0).attr('height','100%')
 
 	const svgMapAfter = svg.append('g').selectAll( "path" )
@@ -148,8 +147,6 @@ function updateMap(index) {
 
 initChart();
 
-//https://data-storytelling.s3.us-west-1.amazonaws.com/dataForExport.json
-// d3.json("/child-tax-credit-scrolly/data/dataForExport.json") // pre-processed in https://observablehq.com/d/f29d297e1299dbac
 d3.json('https://raw.githubusercontent.com/MoveOnOrg/data-storytelling/main/child-tax-credit-scrolly/data/dataForExport.json')
 	.then( function (d) {
 		initMap(d);
