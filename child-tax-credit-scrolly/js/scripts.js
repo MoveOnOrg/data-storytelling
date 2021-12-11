@@ -20,7 +20,7 @@ function updateChart(index) {
 	chartRow.select('.value').style('opacity', 1);
 
 	//dont show source until last bar is drawn
-	if (index==4) chart.select('.source').style('opacity', 1);
+	if (index==4) chart.select('.source').transition().delay(200).style('opacity', 1);
 
 	//hide scroll arrow
 	d3.select('.scroll-arrow-container').classed('hide', true);
@@ -121,12 +121,10 @@ function initMap(d) {
 			updateMap(index);
 		},
 		progress: function(el, progress) {
-			if (d3.select(el).attr('show-map') == "1"){ // I manually added this attribute to the text step I want to transition the map
-				//d3.select('#map-intro').style('opacity', 1-progress)
-				console.log(d3.min([1, progress*2]));
+			if (d3.select(el).attr('show-map') == "1"){ // I added this attribute to the text step I want to transition the map
 				d3.select('#child-poverty-map').style('opacity', d3.min([1, progress*2]));
 			}
-			if (d3.select(el).attr('progress-map-step') == "1"){ // I manually added this attribute to the text step I want to transition the map
+			if (d3.select(el).attr('progress-map-step') == "1"){ // I added this attribute to the text step I want to transition the map
 				progressMap(progress, clipPath, clipPathLine, svgMapBefore);
 			}
 		}
