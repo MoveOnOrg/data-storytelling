@@ -4,6 +4,11 @@ const chartStep = chart.selectAll('.step');
 const bar = chart.selectAll('.bar');
 let resetTimeout;
 
+function beginScroll() {
+	//show/hide the scroll arrow based on scroll position
+	d3.select('.scroll-arrow-container').classed('hide', window.scrollY===0 ? false : true);
+}
+
 function updateChart(index) {
 	clearTimeout(resetTimeout);
 
@@ -27,8 +32,9 @@ function updateChart(index) {
 }
 
 function initChart() {
-	Stickyfill.add(chart.select('.sticky').node());
+	window.addEventListener('scroll', beginScroll); 
 
+	Stickyfill.add(chart.select('.sticky').node());
 	enterView({
 		selector: chartStep.nodes(),
 		offset: 0.2,
@@ -45,10 +51,10 @@ function initChart() {
 }
 
 function resetChart() {
+	console.log('reset')
 	const barChart = d3.select('.bar-chart');
 	barChart.style('opacity', 0);
 	chart.select('.source').style('opacity', 0);
-	d3.select('.scroll-arrow-container').classed('hide', false);
 	resetTimeout = setTimeout(function() {
 		const bar = barChart.selectAll('.chart-row');
 		bar.style('opacity', 0);
@@ -71,7 +77,7 @@ d3.select("#map-svg-div").style('width', vw < 768 ? "100%" : "80%" ) // mapWidth
 
 const colorScale = d3.scaleThreshold()
 	.domain([10,15])
-	.range(["rgb(47, 19, 12)", "rgb(110, 29, 22)", "rgb(235, 28, 36)"]) 
+	.range(["rgb(255, 230, 206)", "rgb(255, 173, 109)", "rgb(235, 28, 36)"]) 
 
 const bgColor = "#005680" ;
 
@@ -140,12 +146,13 @@ function updateMap(index) {
 	const sel = map.select(`[data-index='${index}']`);
 	const width = sel.attr('data-width');
 	mapStep.classed('is-active', (d, i) => i === index);
-	map.select('.bar-inner').style('width', width);
+	//map.select('.bar-inner').style('width', width);
 }
 
 
 
 initChart();
+
 
 d3.json('https://raw.githubusercontent.com/MoveOnOrg/data-storytelling/main/child-tax-credit-scrolly/data/dataForExport.json')
 	.then( function (d) {
