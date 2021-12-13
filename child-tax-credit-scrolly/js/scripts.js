@@ -6,7 +6,7 @@ let resetTimeout;
 
 function beginScroll() {
 	//show/hide the scroll arrow based on scroll position
-	d3.select('.scroll-arrow-container').classed('hide', window.scrollY===0 ? false : true);
+	d3.select('.scroll-arrow').classed('hide', window.scrollY===0 ? false : true);
 }
 
 function updateChart(index) {
@@ -26,9 +26,6 @@ function updateChart(index) {
 
 	//dont show source until last bar is drawn
 	if (index==4) chart.select('.source').transition().delay(200).style('opacity', 1);
-
-	//hide scroll arrow
-	d3.select('.scroll-arrow-container').classed('hide', true);
 }
 
 function initChart() {
@@ -51,7 +48,6 @@ function initChart() {
 }
 
 function resetChart() {
-	console.log('reset')
 	const barChart = d3.select('.bar-chart');
 	barChart.style('opacity', 0);
 	chart.select('.source').style('opacity', 0);
