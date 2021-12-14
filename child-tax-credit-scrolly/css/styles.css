@@ -92,9 +92,6 @@ p {
 .scrolly-overlay .scrolly article .step:last-of-type {
   margin-bottom: 0;
 }
-/*.scrolly-overlay .scrolly article .step.is-active p, {
-  background-color: #0080BF;
-}*/
 .scrolly-overlay .scrolly article .step p,
 .scrolly-overlay .scrolly article .map-step p {
   margin: 0;
@@ -111,14 +108,6 @@ p {
   min-height: 120vh;
   margin-bottom: 1rem;
 }
-/*.scrolly-overlay .scrolly article .map-step p {
-  margin: 0;
-  padding: 1rem;
-  text-align: center;
-  font-weight: bold;
-  background-color: #254747;
-  color: #f4f4f4;
-}*/
 
 .scrolly-overlay .scrolly figure.sticky {
   position: sticky;
@@ -136,19 +125,19 @@ p {
   text-align: center;
 }
 
-.scroll-arrow-container {
-  opacity: 1;
-  transition: all 0.5s ease-out;
-}
-.scroll-arrow-container.hide {
-  height: 0;
-  opacity: 0;
-}
 .scroll-arrow {
   animation: arrowAnim 3s ease-in-out infinite;
-  color: #00ABFF;
-  font-size: 10rem;
+  opacity: 1;
   text-align: center;
+  transition: all 0.5s ease-out;
+}
+.scroll-arrow svg {
+  height: 125px;
+  width: 67px;
+}
+.scroll-arrow.hide {
+  height: 0;
+  opacity: 0;
 }
 
 @keyframes arrowAnim {
@@ -307,8 +296,8 @@ p {
     font-size: 1.125rem !important;
     line-height: 1.375rem !important;
   }
-  .scroll-arrow {
-    font-size: 6rem;
+  .scroll-arrow svg {
+    transform: scale(0.6);
   }
   .scrolly-overlay .scrolly article .step p {
     font-size: 1.125rem !important;
