@@ -27,10 +27,10 @@ nav {
 h1 {
   color: #00ABFF;
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 3rem;
-  font-weight: bold;
-  margin: 0 0 50px;
-  padding-top: 20vh;
+  font-size: 3rem !important;
+  font-weight: bold !important;
+  margin: 0 0 50px !important;
+  padding-top: 20vh !important;
   text-align: center;
   text-transform: uppercase !important;
 }
@@ -110,6 +110,10 @@ p {
 .scrolly-overlay .scrolly article .map-step {
   min-height: 120vh;
   margin-bottom: 1rem;
+}
+
+.scrolly-overlay .scrolly article .map-step.long {
+  min-height: 180vh;
 }
 /*.scrolly-overlay .scrolly article .map-step p {
   margin: 0;
@@ -296,12 +300,12 @@ p {
 /* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
 @media (max-width: 481px)  {
   h1 { 
-    font-size: 2rem;
-    margin-bottom: 20px;
-    padding-top: 13vh;
+    font-size: 2rem !important;
+    margin-bottom: 20px !important;
+    padding-top: 7vh !important;
   }
   h1 span {
-    line-height: 3rem;
+    line-height: 3rem !important;
   }
   h3 {
     font-size: 1.125rem !important;

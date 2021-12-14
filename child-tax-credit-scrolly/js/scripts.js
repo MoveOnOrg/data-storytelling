@@ -99,7 +99,8 @@ function initMap(d) {
 		.attr("class", 'poly')
 		.attr("id", d => 'poly' + d.id)
 		.attr( "fill", d => colorScale(d.pct_after))
-		.attr( "stroke", "#DDD")
+		.attr( "stroke", "#005680")
+		.attr( "stroke-width", 0.75)
 		.attr( "d", d3.geoPath().projection(projection) )
 
 	const svgMapBefore = svg.append('g').selectAll( "path" )
@@ -109,7 +110,8 @@ function initMap(d) {
 		.attr("class", 'poly')
 		.attr("id", d => 'poly' + d.id)
 		.attr( "fill", d => colorScale(d.pct_before))
-		.attr( "stroke", "#DDD")
+		.attr( "stroke", "#005680")
+		.attr( "stroke-width", 0.75)
 		.attr( "d", d3.geoPath().projection(projection) )
 
 	const clipPathLine = svg.append('line')
@@ -130,7 +132,8 @@ function initMap(d) {
 				d3.select('#child-poverty-map').style('opacity', d3.min([1, progress*2]));
 			}
 			if (d3.select(el).attr('progress-map-step') == "1"){ // I added this attribute to the text step I want to transition the map
-				progressMap(progress, clipPath, clipPathLine, svgMapBefore);
+				let progressAdj = progress< 0.4 ? 0 : ((1/0.4) * (progress-0.4))		
+				progressMap(progressAdj, clipPath, clipPathLine, svgMapBefore);
 			}
 		}
 	});
