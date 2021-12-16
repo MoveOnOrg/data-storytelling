@@ -75,7 +75,7 @@ p {
 }
 
 .scrolly-overlay .scrolly {
-  max-width: 60rem;
+  max-width: 50rem;
   margin: 0rem auto;
   padding: 1rem;
 }
@@ -84,6 +84,7 @@ p {
   max-width: 30rem;
   margin: 0 auto;
   position: relative;
+  pointer-events: none;
 }
 .scrolly-overlay .scrolly article .step {
   min-height: 100vh;
@@ -94,14 +95,17 @@ p {
 }
 .scrolly-overlay .scrolly article .step p,
 .scrolly-overlay .scrolly article .map-step p {
+  pointer-events: all;
   margin: 0;
-  padding: 1rem;
+  padding: 1.3rem;
   text-align: center;
-  font-size: 20px;
+  font-size: 20px !important;
   font-weight: bold;
-  background-color: #254747;
+  background-color: white;
   transition: background-color 250ms ease-in-out;
-  color: #FFF;
+  color: black;
+  border: 1px solid #333;
+  opacity: 0.95;
 }
 
 .scrolly-overlay .scrolly article .map-step {
@@ -112,14 +116,6 @@ p {
 .scrolly-overlay .scrolly article .map-step.long {
   min-height: 180vh;
 }
-/*.scrolly-overlay .scrolly article .map-step p {
-  margin: 0;
-  padding: 1rem;
-  text-align: center;
-  font-weight: bold;
-  background-color: #254747;
-  color: #f4f4f4;
-}*/
 
 .scrolly-overlay .scrolly figure.sticky {
   position: sticky;
@@ -180,7 +176,7 @@ p {
 }
 #chart .bar-chart {
   opacity: 0;
-  margin-top: 6rem;
+  margin-top: 2rem;
   transition: opacity 0.7s ease-out;
   width: 90%;
 }
@@ -295,7 +291,7 @@ p {
 
 
 /* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
-@media (max-width: 481px)  {
+@media (max-width: 481px) {
   h1 { 
     font-size: 2rem !important;
     margin-bottom: 20px !important;
@@ -311,7 +307,8 @@ p {
   .scroll-arrow svg {
     transform: scale(0.6);
   }
-  .scrolly-overlay .scrolly article .step p {
+  .scrolly-overlay .scrolly article .step p,
+  .scrolly-overlay .scrolly article .map-step p {
     font-size: 1.125rem !important;
     line-height: 1.5rem !important;
   }
@@ -336,7 +333,7 @@ p {
     line-height: 1.25rem !important;
   }
   #chart .sticky .sticky--copy, h3 {
-    margin: 0 !important;
+    margin: 0 auto !important;
   }
   .scrolly-overlay .scrolly figure.sticky {
     top: 75px;
