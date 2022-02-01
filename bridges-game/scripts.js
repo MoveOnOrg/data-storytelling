@@ -1,6 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpa2F3ZWkiLCJhIjoiY2pqb2kzeXJoMmM1eDNsc280YnBub2d6aCJ9.DapwlemDz4dhkDIG7sNdwQ';
 let isFlying = false;
 let startLocation = '';
+let destinationOptions = [];
 let endLocation = '';
 let point = '';
 
@@ -18,7 +19,7 @@ const map = new mapboxgl.Map({
   style: 'mapbox://styles/adolphej/ckyd79eal0lyb16lol8hq1gfz',
   center: center,
   minZoom: 1,
-  zoom: 12,
+  zoom: 6,
   maxBounds: bounds
 });
 map.scrollZoom.enable();
@@ -56,7 +57,7 @@ function animatePath(routes) {
 	const cameraRoute = routes;
 
 	const animationDuration = 15000;
-	const cameraAltitude = 15000;
+	const cameraAltitude = 65000; // 15000;
 	// get the overall distance of each route so we can interpolate along them
 	const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
 	const cameraRouteDistance = turf.lineDistance(
@@ -145,18 +146,24 @@ async function getRoute() {
   );
   const json = await query.json();
   const data = json.routes[0];
-  const route = data.geometry.coordinates;
-  const geojson = {
+  const routeCoords = data.geometry.coordinates;
+  const routeGeojson = {
     type: 'Feature',
     properties: {},
     geometry: {
       type: 'LineString',
-      coordinates: route
+      coordinates: routeCoords
     }
   };
+
+  const routeSpacedAlongFrames = setRouteToNFrames(routeGeojson);
+  console.log('routeSpacedAlongFrames', routeSpacedAlongFrames);
+  const nearbyBridges = bridgesWithinMinMiles(bridges, 5, routeGeojson, routeSpacedAlongFrames); 
+  console.log('nearbyBridges', nearbyBridges);
+
   // if the route already exists on the map, we'll reset it using setData
   if (map.getSource('route')) {
-    map.getSource('route').setData(geojson);
+    map.getSource('route').setData(routeGeojson);
   }
   // otherwise, we'll make a new request
   else {
@@ -165,7 +172,7 @@ async function getRoute() {
       type: 'line',
       source: {
         type: 'geojson',
-        data: geojson
+        data: routeGeojson
       },
       layout: {
         'line-join': 'round',
@@ -179,49 +186,35 @@ async function getRoute() {
     });
   }
 
-	//add icon
-	map.addLayer({
-    id: 'point',
-    type: 'circle',
-    source: {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: [
-          {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'Point',
-              coordinates: startLocation
-            }
-          }
-        ]
-      }
-    },
-    paint: {
-      'circle-radius': 10,
-      'circle-color': '#EA1C24'
-    }
-  });
-
-  //fly to start location
-  isFlying = true;
-  map.flyTo({
-		center: startLocation,
-		speed: 0.5,
-		zoom: 15
-	});
-
-  //flyto callback
-	map.on('moveend', () => {
-		if (isFlying) {
-			isFlying = false;
-    	animatePath(geojson.geometry.coordinates);
+  // add all the bridges (all at once for now, just to look) 
+  map.addLayer({
+		id: 'bridges',
+		type: 'circle',
+		source: {
+		type: 'geojson',
+		data: {
+			type: 'FeatureCollection',
+			features: nearbyBridges.map(d=> {
+			return {
+				type: 'Feature',
+				properties: {},
+				geometry: {
+				type: 'Point',
+				coordinates: d.coord
+				}
+			}
+			})
+		}
+		},
+		paint: {
+		'circle-radius': 10,
+		'circle-color': 'black'
 		}
 	});
 
-  console.log(geojson.geometry.coordinates);
+  animatePath(routeGeojson.geometry.coordinates);
+
+  console.log('routeGeojson coords', routeGeojson.geometry.coordinates);
 }
 
 
@@ -230,18 +223,17 @@ function startAnimation() {
 	getRoute();
 }
 
-// filter destination options to ones that are at least x distance away from starting location
-function filteredDestationByMinMiles(dests, startCoords, xMiles) {
-  dests.slice().filter(d => turf.distance([d.lon, d.lat], startCoords, turfUnits) > milesRadius)
-} 
 
-// pick N destinations from all eligible destinations - ensuring that they is not more than 1 in Milwaukee or more than 1 of the same type. 
+// pick N destinations from all eligible destinations - ensuring that they are at least x distance from starting location, that not more than 1 is in Milwaukee and not more than 1 of the same type. 
 function generateDestinationSet(dests, n) {
+  let filteredDests = dests.slice().filter(d => turf.distance([d.lon, d.lat], startLocation, turfUnits) > 65) // 65 miles radius
+  console.log('filteredDests', filteredDests)
+
   let primaryDestinations = [];
   let backupDestinations = [];
   let milwaukeeAdded = 0
-  let destTypeAdded = new Map(dests.map(d=> [d.type,0]));
-  d3.shuffle(dests.slice()).forEach( (d,i) => {
+  let destTypeAdded = new Map(filteredDests.map(d=> [d.type,0]));
+  d3.shuffle(filteredDests.slice()).forEach( (d,i) => {
     if(milwaukeeAdded == 1 & d.inMilwaukee == '1'){
         backupDestinations.push(d) 
     } else if( destTypeAdded.get[d.type] ) {
@@ -294,18 +286,62 @@ function simplifyRouteForCameraPanning(route, smoothingQuantile = 0.35 ){
       ); // convert back to geojson and return
 }
 
+// set marker and fly to starting location 
+function flyToStartingLocation() {
+	map.addLayer({
+		id: 'point',
+		type: 'circle',
+		source: {
+		type: 'geojson',
+		data: {
+			type: 'FeatureCollection',
+			features: [
+			{
+				type: 'Feature',
+				properties: {},
+				geometry: {
+				type: 'Point',
+				coordinates: startLocation
+				}
+			}
+			]
+		}
+		},
+		paint: {
+		'circle-radius': 10,
+		'circle-color': '#EA1C24'
+		}
+	});
+	isFlying = true;
+	map.flyTo({
+		center: startLocation,
+		speed: 0.5,
+		zoom: 9
+	});
+	/* when I had this in it broke the animate path. 
+	map.on('moveend', () => {
+		if (isFlying) {
+			isFlying = false;
+		}
+	})*/
+}
+
 function init() {
 	//set up static map
 	var staticURL = `https://api.mapbox.com/styles/v1/adolphej/ckyd79eal0lyb16lol8hq1gfz/static/-89.35,43.05,10/300x300?access_token=${mapboxgl.accessToken}`;
-  document.getElementById('static-map').style.backgroundImage = `url(${staticURL})`;
+	/* temporarily comment out so that we can see the 	
+      document.getElementById('static-map').style.backgroundImage = `url(${staticURL})`;
+	  */
 
-	console.log(d3.range(5))
 	
   //get page elements and set up event listeners
 	const vehicles = document.querySelectorAll('input[type=radio][name="vehicle"]');
 	const stepStart = document.getElementById('step-start');
 	const stepEnd = document.getElementById('step-end');
 	const btnGo = document.getElementById('btn-go');
+	// just temporarily so I can see what's happening underneath
+	d3.select('#overlay').style('opacity', 0.8); 
+
 	
 	//vehicle select
 	vehicles.forEach(vehicle => {
@@ -317,16 +353,20 @@ function init() {
 
 	//geocoder input
 	geocoder.on('result', (event) => {
-		stepEnd.style.display = 'block';
 		startLocation = event.result.geometry.coordinates;
+		flyToStartingLocation();
+		stepEnd.style.display = 'block';
+		destinationOptions = generateDestinationSet(destinations, 3);
+		d3.select('#destinationSelector').selectAll('option').data(destinationOptions).join('option').attr('value', (d,i)=> i).text(d=> d['location ']);
 		console.log('start', startLocation);
+		console.log('destinationOptions', destinationOptions);
 	});
 
 	//destination select
 	const destination = document.getElementById('destinationSelector');
 	destination.addEventListener('change', (event) => {
 		btnGo.style.display = 'block';
-		endLocation = destinations[event.target.value];
+		endLocation = destinationOptions[event.target.value];
 		console.log('end', endLocation);
 	});
 
