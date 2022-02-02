@@ -5,6 +5,8 @@ let startLocation = '';
 let destinationOptions = [];
 let endLocation = '';
 let point = '';
+const frames = 400;
+let routeGeojson; // putting here so I can console log and mess with it
 
 const destinations = [{"location":"Blue Ox Music Festival, Eau Claire, Wisconsin","lat":"44.78786668","lon":"-91.58057528","type":"Festival","inMilwaukee":"0"},{"location":"Cranberry Festival, Warrens, WI","lat":"44.13143685","lon":"-90.50164398","type":"Festival","inMilwaukee":"0"},{"location":"State Capitol , Madison, WI","lat":"43.07400405","lon":"-89.38512782","type":"Landmark","inMilwaukee":"0"},{"location":"Bayfield WI to Kayak the Apostle Islands","lat":"46.80806885","lon":"-90.81405375","type":"Outdoors","inMilwaukee":"0"},{"location":"Cave of the Mounds (west of Madison)","lat":"43.01680179","lon":"-89.81429772","type":"Outdoors","inMilwaukee":"0"},{"location":"Lake Minocqua - fishing, boating, etc","lat":"45.86445439","lon":"-89.70855847","type":"Outdoors","inMilwaukee":"0"},{"location":"Mississippi River Dinner Cruise in La Crosse","lat":"43.81792238","lon":"-91.2564382","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin Dells - “The Waterpark Capital of the World”","lat":"43.62780295","lon":"-89.77790092","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin's biggest waterfall in Pattison State Park","lat":"46.53719434","lon":"-92.1187448","type":"Outdoors","inMilwaukee":"0"},{"location":"Lambeau Field - Green Bay Packers","lat":"44.49924888","lon":"-88.05973531","type":"Sports","inMilwaukee":"0"},{"location":"Great Lakes Distillery, Milwaukee","lat":"43.02648595","lon":"-87.9187747","type":"Other","inMilwaukee":"1"},{"location":"Harley-Davidson Museum, Milwaukee","lat":"43.03135815","lon":"-87.91662288","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Art Museum","lat":"43.03987028","lon":"-87.89751278","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Zoo","lat":"43.03126493","lon":"-88.04098476","type":"Other","inMilwaukee":"1"},{"location":"Fiserv Forum - home to NBA Champion Milwaukee Bucks","lat":"43.04501176","lon":"-87.91750192","type":"Sports","inMilwaukee":"1"}];
 
@@ -53,10 +55,12 @@ map.on('load', () => {});
 /** https://docs.mapbox.com/mapbox-gl-js/example/free-camera-path **/
 /**************************/
 function animatePath(routes) {
+
 	// this is the path the camera will look at
 	const targetRoute = routes;
 	// this is the path the camera will move along
-	const cameraRoute = routes;//simplifyRouteForCameraPanning(routes);
+	const cameraRoute = routes;
+	//const cameraRoute = simplifyRouteForCameraPanning(routes);//routes;
 
 	const animationDuration = 10000;
 	const cameraAltitude = 65000; // 15000;
@@ -71,7 +75,7 @@ function animatePath(routes) {
 		if (!start) start = time;
 		// phase determines how far through the animation we are
 		const phase = (time - start) / animationDuration;
-		 
+
 		// phase is normalized between 0 and 1
 		// when the animation is finished, reset start to loop the animation
 		if (phase > 1) {
@@ -86,6 +90,7 @@ function animatePath(routes) {
 		// use the phase to get a point that is the appropriate distance along the route
 		// this approach syncs the camera and route positions ensuring they move
 		// at roughly equal rates even if they don't contain the same number of points
+		
 		const alongRoute = turf.along(
 			turf.lineString(targetRoute),
 			routeDistance * phase
@@ -95,9 +100,25 @@ function animatePath(routes) {
 			turf.lineString(cameraRoute),
 			cameraRouteDistance * phase
 		).geometry.coordinates;
-		 
+		
+		const bridgesPast = map.querySourceFeatures('bridges', {sourceLayer: 'bridges', filter: ['<=', 'frame', frames * phase]})
+
+		map.setPaintProperty(
+		'bridges', 
+		'circle-opacity',  
+		//['case',['<=', ['get','frame'],20], 'orange', 'blue']
+		['case',['<=', ['get','frame'],frames * phase], 1, 0]
+		);
+
+		map.setPaintProperty
+/*
+		const frames = 400; 
+		console.log('targetRoute', targetRoute, 'phase, frames, rounded ph*f',phase, frames, Math.round(phase*frames))
+		const alongRoute = targetRoute[Math.round(phase*frames)]
+		const cameraRoute = targetRoute[Math.round(phase*frames)]	
+*/	
 		const camera = map.getFreeCameraOptions();
-		 
+	 
 		// set the position and altitude of the camera
 		camera.position = mapboxgl.MercatorCoordinate.fromLngLat(
 			{
@@ -143,13 +164,13 @@ function animationComplete() {
 
 async function getRoute() {
   const query = await fetch(
-    `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocation[0]},${startLocation[1]};${endLocation.lon},${endLocation.lat}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+    `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocation[0]},${startLocation[1]};${endLocation.lon},${endLocation.lat}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}&overview=full`,
     { method: 'GET' }
   );
   const json = await query.json();
   const data = json.routes[0];
   const routeCoords = data.geometry.coordinates;
-  const routeGeojson = {
+  routeGeojson = {
     type: 'Feature',
     properties: {},
     geometry: {
@@ -189,34 +210,42 @@ async function getRoute() {
   }
 
   // add all the bridges (all at once for now, just to look) 
-  map.addLayer({
-		id: 'bridges',
-		type: 'circle',
-		source: {
+  map.addSource('bridges', {
 		type: 'geojson',
 		data: {
 			type: 'FeatureCollection',
-			features: nearbyBridges.map(d=> {
+			features: nearbyBridges.map((d,i)=> {
 			return {
-				type: 'Feature',
-				properties: {},
+				type: 'Feature', 
+				properties: {id: i, frame: d.closestPointOnDetailedRoute.properties.index, ...d},
 				geometry: {
-				type: 'Point',
-				coordinates: d.coord
+					type: 'Point',
+					coordinates: d.coord
 				}
 			}
 			})
 		}
-		},
+
+  })
+  map.addLayer({
+		id: 'bridges',
+		type: 'circle',
+		source: 'bridges',
+		//'source-layer': 'bridgesSourceLayer',
 		paint: {
-		'circle-radius': 10,
-		'circle-color': 'black'
+			'circle-radius': 10,
+			'circle-color': 'black',
+			'circle-opacity': 0
 		}
 	});
 
-  animatePath(routeGeojson.geometry.coordinates);
 
+  //animatePath(routeGeojson.geometry.coordinates);
+  console.log('routeSpacedAlongFrames coords', routeSpacedAlongFrames, routeSpacedAlongFrames.geometry, routeSpacedAlongFrames.geometry.coordinates);
+  //animatePath(routeSpacedAlongFrames.geometries.coordinates)
   console.log('routeGeojson coords', routeGeojson.geometry.coordinates);
+  animatePath(routeGeojson.geometry.coordinates)
+
 }
 
 
@@ -324,7 +353,7 @@ function flyToStartingLocation() {
 	map.flyTo({
 		center: startLocation,
 		speed: 0.5,
-		zoom: 9
+		zoom: 10.1
 	});
 	/* when I had this in it broke the animate path. 
 	map.on('moveend', () => {
@@ -387,7 +416,7 @@ function init() {
 		d3.select('#overlay').transition().duration(1000).ease(d3.easeQuadInOut)
 			.styleTween( 'background', function() {
 				return function(t) { 
-				let currentPct = d3.interpolateNumber(20, 100)(t)
+				let currentPct = d3.interpolateNumber(23, 100)(t)
 				return 'radial-gradient(circle at 50% 33%, transparent ' + currentPct +  '%, #E3F3FFD9 ' + currentPct +  '%)'
 			}
 		})
