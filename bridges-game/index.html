@@ -29,6 +29,7 @@
     <!-- Import topojson -->
     <script src="https://unpkg.com/topojson-client@3"></script>
     <script src="https://unpkg.com/topojson-simplify@3"></script>
+    <script src="https://unpkg.com/topojson-server@3"></script>
 
     <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
@@ -54,16 +55,14 @@
         </section>
 
         <section id="step-start">
-          Enter an address:
           <div id="geocoder"></div>
         </section>
 
         <section id="step-end">
-          <label for="destination">Choose a destination:</label><br>
           <select name="destination" id="destinationSelector"></select>
         </section>
 
-        <a href="#" id='btn-go'>GO</a>
+        <a href="#" id='btn-go'>LET'S GO</a>
       </div>
 
       <div id="popup">

@@ -1,12 +1,14 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpa2F3ZWkiLCJhIjoiY2pqb2kzeXJoMmM1eDNsc280YnBub2d6aCJ9.DapwlemDz4dhkDIG7sNdwQ';
+let mapboxStyle = 'styles/adolphej/ckyd79eal0lyb16lol8hq1gfz';
 let isFlying = false;
 let startLocation = '';
 let destinationOptions = [];
 let endLocation = '';
 let point = '';
 
-const destinations = [{"location ":"Blue Ox Music Festival, Eau Claire, Wisconsin","lat":"44.78786668","lon":"-91.58057528","type":"Festival","inMilwaukee":"0"},{"location ":"Cranberry Festival, Warrens, WI","lat":"44.13143685","lon":"-90.50164398","type":"Festival","inMilwaukee":"0"},{"location ":"State Capitol , Madison, WI","lat":"43.07400405","lon":"-89.38512782","type":"Landmark","inMilwaukee":"0"},{"location ":"Bayfield WI to Kayak the Apostle Islands","lat":"46.80806885","lon":"-90.81405375","type":"Outdoors","inMilwaukee":"0"},{"location ":"Cave of the Mounds (west of Madison)","lat":"43.01680179","lon":"-89.81429772","type":"Outdoors","inMilwaukee":"0"},{"location ":"Lake Minocqua - fishing, boating, etc","lat":"45.86445439","lon":"-89.70855847","type":"Outdoors","inMilwaukee":"0"},{"location ":"Mississippi River Dinner Cruise in La Crosse","lat":"43.81792238","lon":"-91.2564382","type":"Outdoors","inMilwaukee":"0"},{"location ":"Wisconsin Dells - “The Waterpark Capital of the World”","lat":"43.62780295","lon":"-89.77790092","type":"Outdoors","inMilwaukee":"0"},{"location ":"Wisconsin's biggest waterfall in Pattison State Park","lat":"46.53719434","lon":"-92.1187448","type":"Outdoors","inMilwaukee":"0"},{"location ":"Lambeau Field - Green Bay Packers","lat":"44.49924888","lon":"-88.05973531","type":"Sports","inMilwaukee":"0"},{"location ":"Great Lakes Distillery, Milwaukee","lat":"43.02648595","lon":"-87.9187747","type":"Other","inMilwaukee":"1"},{"location ":"Harley-Davidson Museum, Milwaukee","lat":"43.03135815","lon":"-87.91662288","type":"Other","inMilwaukee":"1"},{"location ":"Milwaukee Art Museum","lat":"43.03987028","lon":"-87.89751278","type":"Other","inMilwaukee":"1"},{"location ":"Milwaukee Zoo","lat":"43.03126493","lon":"-88.04098476","type":"Other","inMilwaukee":"1"},{"location ":"Fiserv Forum - home to NBA Champion Milwaukee Bucks","lat":"43.04501176","lon":"-87.91750192","type":"Sports","inMilwaukee":"1"}];
+const destinations = [{"location":"Blue Ox Music Festival, Eau Claire, Wisconsin","lat":"44.78786668","lon":"-91.58057528","type":"Festival","inMilwaukee":"0"},{"location":"Cranberry Festival, Warrens, WI","lat":"44.13143685","lon":"-90.50164398","type":"Festival","inMilwaukee":"0"},{"location":"State Capitol , Madison, WI","lat":"43.07400405","lon":"-89.38512782","type":"Landmark","inMilwaukee":"0"},{"location":"Bayfield WI to Kayak the Apostle Islands","lat":"46.80806885","lon":"-90.81405375","type":"Outdoors","inMilwaukee":"0"},{"location":"Cave of the Mounds (west of Madison)","lat":"43.01680179","lon":"-89.81429772","type":"Outdoors","inMilwaukee":"0"},{"location":"Lake Minocqua - fishing, boating, etc","lat":"45.86445439","lon":"-89.70855847","type":"Outdoors","inMilwaukee":"0"},{"location":"Mississippi River Dinner Cruise in La Crosse","lat":"43.81792238","lon":"-91.2564382","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin Dells - “The Waterpark Capital of the World”","lat":"43.62780295","lon":"-89.77790092","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin's biggest waterfall in Pattison State Park","lat":"46.53719434","lon":"-92.1187448","type":"Outdoors","inMilwaukee":"0"},{"location":"Lambeau Field - Green Bay Packers","lat":"44.49924888","lon":"-88.05973531","type":"Sports","inMilwaukee":"0"},{"location":"Great Lakes Distillery, Milwaukee","lat":"43.02648595","lon":"-87.9187747","type":"Other","inMilwaukee":"1"},{"location":"Harley-Davidson Museum, Milwaukee","lat":"43.03135815","lon":"-87.91662288","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Art Museum","lat":"43.03987028","lon":"-87.89751278","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Zoo","lat":"43.03126493","lon":"-88.04098476","type":"Other","inMilwaukee":"1"},{"location":"Fiserv Forum - home to NBA Champion Milwaukee Bucks","lat":"43.04501176","lon":"-87.91750192","type":"Sports","inMilwaukee":"1"}];
 
+const zoom = 5;
 const center = [-89.35, 43.05];
 const bounds = [
   [-92.889427,42.491592],
@@ -16,10 +18,10 @@ const bounds = [
 //init map
 const map = new mapboxgl.Map({
   container: document.getElementById('map'),
-  style: 'mapbox://styles/adolphej/ckyd79eal0lyb16lol8hq1gfz',
+  style: `mapbox://${mapboxStyle}`,
   center: center,
   minZoom: 1,
-  zoom: 5,
+  zoom: zoom,
   //maxBounds: bounds
 });
 map.scrollZoom.enable();
@@ -54,9 +56,9 @@ function animatePath(routes) {
 	// this is the path the camera will look at
 	const targetRoute = routes;
 	// this is the path the camera will move along
-	const cameraRoute = routes;
+	const cameraRoute = routes;//simplifyRouteForCameraPanning(routes);
 
-	const animationDuration = 15000;
+	const animationDuration = 10000;
 	const cameraAltitude = 65000; // 15000;
 	// get the overall distance of each route so we can interpolate along them
 	const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
@@ -64,8 +66,7 @@ function animatePath(routes) {
 		turf.lineString(cameraRoute)
 	);
 	 
-	let start;
-	 
+	let start, requestAnimID;
 	function frame(time) {
 		if (!start) start = time;
 		// phase determines how far through the animation we are
@@ -77,6 +78,7 @@ function animatePath(routes) {
 			// wait 1.5 seconds before looping
 			setTimeout(() => {
 				//start = 0.0;
+				window.cancelAnimationFrame(requestAnimID);
 				animationComplete();
 			}, 1000);
 		}
@@ -128,7 +130,7 @@ function animatePath(routes) {
 		};
 		map.getSource('point').setData(point);
 		 
-		window.requestAnimationFrame(frame);
+		requestAnimID = window.requestAnimationFrame(frame);
 	}
 	 
 	window.requestAnimationFrame(frame);
@@ -276,14 +278,20 @@ function bridgesWithinMinMiles(bridges, xMiles, route, routeSpacedAlongFrames) {
 
 // simplified route for camera to follow
 function simplifyRouteForCameraPanning(route, smoothingQuantile = 0.35 ){
-  let routeTopo = topojson.topology({ name: route }); // convert to topojson
+	 const routeGeojson = {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'LineString',
+      coordinates: route
+    }
+  };
+  let routeTopo = topojson.topology({ name: routeGeojson }); // convert to topojson
   let routePreSimplified = topojson.presimplify(routeTopo); // presimplify 
   let minWeight = topojson.quantile(routePreSimplified, smoothingQuantile); // get weight associated with quantile
   let routeSimplified = topojson.simplify(routePreSimplified, minWeight); // simplified topo
-  return topojson.feature( 
-      routeSimplified,
-      routeSimplified.objects.name
-      ); // convert back to geojson and return
+  let geojson = topojson.feature(routeSimplified, routeSimplified.objects.name); // convert back to geojson 
+  return geojson.geometry.coordinates; // return geojson coordinates
 }
 
 // set marker and fly to starting location 
@@ -328,7 +336,7 @@ function flyToStartingLocation() {
 
 function init() {
 	//set up static map
-	var staticURL = `https://api.mapbox.com/styles/v1/adolphej/ckyd79eal0lyb16lol8hq1gfz/static/-89.35,43.05,10/300x300?access_token=${mapboxgl.accessToken}`;
+	var staticURL = `https://api.mapbox.com/${mapboxStyle}/static/-89.35,43.05,10/300x300?access_token=${mapboxgl.accessToken}`;
 	/* temporarily comment out so that we can see the 	
       document.getElementById('static-map').style.backgroundImage = `url(${staticURL})`;
 	  */
@@ -336,6 +344,7 @@ function init() {
 	
   //get page elements and set up event listeners
 	const vehicles = document.querySelectorAll('input[type=radio][name="vehicle"]');
+	const stepVehicle = document.getElementById('step-vehicle');
 	const stepStart = document.getElementById('step-start');
 	const stepEnd = document.getElementById('step-end');
 	const btnGo = document.getElementById('btn-go');
@@ -344,6 +353,7 @@ function init() {
 	//vehicle select
 	vehicles.forEach(vehicle => {
 		vehicle.addEventListener('change', () => {
+			stepVehicle.style.display = 'none';
 			stepStart.style.display = 'block';
 			console.log('vehicle', vehicle.value);
 		});
@@ -353,9 +363,11 @@ function init() {
 	geocoder.on('result', (event) => {
 		startLocation = event.result.geometry.coordinates;
 		flyToStartingLocation();
+		stepStart.style.display = 'none';
 		stepEnd.style.display = 'block';
 		destinationOptions = generateDestinationSet(destinations, 3);
-		d3.select('#destinationSelector').selectAll('option').data(destinationOptions).join('option').attr('value', (d,i)=> i).text(d=> d['location ']);
+		destinationOptions.unshift({"location": "Select a destination", lat: '', lon: '', type: '', inMilwaukee: ''});
+		d3.select('#destinationSelector').selectAll('option').data(destinationOptions).join('option').attr('value', (d,i)=> i).text(d=> d['location']);
 		console.log('start', startLocation);
 		console.log('destinationOptions', destinationOptions);
 	});
@@ -363,6 +375,7 @@ function init() {
 	//destination select
 	const destination = document.getElementById('destinationSelector');
 	destination.addEventListener('change', (event) => {
+		stepEnd.style.display = 'none';
 		btnGo.style.display = 'block';
 		endLocation = destinationOptions[event.target.value];
 		console.log('end', endLocation);
@@ -370,7 +383,8 @@ function init() {
 
 	//go button -- transition sneak-peek circle open then start animation
 	btnGo.addEventListener('click', () => {
-		d3.select('#overlay').transition().duration(2000)
+		btnGo.style.display = 'none';
+		d3.select('#overlay').transition().duration(1000).ease(d3.easeQuadInOut)
 			.styleTween( 'background', function() {
 				return function(t) { 
 				let currentPct = d3.interpolateNumber(20, 100)(t)
