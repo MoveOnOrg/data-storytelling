@@ -169,6 +169,7 @@ function animatePath() {
 			]
 		};
 		map.getSource('point').setData(point);
+		map.getSource('pointBG').setData(point);
 		 
 		d3.select('#miles-traveled').text(Math.round(routeDistance * d3.min([1,phase])))
 		d3.select('#bridges-passed').text(nearbyBridges.filter(d=> 
@@ -274,7 +275,7 @@ async function getRoute() {
 		source: 'bridges',
 		//'source-layer': 'bridgesSourceLayer',
 		paint: {
-			'circle-radius': 7,
+			'circle-radius': 6,
 			'circle-color': 'red',
 			'circle-opacity': 0
 		}
@@ -380,6 +381,32 @@ function flyToLocation(coords) {
 	map.on('moveend', () => { 
 		if (!map.getSource('point')) {
 			map.addLayer({
+				id: 'pointBG',
+				type: 'circle',
+				source: {
+				type: 'geojson',
+				data: {
+					type: 'FeatureCollection',
+					features: [
+					{
+						type: 'Feature',
+						properties: {},
+						geometry: {
+						type: 'Point',
+						coordinates: coords
+						}
+					}
+					]
+				}
+				},
+				paint: {
+				'circle-radius': 90,
+				'circle-color': '#fff',
+				'circle-opacity': .35
+				}
+			});
+		}	
+			map.addLayer({
 				id: 'point',
 				type: 'circle',
 				source: {
@@ -399,11 +426,10 @@ function flyToLocation(coords) {
 				}
 				},
 				paint: {
-				'circle-radius': 10,
+				'circle-radius': 12,
 				'circle-color': '#000'
 				}
 			});
-		}	
 	})
 	/* when I had this in it broke the animate path. 
 	map.on('moveend', () => {
@@ -452,8 +478,6 @@ function init() {
 			stepVehicle.style.display = 'none';
 			console.log('vehicle', vehicle.value);
 			stepVehicle.style.display = 'none';
-			selectedVehicle.style.display = 'block';
-			selectedVehicle.innerHTML = vehicle.value;
 			stepVehicleCorrect.style.display = 'block';
 		});
 	});
@@ -464,7 +488,6 @@ function init() {
 		flyToLocation(startLocation);
 		stepStart.style.display = 'none';
 		stepCorrect.style.display = 'block';
-		selectedVehicle.style.display = 'none';
 		destinationOptions = generateDestinationSet(destinations, 3);
 		destinationOptions.unshift({"location": "Select a destination", lat: '', lon: '', type: '', inMilwaukee: ''});
 		d3.select('#destinationSelector').selectAll('option').data(destinationOptions).join('option').attr('value', (d,i)=> i).text(d=> d['location']);
