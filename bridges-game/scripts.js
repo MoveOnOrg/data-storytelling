@@ -274,8 +274,8 @@ async function getRoute() {
 		source: 'bridges',
 		//'source-layer': 'bridgesSourceLayer',
 		paint: {
-			'circle-radius': 10,
-			'circle-color': 'black',
+			'circle-radius': 7,
+			'circle-color': 'red',
 			'circle-opacity': 0
 		}
 	});
@@ -400,7 +400,7 @@ function flyToLocation(coords) {
 				},
 				paint: {
 				'circle-radius': 10,
-				'circle-color': '#EA1C24'
+				'circle-color': '#000'
 				}
 			});
 		}	
@@ -423,6 +423,7 @@ function init() {
 	
   //get page elements and set up event listeners
 	const vehicles = document.querySelectorAll('input[type=radio][name="vehicle"]');
+	const selectedVehicle = document.getElementById('selected-vehicle-holder');
 	const stepVehicle = document.getElementById('step-vehicle');
 	const stepStart = document.getElementById('step-start');
 	const titleText = document.querySelector('#overlay h1');
@@ -451,6 +452,8 @@ function init() {
 			stepVehicle.style.display = 'none';
 			console.log('vehicle', vehicle.value);
 			stepVehicle.style.display = 'none';
+			selectedVehicle.style.display = 'block';
+			selectedVehicle.innerHTML = vehicle.value;
 			stepVehicleCorrect.style.display = 'block';
 		});
 	});
@@ -461,6 +464,7 @@ function init() {
 		flyToLocation(startLocation);
 		stepStart.style.display = 'none';
 		stepCorrect.style.display = 'block';
+		selectedVehicle.style.display = 'none';
 		destinationOptions = generateDestinationSet(destinations, 3);
 		destinationOptions.unshift({"location": "Select a destination", lat: '', lon: '', type: '', inMilwaukee: ''});
 		d3.select('#destinationSelector').selectAll('option').data(destinationOptions).join('option').attr('value', (d,i)=> i).text(d=> d['location']);

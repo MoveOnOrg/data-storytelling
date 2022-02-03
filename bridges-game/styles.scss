@@ -216,6 +216,15 @@ body {
     display: inline;
   }
 
+  #selected-vehicle-holder {
+    //display: none;
+    position: absolute;
+    top: 30%;
+    font-size: 160px;
+    display: none;
+    left: 45%;
+  }
+
   #step-vehicle,
   #step-start,
   #step-correct,
