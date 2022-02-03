@@ -425,19 +425,33 @@ function init() {
 	const vehicles = document.querySelectorAll('input[type=radio][name="vehicle"]');
 	const stepVehicle = document.getElementById('step-vehicle');
 	const stepStart = document.getElementById('step-start');
+	const titleText = document.querySelector('#overlay h1');
+	const stepText1 = document.getElementById('stepText1');
+	const stepCorrect = document.getElementById('step-correct');
+	const stepVehicleCorrect = document.getElementById('step-vehicle-correct');
 	const stepEnd = document.getElementById('step-end');
 	const btnGo = document.getElementById('btn-go');
+	const btnConfirm = document.getElementById('btn-confirm');
+	const stepDetails = document.getElementById('step-details');
+	const stepPlayGame = document.getElementById('step-play-game');
+	const btnDeny = document.getElementById('btn-deny');
+	const vehicleBtnConfirm = document.getElementById('vehicle-btn-confirm');
+	const vehicleBtnDeny = document.getElementById('vehicle-btn-deny');
 
-	d3.select('#get-started-button').on('click', ()=>
+
+	d3.select('#get-started-button').on('click', () => {
 		d3.select('#opening').transition().duration(900).ease(d3.easeLinear).style('opacity',0)
 			.on('end', () => {stepVehicle.style.display = 'block';})
-	)
+		titleText.style.display = "none";
+		stepText1.style.display = "block";
+	})
 	//vehicle select
 	vehicles.forEach(vehicle => {
 		vehicle.addEventListener('change', () => {
 			stepVehicle.style.display = 'none';
-			stepStart.style.display = 'block';
 			console.log('vehicle', vehicle.value);
+			stepVehicle.style.display = 'none';
+			stepVehicleCorrect.style.display = 'block';
 		});
 	});
 
@@ -446,7 +460,7 @@ function init() {
 		startLocation = event.result.geometry.coordinates;
 		flyToLocation(startLocation);
 		stepStart.style.display = 'none';
-		stepEnd.style.display = 'block';
+		stepCorrect.style.display = 'block';
 		destinationOptions = generateDestinationSet(destinations, 3);
 		destinationOptions.unshift({"location": "Select a destination", lat: '', lon: '', type: '', inMilwaukee: ''});
 		d3.select('#destinationSelector').selectAll('option').data(destinationOptions).join('option').attr('value', (d,i)=> i).text(d=> d['location']);
@@ -454,11 +468,40 @@ function init() {
 		console.log('destinationOptions', destinationOptions);
 	});
 
+	//address confirm button
+	btnConfirm.addEventListener('click', () => {
+		stepCorrect.style.display = 'none';
+		stepEnd.style.display = 'block';
+	});
+
+	//address deny button
+	btnDeny.addEventListener('click', () => {
+		stepCorrect.style.display = 'none';
+		stepStart.style.display = 'block';
+	});
+
+	//address confirm button
+	vehicleBtnConfirm.addEventListener('click', () => {
+		stepVehicleCorrect.style.display = 'none';
+		stepStart.style.display = 'block';
+	});
+
+	//address deny button
+	vehicleBtnDeny.addEventListener('click', () => {
+		stepVehicleCorrect.style.display = 'none';
+		stepVehicle.style.display = 'block';
+	});
+
 	//destination select
 	const destination = document.getElementById('destinationSelector');
 	destination.addEventListener('change', (event) => {
 		stepEnd.style.display = 'none';
-		btnGo.style.display = 'block';
+		stepDetails.style.display = 'block';
+		setTimeout(function () {
+			btnGo.style.display = 'inline';
+			stepDetails.style.display = 'none';
+			stepPlayGame.style.display = 'block';
+		}, 1000);
 		endLocationDetails = destinationOptions[event.target.value];
 		endLocation = [endLocationDetails.lon, endLocationDetails.lat];
 		getRoute();
@@ -467,12 +510,12 @@ function init() {
 
 	//go button -- transition sneak-peek circle open then start animation
 	btnGo.addEventListener('click', () => {
-		btnGo.style.display = 'none';
+		stepDetails.style.display = 'none';
 		d3.select('#overlay').transition().duration(1000).ease(d3.easeQuadInOut)
 			.styleTween( 'background', function() {
 				return function(t) { 
 				let currentPct = d3.interpolateNumber(18, 100)(t)
-				return 'radial-gradient(circle at 50% 50%, transparent ' + currentPct +  'vh, #2B3A61 ' + currentPct +  'vh)'
+				return 'radial-gradient(circle at 50% 50%, #00006325 ' + currentPct +  'vh, #2B3A61 ' + currentPct +  'vh)'
 			}
 		})
 		.on("end", ()=> {
