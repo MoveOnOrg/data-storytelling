@@ -6,7 +6,8 @@ let destinationOptions = [];
 let endLocation = '';
 let point = '';
 const frames = 400;
-let routeGeojson; // putting here so I can console log and mess with it
+
+let routeGeojson, nearbyBridges, routeSpacedAlongFrames, routeSimplified, routeBezier;
 
 const destinations = [{"location":"Blue Ox Music Festival, Eau Claire, Wisconsin","lat":"44.78786668","lon":"-91.58057528","type":"Festival","inMilwaukee":"0"},{"location":"Cranberry Festival, Warrens, WI","lat":"44.13143685","lon":"-90.50164398","type":"Festival","inMilwaukee":"0"},{"location":"State Capitol , Madison, WI","lat":"43.07400405","lon":"-89.38512782","type":"Landmark","inMilwaukee":"0"},{"location":"Bayfield WI to Kayak the Apostle Islands","lat":"46.80806885","lon":"-90.81405375","type":"Outdoors","inMilwaukee":"0"},{"location":"Cave of the Mounds (west of Madison)","lat":"43.01680179","lon":"-89.81429772","type":"Outdoors","inMilwaukee":"0"},{"location":"Lake Minocqua - fishing, boating, etc","lat":"45.86445439","lon":"-89.70855847","type":"Outdoors","inMilwaukee":"0"},{"location":"Mississippi River Dinner Cruise in La Crosse","lat":"43.81792238","lon":"-91.2564382","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin Dells - “The Waterpark Capital of the World”","lat":"43.62780295","lon":"-89.77790092","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin's biggest waterfall in Pattison State Park","lat":"46.53719434","lon":"-92.1187448","type":"Outdoors","inMilwaukee":"0"},{"location":"Lambeau Field - Green Bay Packers","lat":"44.49924888","lon":"-88.05973531","type":"Sports","inMilwaukee":"0"},{"location":"Great Lakes Distillery, Milwaukee","lat":"43.02648595","lon":"-87.9187747","type":"Other","inMilwaukee":"1"},{"location":"Harley-Davidson Museum, Milwaukee","lat":"43.03135815","lon":"-87.91662288","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Art Museum","lat":"43.03987028","lon":"-87.89751278","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Zoo","lat":"43.03126493","lon":"-88.04098476","type":"Other","inMilwaukee":"1"},{"location":"Fiserv Forum - home to NBA Champion Milwaukee Bucks","lat":"43.04501176","lon":"-87.91750192","type":"Sports","inMilwaukee":"1"}];
 
@@ -54,12 +55,16 @@ map.on('load', () => {});
 /**************************/
 /** https://docs.mapbox.com/mapbox-gl-js/example/free-camera-path **/
 /**************************/
-function animatePath(routes) {
-
+function animatePath() {
+	map.setPaintProperty(
+		'route', 
+		'line-opacity',.7);
 	// this is the path the camera will look at
-	const targetRoute = routes;
+	const targetRoute = routeSimplified.geometry.coordinates;
 	// this is the path the camera will move along
-	const cameraRoute = routes;
+	//const cameraRoute = routes;
+
+	const cameraRoute = routeBezier.geometry.coordinates;
 	//const cameraRoute = simplifyRouteForCameraPanning(routes);//routes;
 
 	const animationDuration = 10000;
@@ -79,6 +84,10 @@ function animatePath(routes) {
 		// phase is normalized between 0 and 1
 		// when the animation is finished, reset start to loop the animation
 		if (phase > 1) {
+			/* was trying to do this to reset the bearing at the end after following the car, but wasn't working. 
+			flyToLocation(endLocation);
+			*/
+
 			// wait 1.5 seconds before looping
 			setTimeout(() => {
 				//start = 0.0;
@@ -98,21 +107,27 @@ function animatePath(routes) {
 		 
 		const alongCamera = turf.along(
 			turf.lineString(cameraRoute),
-			cameraRouteDistance * phase
+			cameraRouteDistance * d3.max([0, phase])
 		).geometry.coordinates;
-		
-		const bridgesPast = map.querySourceFeatures('bridges', {sourceLayer: 'bridges', filter: ['<=', 'frame', frames * phase]})
 
+		 /* if we want to have the camera following the car we can set something like this, with the camera position using "alongCamera" and the camera.lookAtPoint using the "alongCameraNext" 
+		const alongCamera = turf.along(
+			turf.lineString(cameraRoute),
+			cameraRouteDistance * d3.max([0, phase - 0.25])
+		).geometry.coordinates;
+
+		const alongCameraNext = turf.along(
+			turf.lineString(cameraRoute),
+			cameraRouteDistance * d3.min([1,(phase + 0.05)])
+		).geometry.coordinates;
+		*/
 		map.setPaintProperty(
 		'bridges', 
 		'circle-opacity',  
-		//['case',['<=', ['get','frame'],20], 'orange', 'blue']
-		['case',['<=', ['get','frame'],frames * phase], 1, 0]
+		['case',['<=', ['get','frame'],frames * (phase + 0.02)], 1, 0]
 		);
 
-		map.setPaintProperty
 /*
-		const frames = 400; 
 		console.log('targetRoute', targetRoute, 'phase, frames, rounded ph*f',phase, frames, Math.round(phase*frames))
 		const alongRoute = targetRoute[Math.round(phase*frames)]
 		const cameraRoute = targetRoute[Math.round(phase*frames)]	
@@ -129,10 +144,12 @@ function animatePath(routes) {
 		);
 		 
 		// tell the camera to look at a point along the route
+		// no longer telling the camera to look anywhere 
 		camera.lookAtPoint({
-			lng: alongRoute[0],
-			lat: alongRoute[1]
+			lng: alongCamera[0], // to follow the car:  alongCameraNext[0],
+			lat: alongCamera[1] // to follow the car: alongCameraNext[1]
 		});
+		/**/  
 		map.setFreeCameraOptions(camera);
 
 		// Update point geometry to a new position 
@@ -164,12 +181,30 @@ function animationComplete() {
 
 async function getRoute() {
   const query = await fetch(
-    `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocation[0]},${startLocation[1]};${endLocation.lon},${endLocation.lat}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}&overview=full`,
+    `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocation[0]},${startLocation[1]};${endLocation[0]},${endLocation[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}&overview=full`,
     { method: 'GET' }
   );
   const json = await query.json();
   const data = json.routes[0];
   const routeCoords = data.geometry.coordinates;
+
+  routeSimplified = ({ type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'LineString',
+      coordinates: simplifyRouteForCameraPanning(routeCoords, 0.01)
+	  }
+	});
+
+  const routeSuperSimplified = ({ type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'LineString',
+      coordinates: simplifyRouteForCameraPanning(routeCoords, 0.001)
+	  }
+	});
+  routeBezier = turf.bezierSpline(routeSuperSimplified);
+
   routeGeojson = {
     type: 'Feature',
     properties: {},
@@ -179,9 +214,9 @@ async function getRoute() {
     }
   };
 
-  const routeSpacedAlongFrames = setRouteToNFrames(routeGeojson);
+  routeSpacedAlongFrames = setRouteToNFrames(routeSimplified, frames); // instead of simplifying (routeGeojson);
   console.log('routeSpacedAlongFrames', routeSpacedAlongFrames);
-  const nearbyBridges = bridgesWithinMinMiles(bridges, 5, routeGeojson, routeSpacedAlongFrames); 
+  nearbyBridges = bridgesWithinMinMiles(bridges, 5, routeGeojson, routeSpacedAlongFrames); 
   console.log('nearbyBridges', nearbyBridges);
 
   // if the route already exists on the map, we'll reset it using setData
@@ -202,9 +237,9 @@ async function getRoute() {
         'line-cap': 'round'
       },
       paint: {
-        'line-color': '#00ABFF',
+        'line-color': '#00abff',
         'line-width': 5,
-        'line-opacity': 0.75
+        'line-opacity': 0.0
       }
     });
   }
@@ -244,14 +279,15 @@ async function getRoute() {
   console.log('routeSpacedAlongFrames coords', routeSpacedAlongFrames, routeSpacedAlongFrames.geometry, routeSpacedAlongFrames.geometry.coordinates);
   //animatePath(routeSpacedAlongFrames.geometries.coordinates)
   console.log('routeGeojson coords', routeGeojson.geometry.coordinates);
-  animatePath(routeGeojson.geometry.coordinates)
+  //animatePath(routeGeojson.geometry.coordinates)
+  // now putting animatePath() directly in start animation so we can getRoute before. 
 
 }
 
 
 function startAnimation() {
 	document.getElementById('overlay').style.display = 'none';
-	getRoute();
+	animatePath(); //getRoute();
 }
 
 
@@ -324,7 +360,9 @@ function simplifyRouteForCameraPanning(route, smoothingQuantile = 0.35 ){
 }
 
 // set marker and fly to starting location 
-function flyToStartingLocation() {
+function flyToLocation(coords) {
+// if the vehicle doesn't exists on the map, set it
+  if (!map.getSource('point')) {
 	map.addLayer({
 		id: 'point',
 		type: 'circle',
@@ -338,7 +376,7 @@ function flyToStartingLocation() {
 				properties: {},
 				geometry: {
 				type: 'Point',
-				coordinates: startLocation
+				coordinates: coords
 				}
 			}
 			]
@@ -349,11 +387,14 @@ function flyToStartingLocation() {
 		'circle-color': '#EA1C24'
 		}
 	});
+}
+
 	isFlying = true;
 	map.flyTo({
-		center: startLocation,
+		center: coords,
 		speed: 0.5,
-		zoom: 10.1
+		zoom: 10.1,
+		bearing: 0
 	});
 	/* when I had this in it broke the animate path. 
 	map.on('moveend', () => {
@@ -391,7 +432,7 @@ function init() {
 	//geocoder input
 	geocoder.on('result', (event) => {
 		startLocation = event.result.geometry.coordinates;
-		flyToStartingLocation();
+		flyToLocation(startLocation);
 		stepStart.style.display = 'none';
 		stepEnd.style.display = 'block';
 		destinationOptions = generateDestinationSet(destinations, 3);
@@ -406,7 +447,9 @@ function init() {
 	destination.addEventListener('change', (event) => {
 		stepEnd.style.display = 'none';
 		btnGo.style.display = 'block';
-		endLocation = destinationOptions[event.target.value];
+		endLocationDetails = destinationOptions[event.target.value];
+		endLocation = [endLocationDetails.lon, endLocationDetails.lat];
+		getRoute();
 		console.log('end', endLocation);
 	});
 
