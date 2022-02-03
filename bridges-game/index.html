@@ -52,27 +52,27 @@
           <p>We've charted them all. Can you help us discover them?</p>
           <button id='get-started-button'>Get Started</button>
           </section>
+        <section id="selected-vehicle-holder">
+          🎈
+        </section>
         <div id="selection-options"> 
           <section id="step-vehicle">
             <h2>👷: To start, first select your vehicle.</h2>
             <div class="vehicle-selector">
-              <div><input type="radio" id="a" name="vehicle" value="🚗">
-              <label for="a">🚗 Commuter car</label></div>
-              <div><input type="radio" id="b" name="vehicle" value="🚒">
-              <label for="b">🚒 Fire truck</label></div>
-              <div><input type="radio" id="c" name="vehicle" value="🛸">
-              <label for="c">🛸 UFO</label></div>
-              <div><input type="radio" id="c" name="vehicle" value="🎈">
-              <label for="d">🎈 Hot air balloon</label></div>
+            <label>
+              <input type="radio" id="a" name="vehicle" value="🚗">
+              <img src="car.svg" alt="icon of a car">
+            </label>
+              <label>
+                <input type="radio" id="b" name="vehicle" value="🚒">
+                <img src="truck.svg" alt="icon of a car">
+                </label>
+              <label><input type="radio" id="c" name="vehicle" value="🎈">
+                <img src="pixelated.svg" alt="icon of a car">
+                </label>
             </div>
           </section>
-
-          <section id="step-vehicle-correct">
-            <h2>Does this look right?</h2>
-            <button id='vehicle-btn-confirm'>Yes</a>
-            <button id='vehicle-btn-deny'>No</a>
-          </section>
-
+          
           <section id="step-start">
             <h2>👷: Great. Now choose a starting address. If you can't think of one, the text field autopopulates.</h2>
             <div id="geocoder"></div>
