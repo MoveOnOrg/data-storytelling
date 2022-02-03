@@ -14,11 +14,7 @@
     <!-- Import Mapbox GL Geocoder -->
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' rel='stylesheet' />
-
-    <!-- Import Mapbox GL Directions -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css" type="text/css" />
-
+    
     <!-- Import Turf & Polyline -->
     <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js"></script>
@@ -38,11 +34,11 @@
     <div class="bridges">
       <div id="map"></div>
       <header>
-        You have traveled <span id='miles-traveled'>0</span> miles and passed 
+        You traveled <span id='miles-traveled'>0</span> miles and passed 
         near <span id='bridges-passed'>0</span> deficient bridges. 
       </header>
       <div id="overlay">
-        <h1><span>Can we fix all of<br />Wisconcin's bridges?<span></h1>
+        <h1><span>Can we fix all of<br />Wisconsin's bridges?<span></h1>
           <div id='stepText1'>
             <h2>Play our game</h2>
             <p>Discover just how many deficient bridges are in Wisconsin by playing our game.</p>
@@ -60,14 +56,14 @@
             <h2>👷: To start, first select your vehicle.</h2>
             <div class="vehicle-selector">
             <label>
-              <input type="radio" id="a" name="vehicle" value="🚗">
-              <img src="car.svg" alt="icon of a car">
+              <input type="radio" id="a" name="vehicle" value="car2">
+              <img src="car2.svg" alt="icon of a car">
             </label>
               <label>
-                <input type="radio" id="b" name="vehicle" value="🚒">
+                <input type="radio" id="b" name="vehicle" value="truck">
                 <img src="truck.svg" alt="icon of a car">
                 </label>
-              <label><input type="radio" id="c" name="vehicle" value="🎈">
+              <label><input type="radio" id="c" name="vehicle" value="pixelated">
                 <img src="pixelated.svg" alt="icon of a car">
                 </label>
             </div>

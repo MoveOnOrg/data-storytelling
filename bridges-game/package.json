@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baripembo/mapbox-directions-api.git"
+    "url": "git+https://github.com/MoveOnOrg/data-storytelling.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/baripembo/mapbox-directions-api/issues"
+    "url": "https://github.com/MoveOnOrg/data-storytelling/issues"
   },
-  "homepage": "https://github.com/baripembo/mapbox-directions-api#readme",
+  "homepage": "https://github.com/MoveOnOrg/data-storytelling#readme",
   "devDependencies": {
     "concurrently": "^7.0.0",
     "http-server": "^14.1.0",

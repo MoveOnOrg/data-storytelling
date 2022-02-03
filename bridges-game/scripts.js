@@ -1,13 +1,11 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpa2F3ZWkiLCJhIjoiY2pqb2kzeXJoMmM1eDNsc280YnBub2d6aCJ9.DapwlemDz4dhkDIG7sNdwQ';
-let mapboxStyle = 'styles/adolphej/ckyd79eal0lyb16lol8hq1gfz';
-let isFlying = false;
-let startLocation = '';
-let destinationOptions = [];
-let endLocation = '';
-let point = '';
+const mapboxStyle = 'styles/tech-securemoveonorg/ckyujrsmv000r14lbcrbe604b';
 const frames = 400;
+let startLocation = '';
+let endLocation = '';
+let destinationOptions = [];
 
-let routeGeojson, nearbyBridges, routeSpacedAlongFrames, routeSimplified, routeBezier;
+let routeGeojson, nearbyBridges, routeSpacedAlongFrames, routeSimplified, routeBezier, vehicleIcon;
 
 const destinations = [{"location":"Blue Ox Music Festival, Eau Claire, Wisconsin","lat":"44.78786668","lon":"-91.58057528","type":"Festival","inMilwaukee":"0"},{"location":"Cranberry Festival, Warrens, WI","lat":"44.13143685","lon":"-90.50164398","type":"Festival","inMilwaukee":"0"},{"location":"State Capitol , Madison, WI","lat":"43.07400405","lon":"-89.38512782","type":"Landmark","inMilwaukee":"0"},{"location":"Bayfield WI to Kayak the Apostle Islands","lat":"46.80806885","lon":"-90.81405375","type":"Outdoors","inMilwaukee":"0"},{"location":"Cave of the Mounds (west of Madison)","lat":"43.01680179","lon":"-89.81429772","type":"Outdoors","inMilwaukee":"0"},{"location":"Lake Minocqua - fishing, boating, etc","lat":"45.86445439","lon":"-89.70855847","type":"Outdoors","inMilwaukee":"0"},{"location":"Mississippi River Dinner Cruise in La Crosse","lat":"43.81792238","lon":"-91.2564382","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin Dells - “The Waterpark Capital of the World”","lat":"43.62780295","lon":"-89.77790092","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin's biggest waterfall in Pattison State Park","lat":"46.53719434","lon":"-92.1187448","type":"Outdoors","inMilwaukee":"0"},{"location":"Lambeau Field - Green Bay Packers","lat":"44.49924888","lon":"-88.05973531","type":"Sports","inMilwaukee":"0"},{"location":"Great Lakes Distillery, Milwaukee","lat":"43.02648595","lon":"-87.9187747","type":"Other","inMilwaukee":"1"},{"location":"Harley-Davidson Museum, Milwaukee","lat":"43.03135815","lon":"-87.91662288","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Art Museum","lat":"43.03987028","lon":"-87.89751278","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Zoo","lat":"43.03126493","lon":"-88.04098476","type":"Other","inMilwaukee":"1"},{"location":"Fiserv Forum - home to NBA Champion Milwaukee Bucks","lat":"43.04501176","lon":"-87.91750192","type":"Sports","inMilwaukee":"1"}];
 
@@ -112,6 +110,12 @@ function animatePath() {
 			cameraRouteDistance * d3.max([0, phase])
 		).geometry.coordinates;
 
+		//get next point along route to calculate bearing for vehicle position
+		const nextRoute = turf.along(
+			turf.lineString(targetRoute),
+			(routeDistance * phase)+1
+		).geometry.coordinates;
+
 		 /* if we want to have the camera following the car we can set something like this, with the camera position using "alongCamera" and the camera.lookAtPoint using the "alongCameraNext" 
 		const alongCamera = turf.along(
 			turf.lineString(cameraRoute),
@@ -124,9 +128,9 @@ function animatePath() {
 		).geometry.coordinates;
 		*/
 		map.setPaintProperty(
-		'bridges', 
-		'circle-opacity',  
-		['case',['<=', ['get','frame'],frames * (phase + 0.02)], 1, 0]
+			'bridges', 
+			'circle-opacity',  
+			['case',['<=', ['get','frame'],frames * (phase + 0.02)], 1, 0]
 		);
 
 /*
@@ -154,8 +158,9 @@ function animatePath() {
 		/**/  
 		map.setFreeCameraOptions(camera);
 
-		// Update point geometry to a new position 
-		const point = {
+
+		// Update vehicle icon to a new position and bearing
+		const vehicleData = {
 			'type': 'FeatureCollection',
 			'features': [
 				{
@@ -168,8 +173,9 @@ function animatePath() {
 				}
 			]
 		};
-		map.getSource('point').setData(point);
-		map.getSource('pointBG').setData(point);
+		vehicleData.features[0].properties.bearing = turf.bearing(turf.point(alongRoute),turf.point(nextRoute)) - 90; //adjust for our side-facing icon
+		map.getSource('vehicle').setData(vehicleData);
+
 		 
 		d3.select('#miles-traveled').text(Math.round(routeDistance * d3.min([1,phase])))
 		d3.select('#bridges-passed').text(nearbyBridges.filter(d=> 
@@ -368,75 +374,44 @@ function simplifyRouteForCameraPanning(route, smoothingQuantile = 0.35 ){
 
 // set marker and fly to starting location 
 function flyToLocation(coords) {
-// if the vehicle doesn't exists on the map, set it
 
-
-	isFlying = true;
 	map.flyTo({
 		center: coords,
 		speed: 1.2,
 		zoom: 10.1,
 		// bearing: 0 // added this to try to repoint N after pointing at car along route, but didn't work.  
 	});
-	map.on('moveend', () => { 
-		if (!map.getSource('point')) {
-			map.addLayer({
-				id: 'pointBG',
-				type: 'circle',
-				source: {
-				type: 'geojson',
-				data: {
-					type: 'FeatureCollection',
-					features: [
-					{
-						type: 'Feature',
-						properties: {},
-						geometry: {
-						type: 'Point',
-						coordinates: coords
-						}
-					}
-					]
-				}
-				},
-				paint: {
-				'circle-radius': 90,
-				'circle-color': '#fff',
-				'circle-opacity': .35
-				}
-			});
-		}	
-			map.addLayer({
-				id: 'point',
-				type: 'circle',
-				source: {
-				type: 'geojson',
-				data: {
-					type: 'FeatureCollection',
-					features: [
-					{
-						type: 'Feature',
-						properties: {},
-						geometry: {
-						type: 'Point',
-						coordinates: coords
-						}
-					}
-					]
-				}
-				},
-				paint: {
-				'circle-radius': 12,
-				'circle-color': '#000'
-				}
-			});
-	})
-	/* when I had this in it broke the animate path. 
 	map.on('moveend', () => {
-		if (isFlying) {
-			isFlying = false;
+		if (!map.getSource('vehicle')) {
+			map.addLayer({
+				'id': 'vehicle',
+				'source': {
+					type: 'geojson',
+					data: {
+						type: 'FeatureCollection',
+						features: [
+						{
+							type: 'Feature',
+							properties: {},
+							geometry: {
+								type: 'Point',
+								coordinates: startLocation
+							}
+						}]
+					}
+				},
+				'type': 'symbol',
+				'layout': {
+					'icon-image': vehicleIcon,
+					'icon-size': 0.25,
+					'icon-rotate': ['get', 'bearing'],
+					'icon-rotation-alignment': 'map',
+					'icon-allow-overlap': true,
+					'icon-ignore-placement': true
+				}
+			});
 		}
-	})*/
+	})
 }
 
 function init() {
@@ -473,6 +448,7 @@ function init() {
 	vehicles.forEach(vehicle => {
 		vehicle.addEventListener('change', () => {
 			stepVehicle.style.display = 'none';
+			vehicleIcon = vehicle.value;
 			console.log('vehicle', vehicle.value);
 			stepStart.style.display = 'block';
 		});

@@ -14,16 +14,22 @@ body {
   /* HIDE RADIO */
   /* IMAGE STYLES */ }
   .bridges h1 {
+    color: #151515;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 8vh;
     font-weight: bold;
-    color: #151515;
-    margin-bottom: 50px;
+    margin-bottom: 0;
     text-align: center;
-    text-transform: uppercase;
-    margin-bottom: 0px; }
+    text-transform: uppercase; }
     .bridges h1 span {
-      background-color: #C4C4C4; }
+      background-color: #C4C4C4;
+      line-height: 4.5rem;
+      padding: 2px 10px;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone; }
+  .bridges h2 {
+    font-size: 1.25rem;
+    font-weight: 400; }
   .bridges h3 {
     font-size: 2rem;
     font-weight: bold;
@@ -88,19 +94,17 @@ body {
       margin-top: 6px;
       font-size: 1.25rem;
       font-weight: 400; }
-  .bridges h2 {
-    font-size: 1.25rem;
-    font-weight: 400; }
   .bridges button {
+    background-color: #C4C4C4;
+    border: none;
+    border-radius: 30px;
+    color: #403C3C;
+    cursor: pointer;
     font-size: 1.75rem;
     font-weight: bold;
-    color: #403C3C;
-    border: none;
-    padding: 8px 30px;
-    border-radius: 30px;
     margin-right: 10px;
-    text-transform: uppercase;
-    background-color: #C4C4C4; }
+    padding: 8px 30px;
+    text-transform: uppercase; }
     .bridges button:hover {
       background-color: #DDDDDD; }
   .bridges #selection-options {
@@ -201,5 +205,3 @@ body {
   .bridges #step-details,
   .bridges #step-play-game {
     display: none; }
-
-/*# sourceMappingURL=styles.css.map */
