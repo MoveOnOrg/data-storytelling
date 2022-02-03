@@ -11,8 +11,8 @@ let routeGeojson, nearbyBridges, routeSpacedAlongFrames, routeSimplified, routeB
 
 const destinations = [{"location":"Blue Ox Music Festival, Eau Claire, Wisconsin","lat":"44.78786668","lon":"-91.58057528","type":"Festival","inMilwaukee":"0"},{"location":"Cranberry Festival, Warrens, WI","lat":"44.13143685","lon":"-90.50164398","type":"Festival","inMilwaukee":"0"},{"location":"State Capitol , Madison, WI","lat":"43.07400405","lon":"-89.38512782","type":"Landmark","inMilwaukee":"0"},{"location":"Bayfield WI to Kayak the Apostle Islands","lat":"46.80806885","lon":"-90.81405375","type":"Outdoors","inMilwaukee":"0"},{"location":"Cave of the Mounds (west of Madison)","lat":"43.01680179","lon":"-89.81429772","type":"Outdoors","inMilwaukee":"0"},{"location":"Lake Minocqua - fishing, boating, etc","lat":"45.86445439","lon":"-89.70855847","type":"Outdoors","inMilwaukee":"0"},{"location":"Mississippi River Dinner Cruise in La Crosse","lat":"43.81792238","lon":"-91.2564382","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin Dells - “The Waterpark Capital of the World”","lat":"43.62780295","lon":"-89.77790092","type":"Outdoors","inMilwaukee":"0"},{"location":"Wisconsin's biggest waterfall in Pattison State Park","lat":"46.53719434","lon":"-92.1187448","type":"Outdoors","inMilwaukee":"0"},{"location":"Lambeau Field - Green Bay Packers","lat":"44.49924888","lon":"-88.05973531","type":"Sports","inMilwaukee":"0"},{"location":"Great Lakes Distillery, Milwaukee","lat":"43.02648595","lon":"-87.9187747","type":"Other","inMilwaukee":"1"},{"location":"Harley-Davidson Museum, Milwaukee","lat":"43.03135815","lon":"-87.91662288","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Art Museum","lat":"43.03987028","lon":"-87.89751278","type":"Other","inMilwaukee":"1"},{"location":"Milwaukee Zoo","lat":"43.03126493","lon":"-88.04098476","type":"Other","inMilwaukee":"1"},{"location":"Fiserv Forum - home to NBA Champion Milwaukee Bucks","lat":"43.04501176","lon":"-87.91750192","type":"Sports","inMilwaukee":"1"}];
 
-const zoom = 5;
-const center = [-89.35, 43.05];
+const zoom = 4.4;
+const center = [-89.35, 44.91]; // from turf centroid of WI state - adjusted a bit
 const bounds = [
   [-92.889427,42.491592],
   [-86.82352,47.3]
@@ -34,7 +34,7 @@ const geocoder = new MapboxGeocoder({
 	accessToken: mapboxgl.accessToken, 
 	mapboxgl: mapboxgl, 
 	marker: false, 
-	placeholder: 'Search for places in Wisconsin',
+	placeholder: 'Search a Wisconsin Address or Place',
 	bbox: [-92.889427,42.491592, -86.82352,47.077252], 
 	proximity: {
 		longitude: -89.384373,
@@ -67,13 +67,15 @@ function animatePath() {
 	const cameraRoute = routeBezier.geometry.coordinates;
 	//const cameraRoute = simplifyRouteForCameraPanning(routes);//routes;
 
-	const animationDuration = 10000;
-	const cameraAltitude = 65000; // 15000;
 	// get the overall distance of each route so we can interpolate along them
 	const routeDistance = turf.lineDistance(turf.lineString(targetRoute));
 	const cameraRouteDistance = turf.lineDistance(
 		turf.lineString(cameraRoute)
 	);
+
+	const animationDuration = 40 * routeDistance;
+	const cameraAltitude = 65000; // 15000;
+
 	 
 	let start, requestAnimID;
 	function frame(time) {
@@ -168,6 +170,10 @@ function animatePath() {
 		};
 		map.getSource('point').setData(point);
 		 
+		d3.select('#miles-traveled').text(Math.round(routeDistance * d3.min([1,phase])))
+		d3.select('#bridges-passed').text(nearbyBridges.filter(d=> 
+			d.closestPointOnDetailedRoute.properties.index <= frames*phase).length
+		)
 		requestAnimID = window.requestAnimationFrame(frame);
 	}
 	 
@@ -223,7 +229,7 @@ async function getRoute() {
   if (map.getSource('route')) {
     map.getSource('route').setData(routeGeojson);
   }
-  // otherwise, we'll make a new request
+  // otherwise, we'll make a new request - but set opacity to 0. Will change when we start the animation. 
   else {
     map.addLayer({
       id: 'route',
@@ -244,7 +250,7 @@ async function getRoute() {
     });
   }
 
-  // add all the bridges (all at once for now, just to look) 
+// add all the nearbyBridges with opacity = 0. Will update as we pass them 
   map.addSource('bridges', {
 		type: 'geojson',
 		data: {
@@ -362,40 +368,43 @@ function simplifyRouteForCameraPanning(route, smoothingQuantile = 0.35 ){
 // set marker and fly to starting location 
 function flyToLocation(coords) {
 // if the vehicle doesn't exists on the map, set it
-  if (!map.getSource('point')) {
-	map.addLayer({
-		id: 'point',
-		type: 'circle',
-		source: {
-		type: 'geojson',
-		data: {
-			type: 'FeatureCollection',
-			features: [
-			{
-				type: 'Feature',
-				properties: {},
-				geometry: {
-				type: 'Point',
-				coordinates: coords
-				}
-			}
-			]
-		}
-		},
-		paint: {
-		'circle-radius': 10,
-		'circle-color': '#EA1C24'
-		}
-	});
-}
+
 
 	isFlying = true;
 	map.flyTo({
 		center: coords,
-		speed: 0.5,
+		speed: 1.2,
 		zoom: 10.1,
-		bearing: 0
+		// bearing: 0 // added this to try to repoint N after pointing at car along route, but didn't work.  
 	});
+	map.on('moveend', () => { 
+		if (!map.getSource('point')) {
+			map.addLayer({
+				id: 'point',
+				type: 'circle',
+				source: {
+				type: 'geojson',
+				data: {
+					type: 'FeatureCollection',
+					features: [
+					{
+						type: 'Feature',
+						properties: {},
+						geometry: {
+						type: 'Point',
+						coordinates: coords
+						}
+					}
+					]
+				}
+				},
+				paint: {
+				'circle-radius': 10,
+				'circle-color': '#EA1C24'
+				}
+			});
+		}	
+	})
 	/* when I had this in it broke the animate path. 
 	map.on('moveend', () => {
 		if (isFlying) {
@@ -419,7 +428,10 @@ function init() {
 	const stepEnd = document.getElementById('step-end');
 	const btnGo = document.getElementById('btn-go');
 
-	
+	d3.select('#get-started-button').on('click', ()=>
+		d3.select('#opening').transition().duration(900).ease(d3.easeLinear).style('opacity',0)
+			.on('end', () => {stepVehicle.style.display = 'block';})
+	)
 	//vehicle select
 	vehicles.forEach(vehicle => {
 		vehicle.addEventListener('change', () => {
@@ -459,11 +471,15 @@ function init() {
 		d3.select('#overlay').transition().duration(1000).ease(d3.easeQuadInOut)
 			.styleTween( 'background', function() {
 				return function(t) { 
-				let currentPct = d3.interpolateNumber(23, 100)(t)
-				return 'radial-gradient(circle at 50% 33%, transparent ' + currentPct +  '%, #E3F3FFD9 ' + currentPct +  '%)'
+				let currentPct = d3.interpolateNumber(18, 100)(t)
+				return 'radial-gradient(circle at 50% 50%, transparent ' + currentPct +  'vh, #2B3A61 ' + currentPct +  'vh)'
 			}
 		})
-		.on("end", startAnimation);
+		.on("end", ()=> {
+			d3.select('header').style('display', 'revert');
+			startAnimation();
+		}
+		);
 	});
 }
 

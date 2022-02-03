@@ -1,53 +1,97 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box; }
+
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  background-color: #2B3A61; }
 
 .bridges h1 {
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 40px;
+  font-size: 8vh;
   font-weight: bold;
+  color: #151515;
   margin-bottom: 50px;
   text-align: center;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  margin-bottom: 0px; }
+  .bridges h1 span {
+    background-color: #C4C4C4; }
+
+.bridges h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  margin-top: 0px; }
 
 .bridges p {
   font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  line-height: 22px; }
+  font-size: 1.25rem;
+  line-height: 1.5; }
 
 .bridges #map {
   bottom: 0;
   position: absolute;
   top: 0;
-  width: 100%;
-  z-index: 1; }
-
-.bridges #static-map {
-  border-radius: 50%;
-  height: 375px;
-  margin: 0 auto 30px;
-  width: 300px; }
+  width: calc(100% - 40px);
+  z-index: 1;
+  margin: 0px 20px 40px; }
 
 .bridges #overlay {
-  background: radial-gradient(circle at 50% 33%, transparent 23%, #E3F3FFD9 23%);
+  background: radial-gradient(circle at 50% calc(50% - 20px), transparent 18vh, #2B3A61 18vh);
   bottom: 0;
   position: absolute;
   text-align: center;
   top: 0;
   width: 100%;
   z-index: 2; }
+  .bridges #overlay #opening {
+    /*color: #151515;
+      background-color: #ffffffdd;
+      */
+    color: white;
+    background-color: #2B3A61DD;
+    max-width: 500px;
+    padding: 100px 40px 20px;
+    margin: 0px auto; }
+    .bridges #overlay #opening p {
+      font-size: 1.5rem;
+      line-height: 1.5;
+      margin-top: 0px; }
+
+.bridges button {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #403C3C;
+  border: none;
+  padding: 8px;
+  text-transform: uppercase;
+  background-color: #C4C4C4; }
+  .bridges button:hover {
+    background-color: #DDDDDD; }
+
+.bridges #selection-options {
+  position: absolute;
+  top: 70%;
+  width: 100%;
+  color: white; }
+  .bridges #selection-options a {
+    color: #2B3A61;
+    background-color: white; }
 
 .bridges #popup {
   background-color: rgba(255, 255, 255, 0.9);
   display: none;
-  left: 20px;
-  height: 300px;
+  left: 40px;
+  top: 190px;
+  height: 360px;
   padding: 20px;
   position: absolute;
-  width: 450px;
-  top: 20px;
+  width: 500px;
   z-index: 3; }
 
 .bridges .vehicle-selector {
@@ -55,12 +99,37 @@ body {
 
 .bridges .mapboxgl-ctrl-geocoder {
   margin: 10px auto 20px;
-  max-width: 300px;
-  min-width: 300px;
-  text-align: left; }
+  max-width: 350px;
+  min-width: 350px;
+  text-align: left;
+  background-color: transparent; }
   .bridges .mapboxgl-ctrl-geocoder input[type='text'] {
     border: 1px solid #000;
-    padding-left: 30px; }
+    padding-left: 30px;
+    border-radius: 20px;
+    background-color: #e4e4e4;
+    font-size: 1rem; }
+
+.bridges header {
+  display: none;
+  position: fixed;
+  padding: 50px 40px 0px;
+  background-color: #2B3A61;
+  top: 0;
+  left: 0;
+  height: 150px;
+  width: 100%;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  z-index: 3; }
+  .bridges header span {
+    position: relative;
+    display: inline-block;
+    width: 5rem;
+    font-weight: 300;
+    padding: 8px 4px 4px 12px;
+    background-color: #53689C; }
 
 .bridges #destinationSelector {
   height: 40px;
@@ -68,6 +137,7 @@ body {
   padding: 0 10px;
   width: 300px; }
 
+.bridges #step-vehicle,
 .bridges #step-start,
 .bridges #step-end,
 .bridges #btn-go {

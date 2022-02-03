@@ -37,32 +37,44 @@
   <body>
     <div class="bridges">
       <div id="map"></div>
+      <header>
+        You have traveled <span id='miles-traveled'>0</span> miles and passed 
+        near <span id='bridges-passed'>0</span> deficient bridges. 
+      </header>
       <div id="overlay">
-        <h1>Wisconsin's Structurally Deficient Bridges</h1>
+        <h1><span>Wisconsin's Structurally<br />Deficient Bridges<span></h1>
+        <section id="opening">
+          <p>Wisconsin has 979 structural deficient bridges. These bridges are either currently in need of repair, or will need repair in the future to remain safe. </p>
+          <p>Lets take a road trip across the state to explore them.</p>
+          <button id='get-started-button'>Get Started</button>
+          </section>
+        <div id="selection-options"> 
+          <section id="step-vehicle">
+            <h3>Pick your vehicle:</h3>
+            <div class="vehicle-selector">
+              <input type="radio" id="a" name="vehicle" value="A">
+              <label for="a">A</label>
+              <input type="radio" id="b" name="vehicle" value="B">
+              <label for="b">B</label>
+              <input type="radio" id="c" name="vehicle" value="C">
+              <label for="c">C</label>
+            </div>
+          </section>
 
-        <div id="static-map"></div>
+          <section id="step-start">
+            <h3>Pick your starting point</h3>
+            <div id="geocoder"></div>
+          </section>
 
-        <section id="step-vehicle">
-          Pick your vehicle:<br>
-          <div class="vehicle-selector">
-            <input type="radio" id="a" name="vehicle" value="A">
-            <label for="a">A</label>
-            <input type="radio" id="b" name="vehicle" value="B">
-            <label for="b">B</label>
-            <input type="radio" id="c" name="vehicle" value="C">
-            <label for="c">C</label>
-          </div>
-        </section>
+          <section id="step-end">
+            <h3>Pick your destination</h3>
+            <select name="destination" id="destinationSelector"></select>
+          </section>
 
-        <section id="step-start">
-          <div id="geocoder"></div>
-        </section>
-
-        <section id="step-end">
-          <select name="destination" id="destinationSelector"></select>
-        </section>
-
-        <a href="#" id='btn-go'>LET'S GO</a>
+          <section id="btn-go">
+            <button id='lets-go-button'>LET'S GO</a>
+          </section>
+        </div>
       </div>
 
       <div id="popup">
