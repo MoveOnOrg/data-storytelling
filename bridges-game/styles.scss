@@ -120,9 +120,12 @@ body {
     font-weight: bold;
     color: #403C3C;
     border: none;
-    padding: 8px;
+    padding: 8px 30px;
+    border-radius: 30px;
+    margin-right: 10px;
     text-transform: uppercase;
     background-color:#C4C4C4;
+
     &:hover {
       background-color:#DDDDDD;
     }
@@ -161,11 +164,39 @@ body {
 
   .vehicle-selector {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     text-align: left;
-    max-width: 200px;
+    max-width: 300px;
     margin: 0 auto;
   }
+
+  .vehicle-selector > div {
+    min-width: 80px;
+  }
+
+    /* HIDE RADIO */
+[type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type=radio] + img {
+  cursor: pointer;
+  background-color: #9AA4CF;
+  width: 80px;
+  margin: 10px;
+  margin-right: 8px;
+  padding: 10px;
+  height: 100px;
+  border-radius: 10px;;
+
+  &:hover {
+    background-color: white;
+  }
+}
 
   .mapboxgl-ctrl-geocoder {
     margin: 10px auto 20px;

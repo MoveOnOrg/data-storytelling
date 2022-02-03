@@ -455,15 +455,12 @@ function init() {
 	const titleText = document.querySelector('#overlay h1');
 	const stepText1 = document.getElementById('stepText1');
 	const stepCorrect = document.getElementById('step-correct');
-	const stepVehicleCorrect = document.getElementById('step-vehicle-correct');
 	const stepEnd = document.getElementById('step-end');
 	const btnGo = document.getElementById('btn-go');
 	const btnConfirm = document.getElementById('btn-confirm');
 	const stepDetails = document.getElementById('step-details');
 	const stepPlayGame = document.getElementById('step-play-game');
 	const btnDeny = document.getElementById('btn-deny');
-	const vehicleBtnConfirm = document.getElementById('vehicle-btn-confirm');
-	const vehicleBtnDeny = document.getElementById('vehicle-btn-deny');
 
 
 	d3.select('#get-started-button').on('click', () => {
@@ -477,8 +474,7 @@ function init() {
 		vehicle.addEventListener('change', () => {
 			stepVehicle.style.display = 'none';
 			console.log('vehicle', vehicle.value);
-			stepVehicle.style.display = 'none';
-			stepVehicleCorrect.style.display = 'block';
+			stepStart.style.display = 'block';
 		});
 	});
 
@@ -505,18 +501,6 @@ function init() {
 	btnDeny.addEventListener('click', () => {
 		stepCorrect.style.display = 'none';
 		stepStart.style.display = 'block';
-	});
-
-	//address confirm button
-	vehicleBtnConfirm.addEventListener('click', () => {
-		stepVehicleCorrect.style.display = 'none';
-		stepStart.style.display = 'block';
-	});
-
-	//address deny button
-	vehicleBtnDeny.addEventListener('click', () => {
-		stepVehicleCorrect.style.display = 'none';
-		stepVehicle.style.display = 'block';
 	});
 
 	//destination select
