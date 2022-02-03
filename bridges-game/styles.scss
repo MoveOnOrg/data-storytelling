@@ -50,7 +50,7 @@ body {
   }
 
   #overlay {
-    background: radial-gradient(circle at 50% calc(50% - 20px), transparent 18vh, #2B3A61 18vh);
+    background: radial-gradient(circle at 50% calc(50% - 20px), #00006325 18vh, #2B3A61 18vh);
     bottom: 0;
     position: absolute;
     text-align: center;
@@ -74,8 +74,47 @@ body {
         margin-top: 0px
       }
     }
+
+    > h2 {
+      display: none;
+      max-width: 50%;
+      margin: 0 auto;
+      margin-top: 50px;
+      color: white;
+      font-size: 1.8rem;
+      line-height: 2.4rem;
+      font-weight: 700;  
+      text-align: center;
+    }
+  }
+
+  #stepText1 {
+    display: none;
+    max-width: 40%;
+    margin: 0 auto;
+    margin-top: 50px;
+    color: white;
+    text-align: center;
+    h2 {
+      font-size: 1.8rem;
+      line-height: 2.4rem;
+      font-weight: 700; 
+      text-align: center;
+      margin-bottom: 6px; 
+    }
+    p {
+      margin-top: 6px; 
+      font-size: 1.25rem;
+      font-weight: 400; 
+    }
   }
   
+  
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 400; 
+  }
+
   button {
     font-size: 1.75rem;
     font-weight: bold;
@@ -102,6 +141,10 @@ body {
       background-color:white;
     }
 
+    section {
+      max-width: 40%;
+      margin: 0 auto;
+    }
   }
 
   #popup {    
@@ -117,7 +160,11 @@ body {
   }
 
   .vehicle-selector {
-    margin: 10px 0 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    max-width: 200px;
+    margin: 0 auto;
   }
 
   .mapboxgl-ctrl-geocoder {
@@ -165,11 +212,26 @@ body {
     padding: 0 10px;
     width: 300px;
   }
+  #btn-go {
+    display: inline;
+  }
+
+  #selected-vehicle-holder {
+    //display: none;
+    position: absolute;
+    top: 30%;
+    font-size: 160px;
+    display: none;
+    left: 45%;
+  }
 
   #step-vehicle,
   #step-start,
-  #step-end,
-  #btn-go {
+  #step-correct,
+  #step-vehicle-correct,
+  #step-end, 
+  #step-details, 
+  #step-play-game {
     display: none;
   }
 }
