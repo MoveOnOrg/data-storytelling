@@ -38,7 +38,8 @@ body {
   .bridges p {
     font-family: 'Roboto', sans-serif;
     font-size: 1.25rem;
-    line-height: 1.5; }
+    line-height: 1.5;
+    /* margin: 0px;*/ }
   .bridges #map {
     bottom: 0;
     position: absolute;
@@ -46,6 +47,8 @@ body {
     width: calc(100% - 40px);
     z-index: 1;
     margin: 0px 20px 40px; }
+    .bridges #map p {
+      margin: 0; }
   .bridges #overlay {
     background: radial-gradient(circle at 50% calc(50% - 20px), #00006325 18vh, #2B3A61 18vh);
     bottom: 0;
@@ -115,6 +118,10 @@ body {
     .bridges #selection-options a {
       color: #2B3A61;
       background-color: white; }
+    .bridges #selection-options a#we-pick {
+      color: white;
+      background-color: transparent;
+      text-decoration: underline; }
     .bridges #selection-options section {
       max-width: 40%;
       margin: 0 auto; }
@@ -174,13 +181,13 @@ body {
     height: 150px;
     width: 100%;
     color: white;
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: bold;
     z-index: 3; }
     .bridges header span {
       position: relative;
       display: inline-block;
-      width: 5rem;
+      width: 6rem;
       font-weight: 300;
       padding: 8px 4px 4px 12px;
       background-color: #53689C; }
@@ -201,7 +208,8 @@ body {
   .bridges #step-start,
   .bridges #step-correct,
   .bridges #step-vehicle-correct,
-  .bridges #step-end,
+  .bridges #step-sample-bridge,
+  .bridges #step-destination,
   .bridges #step-details,
   .bridges #step-play-game {
     display: none; }

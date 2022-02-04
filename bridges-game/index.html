@@ -35,17 +35,18 @@
       <div id="map"></div>
       <header>
         You traveled <span id='miles-traveled'>0</span> miles and passed 
-        near <span id='bridges-passed'>0</span> deficient bridges. 
+        near <span id='bridges-passed'>0</span> deficient bridges 
+        with <span id='daily-crossings'>0</span> daily crossings. 
       </header>
       <div id="overlay">
         <h1><span>Can we fix all of<br />Wisconsin's bridges?<span></h1>
           <div id='stepText1'>
             <h2>Play our game</h2>
-            <p>Discover just how many deficient bridges are in Wisconsin by playing our game.</p>
+            <p>Take a road trip to discover just how many deficient bridges are in Wisconsin.</p>
           </div>
         <section id="opening">
           <p>Wisconsin has 979 structural deficient bridges. These bridges are either currently in need of repair, or will need repair in the future to remain safe. </p>
-          <p>We've charted them all. Can you help us discover them?</p>
+          <p>We've charted them all. Lets take a road trip and see how many we can find.</p>
           <button id='get-started-button'>Get Started</button>
           </section>
         <section id="selected-vehicle-holder">
@@ -70,7 +71,7 @@
           </section>
           
           <section id="step-start">
-            <h2>👷: Great. Now choose a starting address. If you can't think of one, the text field autopopulates.</h2>
+            <h2>👷: Great. Now choose a starting address. <br />(Or <a id='we-pick'>start at the state capitol</a>).</h2>
             <div id="geocoder"></div>
           </section>
 
@@ -80,19 +81,25 @@
             <button id='btn-deny'>No</a>
           </section>
 
-          <section id="step-end">
-            <h2>👷: Great! Finally, let's go through the routes we're interested in.</h2>
+          <section id="step-sample-bridge">
+            <h2>👷: Got it! As you travel, keep your eyes our for structurally deficient bridges and overpasses like this one, which has <span id = 'example-bridge-crossing'></span> crossings daily.</h2>
+            <button id='btn-pick-dest'>Onward!</a>
+          </section>
+
+          <section id="step-destination">
+            <h2>👷: Great! Pick your destination. </h2>
             <select name="destination" id="destinationSelector"></select>
           </section>
 
           <section id="step-details">
-            <h2>👷: Got it! Give us a sec to pull up the details...</h2>
+            <h2>👷: Got it! (Loading your journey)</h2>
           </section>
 
           <section id="step-play-game">
-            <h2>👷: OK, here you go! Click on the Start Journey button whenever you're ready. You will be traveling X amount of miles. </h2>
+            <h2>👷: OK, here you go!  </h2>
             <button id='btn-go'>Start journey</a>
           </section>
+    
         </div>
       </div>
 

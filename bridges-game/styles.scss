@@ -43,6 +43,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 1.25rem;
     line-height: 1.5;
+   /* margin: 0px;*/
   }
 
   #map {
@@ -52,7 +53,12 @@ body {
     width: calc(100% - 40px);
     z-index: 1;
     margin: 0px 20px 40px;
+
+    p {
+      margin:0;
+    }
   }
+
 
   #overlay {
     background: radial-gradient(circle at 50% calc(50% - 20px), #00006325 18vh, #2B3A61 18vh);
@@ -138,9 +144,15 @@ body {
     width: 100%;
     color: white;
 
-    a{ 
+    a { 
       color: #2B3A61;
       background-color:white;
+    }
+
+    a#we-pick{ 
+      color:white;
+      background-color:transparent;
+      text-decoration: underline;
     }
 
     section {
@@ -190,7 +202,7 @@ body {
   margin-right: 8px;
   padding: 10px;
   height: 100px;
-  border-radius: 10px;;
+  border-radius: 10px;
 
   &:hover {
     background-color: white;
@@ -222,17 +234,16 @@ body {
     height: 150px;
     width: 100%;
     color: white;
-    font-size: 2rem; 
+    font-size: 1.75rem; 
     font-weight: bold; 
     z-index: 3;
     span {
       position: relative;
       display: inline-block;
-      width: 5rem;
+      width: 6rem;
       font-weight: 300;
       padding: 8px 4px 4px 12px;
       background-color: #53689C; 
-
     }
   }
 
@@ -259,7 +270,8 @@ body {
   #step-start,
   #step-correct,
   #step-vehicle-correct,
-  #step-end, 
+  #step-sample-bridge,
+  #step-destination, 
   #step-details, 
   #step-play-game {
     display: none;
