@@ -94,7 +94,11 @@ function animatePath() {
 
 	 
 	let start, requestAnimID;
+	let frameCount = 0;
+	let notSmallDevice = d3.select('body').node().getBoundingClientRect().width > 481;
+
 	function frame(time) {
+		frameCount++;
 		if (!start) start = time;
 		// phase determines how far through the animation we are
 		const phase = (time - start) / animationDuration;
@@ -110,6 +114,7 @@ function animatePath() {
 			// wait 1.5 seconds before looping
 			setTimeout(() => {
 				//start = 0.0;
+				console.log('requestAnimID', requestAnimID)
 				window.cancelAnimationFrame(requestAnimID);
 				animationComplete();
 			}, 1000);
@@ -177,37 +182,39 @@ function animatePath() {
 		/**/  
 		map.setFreeCameraOptions(camera);
 
-
+		// moving bunch of this to every 10th frame since lots of lagging on mobile. 
+		if ( notSmallDevice || ( frameCount % 10 == 0 ) ) { 
 		// Update vehicle icon to a new position and bearing
-		const vehicleData = {
-			'type': 'FeatureCollection',
-			'features': [
-				{
-					'type': 'Feature',
-					'properties': {},
-					'geometry': {
-						'type': 'Point',
-						'coordinates': [alongRoute[0], alongRoute[1]]
+			const vehicleData = {
+				'type': 'FeatureCollection',
+				'features': [
+					{
+						'type': 'Feature',
+						'properties': {},
+						'geometry': {
+							'type': 'Point',
+							'coordinates': [alongRoute[0], alongRoute[1]]
+						}
 					}
-				}
-			]
-		};
-		vehicleData.features[0].properties.bearing = turf.bearing(turf.point(alongRoute),turf.point(nextRoute)) - 90; //adjust for our side-facing icon
-		map.getSource('vehicle').setData(vehicleData);
+				]
+			};
+			vehicleData.features[0].properties.bearing = turf.bearing(turf.point(alongRoute),turf.point(nextRoute)) - 90; //adjust for our side-facing icon
+			map.getSource('vehicle').setData(vehicleData);
 
-		 
-		d3.select('#miles-traveled').text(Math.round(routeDistance * d3.min([1,phase])))
-		d3.select('#bridges-passed').text(nearbyBridges.filter(d=> 
-			d.closestPointOnDetailedRoute.properties.index <= frames*phase).length
-		)
-		d3.select('#daily-crossings').text(
-			d3.format(".2s")(
-				d3.sum(nearbyBridges
-					.filter(d=> 
-				d.closestPointOnDetailedRoute.properties.index <= frames*phase)
-					.map(d=>d.avgDailyTraffic)
-			))
-		)
+			
+			d3.select('#miles-traveled').text(Math.round(routeDistance * d3.min([1,phase])))
+			d3.select('#bridges-passed').text(nearbyBridges.filter(d=> 
+				d.closestPointOnDetailedRoute.properties.index <= frames*phase).length
+			)
+			d3.select('#daily-crossings').text(
+				d3.format(".2s")(
+					d3.sum(nearbyBridges
+						.filter(d=> 
+					d.closestPointOnDetailedRoute.properties.index <= frames*phase)
+						.map(d=>d.avgDailyTraffic)
+				))
+			)
+		}
 		requestAnimID = window.requestAnimationFrame(frame);
 	}
 	 
