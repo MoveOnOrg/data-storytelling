@@ -89,7 +89,7 @@ function animatePath() {
 		turf.lineString(cameraRoute)
 	);
 
-	const animationDuration = 40 * routeDistance;
+	const animationDuration = 50 * routeDistance;
 	const cameraAltitude = 65000; // 15000;
 
 	 
@@ -563,7 +563,8 @@ function transitionOverlayAndStart() {
 		.styleTween( 'background', function() {
 			return function(t) { 
 			let currentPct = d3.interpolateNumber(18, 100)(t)
-			return 'radial-gradient(circle at 50% ' +gradientY + 'px, #00006325 ' + currentPct +  'vh, #2B3A61 ' + currentPct +  'vh)'
+			let current
+			return 'radial-gradient(circle at 50% ' +gradientY + 'px, rgba(0,0,99,'+ 0.15 * (1-t) + ')' + currentPct +  'vh, #2B3A61 ' + currentPct +  'vh)'
 		}
 	})
 	.on("end", ()=> {

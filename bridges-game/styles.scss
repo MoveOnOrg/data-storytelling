@@ -22,7 +22,7 @@ body {
     text-align: center;
     text-transform: uppercase;
     span {
-      background-color: #C4C4C4;
+      background-color: #9AA4CF;
       line-height: 4.5rem;
       padding: 2px 10px;
       -webkit-box-decoration-break: clone;
@@ -101,7 +101,7 @@ body {
 
   #stepText1 {
     display: none;
-    max-width: 40%;
+    max-width: 300px;
     margin: 0 auto;
     margin-top: 50px;
     color: white;
@@ -121,7 +121,7 @@ body {
   }
   
   button {
-    background-color:#C4C4C4;
+    background-color:#9AA4CF;
     border: none;
     border-radius: 30px;
     color: #403C3C;
@@ -156,7 +156,8 @@ body {
     }
 
     section {
-      max-width: 40%;
+      max-width: 400px;
+      padding: 0px 30px;
       margin: 0 auto;
     }
   }
@@ -169,7 +170,7 @@ body {
     height: 360px;
     padding: 20px;
     position: absolute;
-    width: 500px;
+    max-width: 500px;
     z-index: 3;
   }
 
@@ -212,7 +213,7 @@ body {
   .mapboxgl-ctrl-geocoder {
     margin: 10px auto 20px;
     max-width: 350px;
-    min-width: 350px;
+    /*min-width: 350px;*/
     text-align: left;
     background-color: transparent;
     input[type='text'] {
@@ -275,5 +276,59 @@ body {
   #step-details, 
   #step-play-game {
     display: none;
+  }
+
+  /* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
+  @media (max-width: 481px) {
+    h1 {
+      font-size: 2.4rem;
+      margin: 20px 30px 0;
+      text-align: left;
+      span {
+        line-height: 1.1;
+        /*padding: 2px 10px;*/
+      }
+    }
+    #map {
+      width: 100%;
+      margin: 0px 0px 80px;
+    }
+    header { 
+      font-size: 1.25rem; 
+      line-height: 1.5;
+      padding:20px;
+      span {
+        display:inline;
+        text-decoration: underline;
+        font-weight: 300;
+        padding: 0;
+        background-color: revert; 
+      }
+    }
+
+    #popup {
+      visibility: hidden; /* just until we restyle it better */
+    }
+    #overlay { 
+      background: radial-gradient(circle at 50% calc(50% - 40px), #00006325 18vh, #2B3A61 18vh);
+      #selection-options { 
+        top: 65%;
+      }
+
+    #opening {
+      padding: 40px 30px 20px;
+      
+      p {
+        font-size: 1.25rem;
+        line-height: 1.5;
+        margin-top: 0px;
+        text-align: left;
+
+      }
+      button {
+        margin-top: 50px;
+      }
+    }
+    }
   }
 }
