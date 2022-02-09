@@ -78,7 +78,7 @@ body {
       margin-top: 50px;
       color: white;
       font-size: 1.8rem;
-      line-height: 2.4rem;
+      line-height: 1.5;
       font-weight: 700;
       text-align: center; }
   .bridges #stepText1 {
@@ -90,7 +90,7 @@ body {
     text-align: center; }
     .bridges #stepText1 h2 {
       font-size: 1.8rem;
-      line-height: 2.4rem;
+      line-height: 1.5;
       font-weight: 700;
       text-align: center;
       margin-bottom: 6px; }
@@ -292,4 +292,6 @@ body {
         .bridges #overlay #opening button {
           margin-top: 30px; }
       .bridges #overlay #stepText1 {
-        margin-top: 10px; } }
+        margin-top: 10px; }
+        .bridges #overlay #stepText1 h2 {
+          font-size: 1.5rem; } }
