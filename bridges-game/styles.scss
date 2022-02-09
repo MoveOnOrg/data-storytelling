@@ -328,7 +328,7 @@ body {
   /* These will be adjustments for smartphones, iPhone, portrait  and mobile devices up until portrait e-readers 480x320 */
   @media (max-width: 481px) {
     h1 {
-      font-size: 2.4rem;
+      font-size: 2rem;
       margin: 20px 30px 0;
       text-align: left;
       span {
@@ -336,6 +336,7 @@ body {
         /*padding: 2px 10px;*/
       }
     }
+    
     #map {
       width: 100%;
       margin: 0px 0px 80px;
@@ -354,7 +355,7 @@ body {
     }
 
     #popup {
-      top: 150; 
+      top: 150px; 
       max-height: calc(100% - 150px);
       left: 0;
 
@@ -367,6 +368,9 @@ body {
       #selection-options { 
         top: 65%;
       }
+    button {
+      font-size: 1.25rem;
+    }
 
     #opening {
       padding: 40px 30px 20px;
@@ -379,8 +383,12 @@ body {
 
       }
       button {
-        margin-top: 50px;
+        margin-top: 30px;
       }
+  
+    }
+    #stepText1 {
+      margin-top: 10px;
     }
     }
   }
