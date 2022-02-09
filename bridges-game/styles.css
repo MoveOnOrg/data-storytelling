@@ -283,7 +283,9 @@ body {
       .bridges #overlay button {
         font-size: 1.25rem; }
       .bridges #overlay #opening {
-        padding: 40px 30px 20px; }
+        /* the extra large top padding and negative margin are so the semi-opaque background extends up under the h1. Did this because on some devices where h1 was too big, it exposed a bit of the map sneak-peak hole in a way that looked crappy. */
+        padding: 140px 30px 20px;
+        margin-top: -100px; }
         .bridges #overlay #opening p {
           font-size: 1.25rem;
           line-height: 1.5;
