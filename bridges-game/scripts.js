@@ -2,6 +2,10 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZXJpa2F3ZWkiLCJhIjoiY2pqb2kzeXJoMmM1eDNsc280Y
 //const mapboxStyle = 'styles/tech-securemoveonorg/ckyujrsmv000r14lbcrbe604b';
 const mapboxStyle = 'styles/tech-securemoveonorg/ckz7znk7t000815pipzqa20ng';
 const frames = 400;
+const bridgePopup = new mapboxgl.Popup({
+		closeButton: false,
+		closeOnClick: false
+	});
 let startLocation = '';
 let endLocation = '';
 let destinationOptions = [];
@@ -106,15 +110,9 @@ function animatePath() {
 		// phase is normalized between 0 and 1
 		// when the animation is finished, reset start to loop the animation
 		if (phase > 1) {
-			console.log('phase>1', phase)
-			/* was trying to do this to reset the bearing at the end after following the car, but wasn't working. 
-			flyToLocation(endLocation);
-			*/
 
-			// wait 1.5 seconds before looping
+			// not sure if we need this timeout? 
 			setTimeout(() => {
-				//start = 0.0;
-				console.log('requestAnimID', requestAnimID)
 				window.cancelAnimationFrame(requestAnimID);
 				animationComplete();
 			}, 1000);
@@ -224,16 +222,16 @@ function animatePath() {
 function animationComplete() {
 	document.getElementById('popup').style.display = 'block';
 
-	// Create a popup, but don't add it to the map yet.
-	const popup = new mapboxgl.Popup({
+	// assign bridgePopup, but don't add it to the map yet.
+	/* bridgePopup = new mapboxgl.Popup({
 		closeButton: false,
 		closeOnClick: false
 	});
-	
+*/
+	// set it up to show bridge details on mouse hover or click
 	map.on('mouseenter', 'bridges', (e) => {
 	// Change the cursor style as a UI indicator.
 	map.getCanvas().style.cursor = 'pointer';
-	//console.log(e)
 	// Copy coordinates array.
 	const coordinates = e.features[0].geometry.coordinates.slice();
 	const description = '<strong>Average Daily Crossings</strong><p>' + d3.format(',')(e.features[0].properties.avgDailyTraffic) + '</p><strong>Year Build/Reconstructed</strong><p>' + e.features[0].properties.yearBuiltOrReconstructed + '</p>';
@@ -247,12 +245,12 @@ function animationComplete() {
 	
 	// Populate the popup and set its coordinates
 	// based on the feature found.
-	popup.setLngLat(coordinates).setHTML(description).addTo(map);
+	bridgePopup.setLngLat(coordinates).setHTML(description).addTo(map);
 	});
 	
 	map.on('mouseleave', 'bridges', () => {
 		map.getCanvas().style.cursor = '';
-		popup.remove();
+		bridgePopup.remove();
 	});
 
 }
@@ -293,18 +291,7 @@ async function getRoute() {
   };
 
   routeSpacedAlongFrames = setRouteToNFrames(routeSimplified, frames); // instead of simplifying (routeGeojson);
-  //console.log('routeSpacedAlongFrames', routeSpacedAlongFrames);
   nearbyBridges = bridgesWithinMinMiles(bridges, 5, routeGeojson, routeSpacedAlongFrames); 
-  //console.log('nearbyBridges', nearbyBridges);
-
-
-
-  //animatePath(routeGeojson.geometry.coordinates);
-  //('routeSpacedAlongFrames coords', routeSpacedAlongFrames, routeSpacedAlongFrames.geometry, routeSpacedAlongFrames.geometry.coordinates);
-  //animatePath(routeSpacedAlongFrames.geometries.coordinates)
-  //console.log('routeGeojson coords', routeGeojson.geometry.coordinates);
-  //animatePath(routeGeojson.geometry.coordinates)
-  // now putting animatePath() directly in start animation so we can getRoute before. 
 
 }
 
@@ -373,7 +360,6 @@ function startAnimation() {
 // pick N destinations from all eligible destinations - ensuring that they are at least x distance from starting location, that not more than 1 is in Milwaukee and not more than 1 of the same type. 
 function generateDestinationSet(dests, n) {
   let filteredDests = dests.slice().filter(d => turf.distance([d.lon, d.lat], startLocation, turfUnits) > 65) // 65 miles radius
-  console.log('filteredDests', filteredDests)
 
   let primaryDestinations = [];
   let backupDestinations = [];
@@ -407,6 +393,63 @@ function setRouteToNFrames(route, n = 400) {
 		coordinates : d3.range(n).map(d=> turf.along(route, routeDistance * d/n , turfUnits).geometry.coordinates)
 		}
 	}
+}
+
+// at the if they click the button to show all deficient bridges, run this to add them all. 
+function addAllBridges() { 
+	// add all the nearbyBridges with opacity = 0. Will update as we pass them 
+  map.addLayer({
+		id: 'allBridges',
+		type: 'circle',
+		source: {
+			type: 'geojson',
+			data: {
+				type: 'FeatureCollection',
+				features: bridges.map((d,i)=> {
+				return {
+					type: 'Feature', 
+					properties: {			
+						avgDailyTraffic: d.avgDailyTraffic,
+						yearBuiltOrReconstructed: d.year,
+					},
+					geometry: {
+						type: 'Point',
+						coordinates: [d.lon, d.lat]
+					}
+				}
+				})
+			}
+		},
+		paint: {
+			'circle-radius': 5,
+			'circle-color': 'red',
+			'circle-opacity': 0.6
+		}
+	});
+
+  map.on('mouseenter', 'allBridges', (e) => {
+	// Change the cursor style as a UI indicator.
+	map.getCanvas().style.cursor = 'pointer';
+	// Copy coordinates array.
+	const coordinates = e.features[0].geometry.coordinates.slice();
+	const description = '<strong>Average Daily Crossings</strong><p>' + d3.format(',')(e.features[0].properties.avgDailyTraffic) + '</p><strong>Year Build/Reconstructed</strong><p>' + e.features[0].properties.yearBuiltOrReconstructed + '</p>';
+	
+	// Ensure that if the map is zoomed out such that multiple
+	// copies of the feature are visible, the popup appears
+	// over the copy being pointed to.
+	while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+	coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+	}
+	
+	// Populate the popup and set its coordinates
+	// based on the feature found.
+	bridgePopup.setLngLat(coordinates).setHTML(description).addTo(map);
+	});
+	
+	map.on('mouseleave', 'allBridges', () => {
+		map.getCanvas().style.cursor = '';
+		bridgePopup.remove();
+	});
 }
 
 // grab bridges by proximity to starting point and average daily traffic.  
@@ -477,7 +520,7 @@ function flyToStartThenAddVehicle() {
 			fly1=false
 			stepCorrect.style.display = 'block';
 
-			console.log('adding vehicle')
+			// adding vehicle
 			if (!map.getSource('vehicle')) {
 				map.addLayer({
 					'id': 'vehicle',
@@ -520,10 +563,9 @@ function flyToSampleBridge() {
 		zoom: 13,
 	});
 	map.on('moveend', ()=> {
-		console.log('ended the fly')
 		if(fly2){
 		fly2=false;
-		console.log('adding sample bridge')
+		// adding sample bridge
 			if (!map.getSource('sampleBridge')) {
 				map.addLayer({
 					'id': 'sampleBridge',
@@ -563,8 +605,9 @@ function transitionOverlayAndStart() {
 	});
 	map.on('moveend', ()=> {
 	if(fly3){
-	fly3=false
-		
+	fly3=false;
+	map.setPaintProperty('sampleBridge', 'circle-opacity',  0);	
+	// or map.removeLayer('sampleBridge') -- not sure which is better approach
 	const gradientY =  (d3.select('#overlay').node().getBoundingClientRect().height / 2) - 20;
 	d3.select('#overlay').transition().duration(1000).ease(d3.easeQuadInOut)
 		.styleTween( 'background', function() {
@@ -607,7 +650,6 @@ function init() {
 		vehicle.addEventListener('change', () => {
 			stepVehicle.style.display = 'none';
 			vehicleIcon = vehicle.value;
-			console.log('vehicle', vehicle.value);
 			stepStart.style.display = 'block';
 		});
 	});
@@ -620,9 +662,6 @@ function init() {
 		destinationOptions.unshift({"location": "Select a destination", lat: '', lon: '', type: '', inMilwaukee: ''});
 		d3.select('#destinationSelector').selectAll('option').data(destinationOptions).join('option').attr('value', (d,i)=> i).text(d=> d['location']);
 		startingPointSampleBridge = bridgesFromStartingPoint(bridges, startLocation)[0];
-		console.log('startingPointSampleBridge', startingPointSampleBridge);
-		console.log('start', startLocation);
-		console.log('destinationOptions', destinationOptions);
 	}
 	//geocoder input
 	geocoder.on('result', (event) => {
@@ -668,7 +707,6 @@ function init() {
 		endLocationDetails = destinationOptions[event.target.value];
 		endLocation = [endLocationDetails.lon, endLocationDetails.lat];
 		getRoute();
-		console.log('end', endLocation);
 	});
 
 	//go button -- transition sneak-peek circle open then start animation
@@ -676,6 +714,16 @@ function init() {
 		stepDetails.style.display = 'none';
 		//flyToLocation(startLocation, transitionOverlayAndStart);
 		transitionOverlayAndStart();
+	});
+
+	d3.select('#close-popup').on('click', () => {
+		d3.select("#popup").style("visibility","hidden");
+		d3.select("#show-all-bridges").style("visibility","visible");		
+	});
+
+	d3.select('#show-all-bridges').on('click', () => {
+		d3.select("#show-all-bridges").style("visibility","hidden");
+		addAllBridges();		
 	});
 }
 

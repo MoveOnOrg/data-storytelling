@@ -164,15 +164,51 @@ body {
 
   #popup {    
     background-color: rgba(255,255,255,0.9);
+    border: solid 1px #53689C;
     display: none;
     left: 40px;
-    top: 190px;
-    height: 360px;
-    padding: 20px;
+    top: 170px;
+    /* height: 360px; */
     position: absolute;
     max-width: 500px;
+    max-height: calc(100% - 200px);
+    overflow-y: auto;
     z-index: 3;
+    
+    #popup-text {
+      padding: 16px;
+      /* padding-bottom: 2rem; /* so when scrolled all the way down space for cta */
+    }
+    #close-popup {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: #53689C;
+      color: white;
+      width: 1.5rem;
+      border-radius: 50%;
+      height: 1.5rem;
+      text-align: center;
+      padding-top: 0.2rem;
+      }
+    #popup-cta { 
+      position: sticky;
+      bottom: 0px;
+      padding: 16px;
+      width: 100%; 
+      opacity: 0.95;
+      background-color: #53689C;
+      color: white;
+      text-align: center;
+
+      a {
+        color: inherit;
+      }
+
+    }
   }
+
+  
 
   .vehicle-selector {
     display: flex;
@@ -238,6 +274,7 @@ body {
     font-size: 1.75rem; 
     font-weight: bold; 
     z-index: 3;
+
     span {
       position: relative;
       display: inline-block;
@@ -246,6 +283,16 @@ body {
       padding: 8px 4px 4px 12px;
       background-color: #53689C; 
     }
+
+    #show-all-bridges {
+      position: absolute;
+      right: 30px;
+      bottom: -3rem;
+      font-size: 1rem;
+      opacity: 0.9;
+      visibility: hidden; 
+    }
+
   }
 
   #destinationSelector {
@@ -307,7 +354,13 @@ body {
     }
 
     #popup {
-      visibility: hidden; /* just until we restyle it better */
+      top: 150; 
+      max-height: calc(100% - 150px);
+      left: 0;
+
+      #popup-cta {
+        height: 80px;
+      }
     }
     #overlay { 
       background: radial-gradient(circle at 50% calc(50% - 40px), #00006325 18vh, #2B3A61 18vh);
