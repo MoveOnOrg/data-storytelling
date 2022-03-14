@@ -1,8 +1,10 @@
 * {
     --blue-primary: #00ABFF;
+    --blue-darker: #0080bf;
+    --blue-darkest:#005680;
     --blue-light: #e5f5ff;
     --grey-primary: #b2b2b2;
-    --red-primary: #ea1c24;
+    --red-primary: hsl(358, 83%, 51%);
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
@@ -47,7 +49,9 @@ p {
     font-size: 1.25rem; 
     margin-bottom: 1rem;
 }
-
+hr {
+    margin-bottom: 1rem;
+}
 
 button {
     display: inline-flex;
@@ -67,7 +71,7 @@ button {
     margin-bottom: 1rem;
 }
 button:hover{
-    background-color: #0080bf;
+    background-color: var(--blue-darker);
 }
 section#main { 
     width: clamp(400px, 65%, 800px);
@@ -93,6 +97,10 @@ div.bar span.inner-bar {
 div.bar span {
     font-size: 1.1rem;
     font-weight: bold;
+}
+
+section#intro div {
+    margin-bottom: 1rem;
 }
 
 section.game{
@@ -135,7 +143,8 @@ section.game .results .taxes-owed {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    gap:5px;
     color: var(--blue-primary);
     text-transform: uppercase;
 }
@@ -145,6 +154,7 @@ section.game .results .bar {
     height: 100%;
     border: 1px solid var(--blue-primary);
     text-align: center;
+    max-height: 200px;
 }
 
 section.game .results span.inner-bar {
@@ -179,6 +189,11 @@ p.hint {
 
 #stocks-play{
     display: block;
+}
+
+#stocks-annote {
+    color: white;
+    text-transform: none;
 }
 
 section.game#game-round3 .results .taxes-owed {

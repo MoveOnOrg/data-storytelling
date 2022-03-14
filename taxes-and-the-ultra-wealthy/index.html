@@ -67,7 +67,7 @@
                 <div class='results'>
                     <div class='controls'>
                         <h3>Choose how to pay yourself</h3>
-                        <p class='hint'>(I know nurses don't really get to choose how they're paid, but let's ignore that for now)</p>
+                        <p class='hint'>(Yeah... nurses don't really get to choose how they're paid, but let's ignore that for now)</p>
                         <input id='salary-nurse' type="range" min="0" max="90" step="1" value="90" width="100%"/>
                         <label for="salary-nurse">$90K in salary</label>
                         <input id='stock-options-nurse' type="range" min="0" max="90" step="1" value="0"/>
@@ -93,8 +93,8 @@
         </section>
         <section class='game' id='game-round3'>
             <section id=game3-pretext>
-                <p>Normally when people sell investments - like stocks or investment properties - they pay taxes on the money they earned on that investment. But like with many things, there are ways to get around that.</p>
-                <p>In the simplified scenario below you started out 2015 with $5 million invested in each of 10 different stocks, which were among the 100 largest companies at the time. </p>
+                <p>Normally when people sell investments - like stocks - they pay taxes on the money they earned on that investment. But like with many things, there are ways to get around that.</p>
+                <p>In the simplified scenario below our Billionaire CEO started out 2015 with $5 million invested in each of 10 different stocks. (These 10 stocks were all among the 100 largest companies at the time). </p>
             </section>
             <section class='game-body'>
                 <div class='situation'>
@@ -108,13 +108,15 @@
                         <h3>See your investments over time</h3>
                         <p class='hint'></p>
                         <button id='stocks-play'>play</button>
-                        <svg id='stocks-svg' width='420px' height='600px'>
+                        <svg id='stocks-svg' width='450px' height='600px'>
 
                         </svg>
                     </div>
                     <div class='taxes-owed'>
                         <h3>Taxes You Owe</h3>
-                        <div class='bar'><span class='inner-bar'></span><span class='annotation'>18%<br />of pay</span></div>      
+                        <div class='bar'><span class='inner-bar'></span><span class='annotation'>0%<br /></span></div>  
+                        <p id='stocks-annote'>Sweet, your $50 Million is now worth $178 Million. Now sell some stocks to buy your yacht. Hover over a stock to see its current value, click to sell that stock.</p> 
+                        <div id='money-towards-yacht'></div>  
                     </div>
 
                 </div>
@@ -127,6 +129,7 @@
                 <p>[EDITORIAL NOTE: no idea if/when/how this offsetting is allowed - needs fact-checking]</p>
             </div>
             <button id='continue-to4'>Continue</button>
+            <p>[this is end of prototype]</p>
             </section>
         </section>
     </section>

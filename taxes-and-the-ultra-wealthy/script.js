@@ -92,6 +92,8 @@ stockOptionsInputRound2.on('input', function() {
 
 const stocksSvg = d3.select('#stocks-svg') 
 const playStocks = d3.select('#stocks-play')
+const moneyTowardsYachtDiv = d3.select('#money-towards-yacht')
+
 d3.json('dataProportionChangeFiltered.json')
 	.then( function (data) {
         const stockValues = new Map(data)
@@ -102,17 +104,31 @@ d3.json('dataProportionChangeFiltered.json')
         .attr('height', 80)
         .attr('width', 30)
         .attr('fill', 'var(--blue-primary')
-      let barText = stockChart.selectAll('text').data(stockValues).join('text')
-        .attr('fill', 'white')
-        .text(d => d[1].name)
-        .attr('transform',(d,i) => "translate(" + (30 + i*40 ) + ",600) rotate(270)")
-        .style('font-weight','bold')
+        
+        let barText = stockChart.selectAll('text').data(stockValues).join('text')
+            .attr('fill', 'white')
+            .text(d => d[1].name)
+            .attr('transform',(d,i) => "translate(" + (30 + i*40 ) + ",600) rotate(270)")
+            .style('font-weight','bold')
+            .style('pointer-events','none')
+
         let year = stocksSvg.append('text').attr('x',300).attr('y',40).text('2015').attr('font-size', '24px').attr('fill','white').attr('font-weight','bold')
         let stockTotalVal = stocksSvg.append('text').attr('x',200).attr('y',70).text('Total Stock Value: $50M').attr('font-size', '18px').attr('fill','white').attr('font-weight','bold')
-    
-      let startingLine = stocksSvg.append('line')
+        let hoveredStockValue = stocksSvg.append('text').attr('x',200).attr('y',120).attr('font-size', '18px').attr('fill','white').attr('font-weight','bold')
+        //            hoveredStockValue.text(d[0]+ ': $' + 5 * d[1].valueChange[365] + "M")
+
+
+        // add lines to chart
+        stocksSvg.append('line').attr('x1',0).attr('x2',420).attr('y1',520).attr('y2',520).attr('stroke','white')
+        stocksSvg.append('text').attr('x',410).attr('y',520).attr('font-size', '14px').attr('fill','white').attr('font-weight','bold').text('$5M')
+        stocksSvg.append('line').attr('x1',0).attr('x2',420).attr('y1',600).attr('y2',600).attr('stroke','white')
+        stocksSvg.append('text').attr('x',410).attr('y',600).attr('font-size', '14px').attr('fill','white').attr('font-weight','bold').text('$0')
+
+        let moneyTowardsYacht = 0;
+
         playStocks.on('click', ()=> {
-            startingLine.attr('x1',0).attr('x2',420).attr('y1',520).attr('y2',520).attr('stroke','white')
+            //startingLine.attr('x1',0).attr('x2',420).attr('y1',520).attr('y2',520).attr('stroke','white')
+            //startingLineAnnotation
             let transitionLength = 6000
             bars.transition().duration(transitionLength).ease(d3.easeLinear)
                 .attrTween('y',d=> t=> 600 - 80 * d[1].valueChange[Math.floor(365*t)])
@@ -120,7 +136,22 @@ d3.json('dataProportionChangeFiltered.json')
                 .on('end', () => {
                     //d3.select('section.game#game-round3 .results .taxes-owed')
                     //    .style('visibility','visible')
-                    unhideRoundExplain(3)
+                    bars
+                    .on('mouseenter', function(event, d) {
+                        d3.select(this).attr('fill', 'var(--blue-darker)')
+                        hoveredStockValue.text(d[1].name+ ': $' + Math.round(10 * 5 * d[1].valueChange[365])/10 + "M")
+                    })
+                    .on('mouseleave', function(event, d) {
+                        d3.select(this).attr('fill', 'var(--blue-primary)')
+                        hoveredStockValue.text('')
+                    })
+                    .on('click', function(event,d) {
+                        d3.select(this).attr('fill', 'var(--blue-darkest)')
+                        moneyTowardsYacht += (5 * d[1].valueChange[365]);
+                        moneyTowardsYachtDiv.style('visibility','visible').text('Money towards yacht: $' + Math.round(10 * moneyTowardsYacht)/10 + " Million")
+                        if(moneyTowardsYacht >=8 ){unhideRoundExplain(3)}
+                    })
+                    d3.select('#stocks-annote').style('visibility','visible')
                     d3.select('#game-round3 .game-body').node().scrollIntoView(true);
                 })
             year.transition().duration(transitionLength).ease(d3.easeLinear)
