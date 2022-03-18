@@ -15,6 +15,24 @@ d3.select('button#continue-to2')
 d3.select('button#continue-to3')
     .on('click',()=> showAndScrollTo(d3.select('#game-round3')))
 
+function showHelpText(helpButtonId) {
+    if (helpButtonId == 'help-button-round1'){
+        d3.select('#help-modal-text').html('Try sliding the sliders all the way to the ends and see what happens!') 
+    } else if (1) {
+        d3.select('#help-modal-text').html('Try sliding the sliders all the way to the ends and see what happens!') 
+    }
+    d3.select('#help-modal-wrapper').style('display','flex')
+    } 
+d3.select('button.help')
+    .on('click', function(event) {
+        showHelpText(d3.select(this).attr('id'))
+    })
+
+d3.select('button#close-modal')
+    .on('click', () => {
+        d3.select('#help-modal-wrapper').style('display','none')
+    })
+
 function adjustOwedBar(pct, round){
     d3.select('section#game-round' + round + ' .results span.inner-bar').style('height', pct + '%')
     d3.select('section#game-round' + round + ' .results span.annotation')
