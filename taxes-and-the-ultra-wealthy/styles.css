@@ -237,3 +237,25 @@ p.hint {
 section.game#game-round3 .results .taxes-owed {
     visibility: hidden;
 }
+
+.tooltip {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 6px;
+    font-size: 14px;
+    height: auto;
+    padding: 10px;
+    position: absolute;  
+    pointer-events: none;
+    text-align: center;
+    width: 150px;
+}
+.tooltip::after {
+    border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+    border-style: solid;
+    border-width: 10px;
+    content: '';
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    top: 100%;
+}
