@@ -181,3 +181,32 @@ d3.json('dataProportionChangeFiltered.json')
         })
 		;
 });
+
+
+/****************/
+/*** TOOLTIPS ***/
+/****************/
+let tooltip = d3.select('body').append('div')
+    .attr('class', 'tooltip')
+    .style('opacity', 0);
+
+d3.selectAll('.bar')
+    .on('mouseover', function(event) {
+        tooltip.transition()
+            .duration(200)
+            .style('opacity', 1);
+        tooltip.html('Example of a tooltip');
+    })
+    .on('mousemove', function(event) {
+        let rect = d3.select('.tooltip').node().getBoundingClientRect();
+        tooltip
+            .style('left', `${event.pageX - rect.width/2}px`)
+            .style('top', `${event.pageY - rect.height - 10}px`);
+    })
+    .on('mouseout', function(d) {
+        tooltip.transition()
+            .duration(200)
+            .style('opacity', 0);
+    });
+
+
