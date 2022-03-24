@@ -1,0 +1,355 @@
+* {
+    --blue-primary: #00ABFF;
+    --blue-darker: #0080bf;
+    --blue-darkest:#005680;
+    --blue-light: #e5f5ff;
+    --grey-primary: #b2b2b2;
+    --red-primary: hsl(358, 83%, 51%);
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+html {
+    font-family: 'Roboto', sans-serif;
+    background-color: black;
+    line-height: 1.4;
+}
+
+header {
+    background-color: black;
+    height: 20vh;
+}
+
+h1 {
+    color: white;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 3.5rem ;
+    font-weight: bold ;
+    padding: 3rem 0 ;
+    text-align: center;
+    text-transform: uppercase ;
+  }
+
+main { 
+    background-color: #F9EDE0;
+    width: clamp(400px, 85%, 1200px);
+    margin:0px auto;
+    height: 75vh;
+}
+
+#image-nav{
+    display: flex; 
+    height: 100%; 
+    align-items: center;
+    max-width: 80%;
+    margin:0px auto;
+}
+#image-nav div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top:15%;
+    border-radius:10px;
+}
+#image-nav div:not(:nth-of-type(1), :nth-last-of-type(1) ){
+    margin-top: -20%;
+}
+#image-nav div:not([playable="1"]){
+    opacity: 0.25;
+}
+#image-nav div.nav-div[playable="1"]:hover {
+    box-shadow: 0px 0px 10px rgba(64, 55, 55, 0.63);
+}
+
+#image-nav h3 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 2.5rem;
+}
+#image-nav .nav-img {
+   width: 90%;
+}
+
+#overlay-background{ 
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    background-color: rgba(64, 55, 55, 0.63);
+}
+
+h2 {
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+}
+h3, input {
+    margin-bottom: 0.5rem;
+}
+
+p {
+    font-size: 1.25rem; 
+    margin-bottom: 1rem;
+}
+hr {
+    margin-bottom: 1rem;
+}
+
+button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    border-radius: 0;
+    font-size: 1.5rem;
+    padding: 8px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: none;
+    font-family: "Roboto Condensed",sans-serif;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+button.btn-primary {
+    background-color: #937D65;    ;
+    color: white;
+}
+button.btn-secondary {
+    background-color: #FFF3E5;    ;
+    color: black;
+}
+button:hover{
+    background-color: var(--blue-darker);
+}
+
+section#help-modal-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.8);
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display:none;
+}
+div#help-modal-box {
+    background-color: var(--blue-darkest);
+    color: white;
+    padding: 40px;
+    width: clamp(200px, 50%, 500px);
+    max-width: 100%;
+    position: relative;
+}
+
+button#close-modal {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1rem;
+    padding: 4px;
+}
+
+button.help {
+    position: absolute;
+    bottom: -4rem;
+    right: 0;
+}
+
+div.bar { 
+    /* background-color: black; */
+    width: 40%;
+    height: 2.5rem;
+    color: black;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 3px solid black;
+}
+div.bar span.inner-bar {
+    display: inline-block;
+    background-color: #C4C4C4;
+    border: 3px solid black;
+    height: 2.5rem;
+    margin-left: -3px;
+}
+div.bar span {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+section.overlay { 
+    position: fixed;
+    background-color: #FFF3E5;
+    top: 25vh;
+    padding: 20px;
+    max-width: 50%;
+    left: 50%; 
+    margin-left:-25%;
+    border: 2px solid black;     
+}
+/* bars in intro overlay */ 
+section#intro div {
+    margin-bottom: 1rem;
+}
+
+section.game{
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 24px 0;
+    display:none;
+}
+section.game-round-opening  {
+    display: flex;
+    align-items: start;
+    gap: 24px;
+}
+section.game-round-opening img {
+    width: clamp(100px, 20%, 200px);
+}
+section.game-round-opening .background {
+    display: flex;
+    flex-direction: column; 
+    gap: 6px;
+}
+.player-tabs {
+    display: flex;
+    gap: 6px;
+}
+.player-tabs span {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #C4C4C4;
+    margin-right: 6px;
+}
+.player-tabs button {
+    border: 1px solid black;
+    border-radius: 10px 10px 0px 0px;
+    margin-bottom:-1px;
+    background-color: #FFF5EA;
+    text-transform: inherit;
+}
+.player-tabs button[active='1'] {
+    border: 1px solid black;
+    border-bottom: none;
+    background-color:#FFF3E5;
+}
+.player-tabs button:not([playable='1']) {
+    opacity: 0.3
+}
+section.game-wrapper { 
+    margin-top: 24px;
+    position: relative; /* so that help button can be placed 'absolute' */
+}
+
+section.game .game-body {
+    background-color: #FFF3E5;
+    color: black;
+    border: 1px solid #000000;
+    padding: 1.2rem;
+}
+section.game .results {
+    display: flex;
+}
+section.game .results .controls {
+    flex: 2;
+}
+
+section.game .results .controls input[type="range"] {
+    width: 50%; 
+    margin: 3px 0px 15px;
+}
+
+
+section.game .results .taxes-owed {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*justify-content: space-between;*/
+    gap:5px;
+}
+section.game .results .bar {
+    width: 100%;
+    height: 100%;
+    max-height: 3rem;
+    text-align: center;
+}
+
+section.game .results span.inner-bar {
+    height: calc(100% + 6px);
+}
+
+#game-round1 .results span.inner-bar{
+    width: 35%;
+}
+
+#game-round2 .results span.inner-bar{
+    width: 18%;
+}
+
+#game-round3 .results span.inner-bar{
+    height: 0%;
+}
+
+section.game-explanation { 
+    height: 100vh;
+    padding: 3rem; 
+    width: clamp(300px, 60%, 500px);
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center; 
+    visibility:hidden;
+}
+/* for hist question mark */
+span.hint {
+    position:relative; 
+    background-color: #c4c4c4; 
+    display: inline-block; 
+    text-align: center;
+    width: 2rem;
+    height: 2rem; 
+    border-radius: 50%;
+}
+
+
+#stocks-play{
+    display: block;
+}
+
+#stocks-annote {
+    color: white;
+    text-transform: none;
+}
+
+section.game#game-round3 .results .taxes-owed {
+    visibility: hidden;
+}
+
+.tooltip {
+    background-color: #FFFAF4;
+    border-radius: 6px;
+    border: 1px solid rgba(64, 55, 55, 0.63);
+    font-size: 1rem;
+    height: auto;
+    padding: 10px;
+    position: absolute;  
+    pointer-events: none;
+    text-align: center;
+    width: 150px;
+}
+.tooltip::after {
+    border-color: #FFFAF4 transparent transparent transparent;
+    border-style: solid;
+    border-width: 10px;
+    content: '';
+    left: 50%;
+    margin-left: -10px;
+    position: absolute;
+    top: 100%;
+}

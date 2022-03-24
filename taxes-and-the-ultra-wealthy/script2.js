@@ -1,5 +1,9 @@
 
-
+const tooltipTexts = {
+    salaryGameHint: "A large salary is taxed at a pretty high rate, but stock options aren't taxed until they're used",
+    futureTaxes: "We're just looking at taxes owed in the current year, since the ultra wealthy can often find other ways to avoid taxes down the line, as we'll see soon.",
+    nurseTab: "Move the sliders around below to get past this CEO round first" 
+}
 
 function showAndScrollTo(element){
     element.style('display','block');
@@ -7,7 +11,26 @@ function showAndScrollTo(element){
 }
 
 d3.select('button#get-started')
-    .on('click',()=> showAndScrollTo(d3.select('#game-round1')))
+   // .on('click',()=> showAndScrollTo(d3.select('#game-round1')))
+   .on('click',()=> {
+       d3.select('section#intro').style('display','none')
+       d3.select('#overlay-background').style('display','none')
+   })
+
+d3.select('div#nav-earn')
+   .on('click',function(){
+       if(d3.select(this).attr('playable') == '1') {
+        d3.select('#image-nav').style('display','none')
+        d3.select('#game-round1').style('display','block')
+       }
+   })
+
+d3.select('div#nav-spend')
+   .on('click',function(){
+       if(d3.select(this).attr('playable') == '1') {
+        d3.select('#game-round1').style('display','block')
+       }
+   })
 
 d3.select('button#continue-to2')
     .on('click',()=> showAndScrollTo(d3.select('#game-round2')))
@@ -34,11 +57,14 @@ d3.select('button#close-modal')
     })
 
 function adjustOwedBar(pct, round){
-    d3.select('section#game-round' + round + ' .results span.inner-bar').style('height', pct + '%')
+    d3.select('section#game-round' + round + ' .results span.inner-bar').style('width', pct + '%')
     d3.select('section#game-round' + round + ' .results span.annotation')
-        .html(Math.round(pct) + '%<br />of pay')
+        .html(Math.round(pct) + '% of pay')
 } 
 function unhideRoundExplain(round) {
+    if (round ==1){
+        d3.select('#earn-nurse-tab').attr('playable','1')
+    }
     let curExplanation = d3.select('#game-explain-round' + round)
 
     curExplanation.select('h2')
@@ -64,8 +90,8 @@ const stockOptionsInput  = controlsRound1.select('input#stock-options')
 salaryInput.on('input', function() {
         let curValue = d3.select(this).property('value')
         stockOptionsInput.property('value',50-curValue)
-        d3.select('label[for=salary]').text('$' + curValue + (curValue>0 ? ' Million' : ' ') + ' in salary')
-        d3.select('label[for=stock-options]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') + ' in stock options')
+        d3.select('label[for=salary]').text('$' + curValue + (curValue>0 ? ' Million' : ' '))
+        d3.select('label[for=stock-options]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' '))
         adjustOwedBar(curValue*2*0.35, 1)
         if(curValue == 0){unhideRoundExplain(1)}
     })
@@ -73,8 +99,8 @@ salaryInput.on('input', function() {
 stockOptionsInput.on('input', function() {
         let curValue = d3.select(this).property('value')
         salaryInput.property('value',50-curValue)
-        d3.select('label[for=stock-options]').text('$' + curValue + (curValue>0 ? ' Million' : ' ') + ' in stock options')
-        d3.select('label[for=salary]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') + ' in salary')
+        d3.select('label[for=stock-options]').text('$' + curValue + (curValue>0 ? ' Million' : ' ') )
+        d3.select('label[for=salary]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') )
         adjustOwedBar((50-curValue)*2*0.35, 1)
         if(curValue == 50){unhideRoundExplain(1)}
 
@@ -190,21 +216,29 @@ let tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0);
 
-d3.selectAll('.bar')
-    .on('mouseover', function(event) {
-        tooltip.transition()
-            .duration(200)
-            .style('opacity', 1);
-        tooltip.html('Example of a tooltip');
-    })
-    .on('mousemove', function(event) {
-        let rect = d3.select('.tooltip').node().getBoundingClientRect();
-        tooltip
-            .style('left', `${event.pageX - rect.width/2}px`)
-            .style('top', `${event.pageY - rect.height - 10}px`);
-    })
-    .on('mouseout', function(d) {
-        tooltip.transition()
-            .duration(200)
-            .style('opacity', 0);
-    });
+function showTooltip(selection, curText='hi'){ 
+    selection
+        .on('mouseover', function(event) {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 1);
+            tooltip.html(curText);
+        })
+        .on('mousemove', function(event) {
+            let rect = d3.select('.tooltip').node().getBoundingClientRect();
+            tooltip
+                .style('left', `${event.pageX - rect.width/2}px`)
+                .style('top', `${event.pageY - rect.height - 10}px`);
+        })
+        .on('mouseout', function(d) {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 0);
+        })
+}
+d3.selectAll('.bar').call(showTooltip)
+
+d3.select('#salary-game-hint').call(showTooltip, tooltipTexts.salaryGameHint)
+d3.select('#future-taxes-hint').call(showTooltip, tooltipTexts.futureTaxes)
+d3.select('#earn-nurse-tab').call(showTooltip, tooltipTexts.nurseTab)
+// need to implement something to turn this off after "nurse becomes" playable.
