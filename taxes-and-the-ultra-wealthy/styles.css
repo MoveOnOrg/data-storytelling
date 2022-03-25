@@ -168,7 +168,6 @@ section.game .results .controls {
 section.game .results .controls input[type="range"] {
     display:block;
     width: 70%; 
-    margin: 3px auto;
 }
 section.game .results .controls label {
     display:block;
@@ -259,3 +258,43 @@ section.game#game-round3 .results .taxes-owed {
     position: absolute;
     top: 100%;
 }
+
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 10px auto 30px;
+  width: 100%;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  background: #C4C4C4;
+  height: 10px;
+}
+
+input[type="range"]::-moz-range-track {
+  background: #C4C4C4;
+  height: 10px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #828181;
+    border-radius: 50%;
+    cursor: ew-resize;
+    height: 38px;
+    margin-top: -14px;
+    width: 38px;
+    border: 0;
+}
+
+input[type="range"]::-moz-range-thumb {-webkit-appearance: none;
+    background: #828181;
+    border-radius: 50%;
+    cursor: ew-resize;
+    height: 38px;
+    margin-top: -14px;
+    width: 38px;
+    border: 0;
+}
+
+
