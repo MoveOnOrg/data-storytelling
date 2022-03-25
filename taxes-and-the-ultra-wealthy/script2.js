@@ -5,38 +5,61 @@ const tooltipTexts = {
     nurseTab: "Move the sliders around below to get past this CEO round first" 
 }
 
-function showAndScrollTo(element){
-    element.style('display','block');
-    element.node().scrollIntoView(true);
+function showOverlay(selectString) {
+    d3.select('#overlay-background').style('display','block')
+    d3.select(selectString).style('display','block')
+}
+function hideOverlays() {
+    d3.select('#overlay-background').style('display','none')
+    d3.selectAll('.overlay').style('display','none')
 }
 
-d3.select('button#get-started')
-   // .on('click',()=> showAndScrollTo(d3.select('#game-round1')))
-   .on('click',()=> {
-       d3.select('section#intro').style('display','none')
-       d3.select('#overlay-background').style('display','none')
-   })
+d3.select('button#get-started').on('click',hideOverlays)
+d3.selectAll('button.try-again').on('click',hideOverlays)
 
-d3.select('div#nav-earn')
+d3.selectAll('.return-to-image-nav').on('click',function(){
+    hideOverlays();
+    d3.select('#image-nav').style('display','flex')
+    d3.selectAll('section.game').style('display','none')
+    let makePlayable = d3.select(this).attr('make-playable')
+    if(makePlayable){
+        d3.selectAll('section#image-nav div[game="'+ makePlayable +'"]').attr('playable',"1")
+    }
+})
+
+d3.selectAll('div.nav-div')
    .on('click',function(){
+       let curGame = d3.select(this).attr('game')
        if(d3.select(this).attr('playable') == '1') {
         d3.select('#image-nav').style('display','none')
-        d3.select('#game-round1').style('display','block')
+        d3.select('section.game[game="'+curGame+ '"]').style('display','block')
        }
    })
 
-d3.select('div#nav-spend')
-   .on('click',function(){
-       if(d3.select(this).attr('playable') == '1') {
-        d3.select('#game-round1').style('display','block')
-       }
-   })
 
-d3.select('button#continue-to2')
-    .on('click',()=> showAndScrollTo(d3.select('#game-round2')))
 
-d3.select('button#continue-to3')
-    .on('click',()=> showAndScrollTo(d3.select('#game-round3')))
+function activatePlayerTab(player, game){
+    d3.selectAll('.player-tabs button[game="'+ game +'"]').attr('active','0')
+    d3.selectAll('section.game-body[game="'+ game +'"]').style('display','none')
+    d3.select('.player-tabs button[player="'+ player +'"][game="'+ game +'"]').attr('active','1')
+    d3.select('section.game-body[player="'+ player +'"][game="'+ game +'"]').style('display','block')
+}
+
+d3.selectAll('.player-tabs button')
+    .on('click', function() {
+        let curPlayer = d3.select(this).attr('player')
+        let curGame = d3.select(this).attr('game')
+        if (d3.select(this).attr('playable')== "1"){
+            activatePlayerTab(curPlayer, curGame)
+        }
+    })
+
+d3.select('button#continue-to-earn-nurse')
+    .on('click',()=> {
+        hideOverlays()
+        activatePlayerTab('nurse', 'earn')
+    })
+
 
 function showHelpText(helpButtonId) {
     if (helpButtonId == 'help-button-round1'){
@@ -56,82 +79,71 @@ d3.select('button#close-modal')
         d3.select('#help-modal-wrapper').style('display','none')
     })
 
-function adjustOwedBar(pct, round){
-    d3.select('section#game-round' + round + ' .results span.inner-bar').style('width', pct + '%')
-    d3.select('section#game-round' + round + ' .results span.annotation')
+
+
+
+////// EARN GAME INTERACTIONS ///////
+function adjustOwedBar(pct, player){
+    d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.inner-bar').style('width', pct + '%')
+    d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.annotation')
         .html(Math.round(pct) + '% of pay')
 } 
-function unhideRoundExplain(round) {
-    if (round ==1){
-        d3.select('#earn-nurse-tab').attr('playable','1')
-    }
-    let curExplanation = d3.select('#game-explain-round' + round)
 
-    curExplanation.select('h2')
-        .style('font-size','0rem')
-        .style('visibility','visible')
-        .transition()
-        .style('font-size','3rem')
-        .on('end', function() {
-            d3.select(this)
-                .transition()
-                .style('font-size','2rem')
-                .on('end', ()=> {
-                    curExplanation.style('visibility','visible')
-                })
-        })
+const controlsEarnCeo = d3.select("section.game-body[game='earn'][player='ceo'] .controls")
+const salaryInputCeo  = controlsEarnCeo.select('input#salary')
+const stockOptionsInputCeo  = controlsEarnCeo.select('input#stock-options')
 
-}
-
-const controlsRound1 = d3.select('#game-round1 .controls')
-const salaryInput  = controlsRound1.select('input#salary')
-const stockOptionsInput  = controlsRound1.select('input#stock-options')
-
-salaryInput.on('input', function() {
+salaryInputCeo.on('input', function() {
         let curValue = d3.select(this).property('value')
-        stockOptionsInput.property('value',50-curValue)
+        stockOptionsInputCeo.property('value',50-curValue)
         d3.select('label[for=salary]').text('$' + curValue + (curValue>0 ? ' Million' : ' '))
         d3.select('label[for=stock-options]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' '))
-        adjustOwedBar(curValue*2*0.35, 1)
-        if(curValue == 0){unhideRoundExplain(1)}
+        adjustOwedBar(curValue*2*0.35, 'ceo')
+        if(curValue == 0){
+            d3.select('#earn-nurse-tab').attr('playable','1')
+            showOverlay('#game-explain-earn-ceo')    
+        }
     })
 
-stockOptionsInput.on('input', function() {
+stockOptionsInputCeo.on('input', function() {
         let curValue = d3.select(this).property('value')
-        salaryInput.property('value',50-curValue)
+        salaryInputCeo.property('value',50-curValue)
         d3.select('label[for=stock-options]').text('$' + curValue + (curValue>0 ? ' Million' : ' ') )
         d3.select('label[for=salary]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') )
-        adjustOwedBar((50-curValue)*2*0.35, 1)
-        if(curValue == 50){unhideRoundExplain(1)}
+        adjustOwedBar((50-curValue)*2*0.35, 'ceo')
+        if(curValue == 50){
+            d3.select('#earn-nurse-tab').attr('playable','1')
+            showOverlay('#game-explain-earn-ceo')    
+        }
 
     })
 
 
-const controlsRound2 = d3.select('#game-round2 .controls')
-const salaryInputRound2  = controlsRound2.select('input#salary-nurse')
-const stockOptionsInputRound2 = controlsRound2.select('input#stock-options-nurse')
+const controlsEarnNurse = d3.select("section.game-body[game='earn'][player='nurse'] .controls")
+const salaryInputNurse  = controlsEarnNurse.select('input#salary-nurse')
+const stockOptionsInputNurse = controlsEarnNurse.select('input#stock-options-nurse')
 
-salaryInputRound2.on('input', function() {
+salaryInputNurse.on('input', function() {
     let targetValue = d3.select(this).property('value')
     let curValue = d3.max([targetValue, 75])
     d3.select(this).property('value', curValue)
-    stockOptionsInputRound2.property('value',90-curValue)
+    stockOptionsInputNurse.property('value',90-curValue)
     d3.select('label[for=salary-nurse]').text('$' + curValue + (curValue>0 ? 'K' : '') + ' in salary')
     d3.select('label[for=stock-options-nurse]').text('$' + (90 - curValue) + (curValue<90 ? 'K' : '') + ' in stock options')
-    adjustOwedBar(18 * curValue/90, 2)
-    if(targetValue < 75){unhideRoundExplain(2)}
+    adjustOwedBar(18 * curValue/90, 'nurse')
+    if(targetValue < 75){showOverlay('#game-explain-earn-nurse')}
 })
 
-stockOptionsInputRound2.on('input', function() {
+stockOptionsInputNurse.on('input', function() {
     let targetValue = d3.select(this).property('value')
     let curValue = d3.min([targetValue, 15])
     d3.select(this).property('value', curValue)
-    salaryInputRound2.property('value',90-curValue)
+    salaryInputNurse.property('value',90-curValue)
 
     d3.select('label[for=stock-options-nurse]').text('$' + curValue + (curValue>0 ? 'K' : ' ') + ' in stock options')
     d3.select('label[for=salary-nurse]').text('$' + (90 - curValue) + (curValue<90 ? 'K' : ' ') + ' in salary')
-    adjustOwedBar(18 * (90-curValue)/90, 2)
-    if(targetValue > 15){unhideRoundExplain(2)}
+    adjustOwedBar(18 * (90-curValue)/90, 'nurse')
+    if(targetValue > 15){showOverlay('#game-explain-earn-nurse')}
 })
 
 const stocksSvg = d3.select('#stocks-svg') 

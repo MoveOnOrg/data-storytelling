@@ -78,6 +78,7 @@ main {
     top:0;
     left:0;
     background-color: rgba(64, 55, 55, 0.63);
+    z-index: 1;
 }
 
 h2 {
@@ -112,15 +113,17 @@ button {
     margin-bottom: 1rem;
 }
 button.btn-primary {
-    background-color: #937D65;    ;
+    background-color: #937D65;    
     color: white;
 }
 button.btn-secondary {
-    background-color: #FFF3E5;    ;
-    color: black;
+    background-color: #FFF3E5;   
+    border: 1px solid #937D65;
+    color: #937D65;
 }
-button:hover{
+button:not(.player-tabs button):hover{
     background-color: var(--blue-darker);
+    color: white;
 }
 
 section#help-modal-wrapper {
@@ -189,7 +192,8 @@ section.overlay {
     max-width: 50%;
     left: 50%; 
     margin-left:-25%;
-    border: 2px solid black;     
+    border: 2px solid black;  
+    z-index: 2;   
 }
 /* bars in intro overlay */ 
 section#intro div {
@@ -202,6 +206,11 @@ section.game{
     padding: 24px 0;
     display:none;
 }
+
+section.game-body[player="nurse"]{
+    display: none;
+}
+
 section.game-round-opening  {
     display: flex;
     align-items: start;
@@ -282,14 +291,14 @@ section.game .results .bar {
 }
 
 section.game .results span.inner-bar {
-    height: calc(100% + 6px);
+    height: calc(100% + 6px); /* 2x width  of border */
 }
 
-#game-round1 .results span.inner-bar{
+section.game-body[game="earn"][player="ceo"] .results span.inner-bar{
     width: 35%;
 }
 
-#game-round2 .results span.inner-bar{
+section.game-body[game="earn"][player="nurse"] .results span.inner-bar{
     width: 18%;
 }
 
@@ -298,13 +307,8 @@ section.game .results span.inner-bar {
 }
 
 section.game-explanation { 
-    height: 100vh;
-    padding: 3rem; 
-    width: clamp(300px, 60%, 500px);
-    max-width: 100%;
-    margin: 0 auto;
     text-align: center; 
-    visibility:hidden;
+    display: none;
 }
 /* for hist question mark */
 span.hint {
