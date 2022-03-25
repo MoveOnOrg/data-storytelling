@@ -11,8 +11,9 @@
 }
 
 html {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     background-color: black;
+    font-weight: 400;
     line-height: 1.4;
 }
 
@@ -82,19 +83,30 @@ main {
 }
 
 h2 {
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
+    margin-bottom: 2rem;
 }
 h3, input {
     margin-bottom: 0.5rem;
 }
 
 p {
-    font-size: 1.25rem; 
+    font-size: 1.5rem; 
     margin-bottom: 1rem;
 }
-hr {
+p.underline {
+    text-decoration: underline;
+}
+hr {    
+    border: 1px solid #000;
+    border-width: 0;
+    border-bottom-width: 1px;
     margin-bottom: 1rem;
+}
+
+a {
+    color: #000;
+    font-size: 1.5rem;
+    text-decoration: none;
 }
 
 button {
@@ -104,7 +116,7 @@ button {
     border: 0;
     border-radius: 0;
     font-size: 1.5rem;
-    padding: 8px 20px;
+    padding: 10px 20px;
     cursor: pointer;
     text-transform: uppercase;
     box-shadow: none;
@@ -113,7 +125,8 @@ button {
     margin-bottom: 1rem;
 }
 button.btn-primary {
-    background-color: #937D65;    
+    background-color: #937D65;
+    border: 1px solid #000;
     color: white;
 }
 button.btn-secondary {
@@ -124,6 +137,13 @@ button.btn-secondary {
 button:not(.player-tabs button):hover{
     background-color: var(--blue-darker);
     color: white;
+}
+
+.button-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 2rem;
 }
 
 section#help-modal-wrapper {
@@ -180,19 +200,19 @@ div.bar span.inner-bar {
     margin-left: -3px;
 }
 div.bar span {
-    font-size: 1.1rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    padding-left: 10px;
 }
 
 section.overlay { 
     position: fixed;
     background-color: #FFF3E5;
     top: 25vh;
-    padding: 20px;
+    padding: 40px 80px;
     max-width: 50%;
     left: 50%; 
     margin-left:-25%;
-    border: 2px solid black;  
+    border: 1px solid black;  
     z-index: 2;   
 }
 /* bars in intro overlay */ 
@@ -203,7 +223,7 @@ section#intro div {
 section.game{
     max-width: 80%;
     margin: 0 auto;
-    padding: 24px 0;
+    padding: 58px 0;
     display:none;
 }
 
@@ -239,8 +259,9 @@ section.game-round-opening .background {
 .player-tabs button {
     border: 1px solid black;
     border-radius: 10px 10px 0px 0px;
-    margin-bottom:-1px;
     background-color: #FFF5EA;
+    margin-bottom: -1px;
+    padding: 20px 40px 20px 20px;
     text-transform: inherit;
 }
 .player-tabs button[active='1'] {
@@ -260,18 +281,18 @@ section.game .game-body {
     background-color: #FFF3E5;
     color: black;
     border: 1px solid #000000;
-    padding: 1.2rem;
+    padding: 1.5rem 3rem;
 }
 section.game .results {
     display: flex;
+    padding-top: 1.25rem;
 }
 section.game .results .controls {
     flex: 2;
 }
 
 section.game .results .controls input[type="range"] {
-    width: 50%; 
-    margin: 3px 0px 15px;
+    width: 50%;
 }
 
 
@@ -279,14 +300,13 @@ section.game .results .taxes-owed {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
     /*justify-content: space-between;*/
     gap:5px;
 }
 section.game .results .bar {
     width: 100%;
     height: 100%;
-    max-height: 3rem;
+    max-height: 5rem;
     text-align: center;
 }
 
@@ -306,8 +326,7 @@ section.game-body[game="earn"][player="nurse"] .results span.inner-bar{
     height: 0%;
 }
 
-section.game-explanation { 
-    text-align: center; 
+section.game-explanation {
     display: none;
 }
 /* for hist question mark */
@@ -338,22 +357,65 @@ section.game#game-round3 .results .taxes-owed {
 .tooltip {
     background-color: #FFFAF4;
     border-radius: 6px;
-    border: 1px solid rgba(64, 55, 55, 0.63);
-    font-size: 1rem;
+    border: 1px solid #000;
+    font-size: 1.5rem;
     height: auto;
-    padding: 10px;
+    padding: 15px;
     position: absolute;  
     pointer-events: none;
     text-align: center;
-    width: 150px;
+    width: 200px;
 }
 .tooltip::after {
-    border-color: #FFFAF4 transparent transparent transparent;
-    border-style: solid;
-    border-width: 10px;
+    background: #FFFAF4;
+    border-bottom: inherit;
+    border-right: inherit;
     content: '';
     left: 50%;
+    height: 20px;
     margin-left: -10px;
     position: absolute;
-    top: 100%;
+    top: -webkit-calc(100% - 10px); /*may require prefix for old browser support*/
+    top: calc(100% - 10px); /*i.e. half the height*/
+    transform: rotate(45deg);
+    width: 20px;
+}
+
+
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 10px auto 30px;
+  width: 100%;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  background: #C4C4C4;
+  height: 10px;
+}
+
+input[type="range"]::-moz-range-track {
+  background: #C4C4C4;
+  height: 10px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #828181;
+    border-radius: 50%;
+    cursor: ew-resize;
+    height: 38px;
+    margin-top: -14px;
+    width: 38px;
+    border: 0;
+}
+
+input[type="range"]::-moz-range-thumb {-webkit-appearance: none;
+    background: #828181;
+    border-radius: 50%;
+    cursor: ew-resize;
+    height: 38px;
+    margin-top: -14px;
+    width: 38px;
+    border: 0;
 }

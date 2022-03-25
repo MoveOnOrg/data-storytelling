@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='styles2.css' rel='stylesheet' />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <title>Taxes and the Ultra Wealthy</title>
 </head>
 <body>
@@ -54,7 +54,7 @@
             <section class='game-round-opening'>
                 <img src='img2.png' alt='image for first section' />
                 <div class='background'>
-                    <a href='#' class='return-to-image-nav'><-Go Back</a>
+                    <a href='#' class='return-to-image-nav'><- Go back</a>
                     <h2>Earn</h2>
                     <hr />
                     <p>Learn about how the Ultra Wealthy avoid taxes and leave us paying the bills. 
@@ -73,14 +73,14 @@
                     <div class='results'>
                         <div class='controls'>
                             <p>How much to take in salary?</p>
-                            <input id='salary' type="range" min="0" max="50" step="1" value="50" width="100%"/>
+                            <input id='salary' type="range" min="0" max="50" step="1" value="50"/>
                             <label for="salary">$50 million</label>
                             <p>How much to take in stock options?</p>
                             <input id='stock-options' type="range" min="0" max="50" step="1" value="0"/>
                             <label for='stock-options'>$0</label>
                         </div>
                         <div class='taxes-owed'>
-                            <h3>Amount you owe in taxes this year<span class='hint' id='future-taxes-hint'>?</span>     </h3>
+                            <p class='underline'>Amount owed in taxes<span class='hint' id='future-taxes-hint'>?</span></p>
                             <div class='bar'><span class='inner-bar'></span><span class='annotation'>35% of pay</span></div> 
                             
                         </div>
@@ -111,8 +111,10 @@
                 <p>You have now joined Elon Musk, Larry Ellison, and many others who have at times chosen to take a salary of $1 or less as they find less taxing ways to add to their Billions in wealth.</p>
                 <p>Let's see how it works for the rest of us</p>
                 </div>
-                <button class='try-again btn-secondary'>Try Again</button>
-                <button id='continue-to-earn-nurse' class='btn-primary'>Continue</button>
+                <div class='button-container'>
+                    <button class='try-again btn-secondary'>Try Again</button>
+                    <button id='continue-to-earn-nurse' class='btn-primary'>Continue</button>
+                </div>
             </section>
             <section class='game-explanation overlay' id='game-explain-earn-nurse'> 
                 <h2>OOF!!</h2>
@@ -121,9 +123,10 @@
                 </p>
                 <hr />
                 <p>But don't the rich also have expenses they can't pay for with stock options too? Glad you asked...</p>
+                <div class='button-container'>
+                    <button class='try-again btn-secondary'>Try Again</button>
+                    <button class='btn-primary return-to-image-nav' id='continue-to-spend' make-playable='spend'>Continue</button>
                 </div>
-                <button class='try-again btn-secondary'>Try Again</button>
-                <button class='btn-primary return-to-image-nav' id='continue-to-spend' make-playable='spend'>Continue</button>
             </section>
         </section>
         <section class='game' game='spend'>
