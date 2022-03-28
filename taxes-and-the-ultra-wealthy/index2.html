@@ -10,9 +10,8 @@
 </head>
 <body>
     <header>
-        <h1>
-            <span>Taxes and the Ultra Wealthy</span>
-        </h1>
+        <h1>The Taxes Game</h1>
+        <p>How the Ultra Wealthy avoid taxes and leave us paying the bills</p>
     </header>
     <main>
         <section id='image-nav'>        
@@ -56,9 +55,7 @@
                 <div class='background'>
                     <a href='#' class='return-to-image-nav'><- Go back</a>
                     <h2>Earn</h2>
-                    <hr />
-                    <p>Learn about how the Ultra Wealthy avoid taxes and leave us paying the bills. 
-                        In this challenge you'll learn about how CEO's pay themself, and why their tricks don't work for the rest of us.</p>
+                    <p>How CEO's pay themself, and why their tricks don't work for the rest of us.</p>
 
                 </div>
             </section>
@@ -68,10 +65,10 @@
                     <button id='earn-nurse-tab' game='earn' player='nurse'><span></span>The Nurse</button>
                 </section>
                 <section class='game-body' game='earn' player='ceo'>
-                    <p>You are the CEO of a massive corporation. Pay yourself $50 million this year, while keeping down your taxes. <strong>Choose how to pay yourself while paying the fewest taxes</strong>.</p>
-                    <p>Hint <span class='hint' id='salary-game-hint'>?</span></p>
+                    <p>You are the CEO of a massive corporation. Your Goal: Pay yourself $50 million this year, while keeping down your taxes.</p>
                     <div class='results'>
                         <div class='controls'>
+                            <p><strong>Choose how to pay yourself</strong>. <span class='hint' id='salary-game-hint'>?</span></p>
                             <p>How much to take in salary?</p>
                             <input id='salary' type="range" min="0" max="50" step="1" value="50"/>
                             <label for="salary">$50 million</label>
@@ -81,16 +78,15 @@
                         </div>
                         <div class='taxes-owed'>
                             <p class='underline'>Amount owed in taxes<span class='hint' id='future-taxes-hint'>?</span></p>
-                            <div class='bar'><span class='inner-bar'></span><span class='annotation'>35% of pay</span></div> 
-                            
+                            <div class='bar'><span class='inner-bar'></span><span class='annotation'>35% of pay</span></div>                             
                         </div>
                     </div>
                 </section>
                 <section class='game-body' game='earn' player='nurse'> 
                     <p>You are a registered nurse living in ___. Let's imagine you can choose how to pay yourself, like the CEO can. Give it a try and see how it goes.</p>
-                    <p>Hint <span class='hint' id='salary-game-hint'>?</span></p>
                     <div class='results'>
                         <div class='controls'>
+                            <p>Hint <span class='hint' id='salary-game-hint'>?</span></p>
                             <p>How much to take in salary?</p>
                             <input id='salary-nurse' type="range" min="0" max="90" step="1" value="90" width="100%"/>
                             <label for="salary-nurse">$90K</label>
@@ -121,8 +117,7 @@
                 <p>Can't really let you do more than that. </p>
                 <p>Housing, food, health care and other basic expenses will cost around $75K. Can't pay for those with stock options...</p>
                 </p>
-                <hr />
-                <p>But don't the rich also have expenses they can't pay for with stock options too? Glad you asked...</p>
+                <p>Curious how the Ultra Wealthy cover their living expenses?</p>
                 <div class='button-container'>
                     <button class='try-again btn-secondary'>Try Again</button>
                     <button class='btn-primary return-to-image-nav' id='continue-to-spend' make-playable='spend'>Continue</button>
@@ -133,11 +128,9 @@
             <section class='game-round-opening'>
                 <img src='img2.png' alt='image for first section' />
                 <div class='background'>
-                    <a href='#' class='return-to-image-nav'><-Go Back</a>
+                    <a href='#' class='return-to-image-nav'><- Go Back</a>
                     <h2>Spend</h2>
-                    <hr />
-                    <p>Learn about how the Ultra Wealthy avoid taxes and leave us paying the bills. 
-                        In this challenge you'll learn about how the Ultra Wealthy spend money, and why their tricks don't work for the rest of us.</p>
+                    <p>How the Ultra Wealthy spend money, and why their tricks don't work for the rest of us.</p>
                 </div>
             </section>
             <section class='game-wrapper'> 
@@ -146,10 +139,50 @@
                     <button id='earn-nurse-tab' game='spend' player='nurse'><span></span>The Nurse</button>
                 </section>
                 <section class='game-body' game='spend' player='ceo'>
-                    <p>Game not built yet</p>
+                    <p>You are the CEO of a massive corporation. Your Goal: Buy ____, while keeping down your taxes.</p>
+                    <div class='results'>
+                        <div class='controls'>
+                            <p><strong>Choose how to get your money</strong>. <span class='hint' id='salary-game-hint'>?</span></p>
+                            <p>Sell?</p>
+                            <label for="spend-input">Sell an investment.</label>
+                            <input id='spend-input' type="range" min="0" max="1" step="1" value="0" />
+                            <label for="spend-input">Put it on credit.</label>
+                        </div>
+                        <div class='taxes-owed'>
+                            <p class='underline'>Amount owed in taxes<span class='hint' id='future-taxes-hint'>?</span></p>
+                            <div class='bar'><span class='inner-bar'></span><span class='annotation'>35% of pay</span></div>                             
+                        </div>
+                    </div>
+
                     <button class='btn-primary return-to-image-nav' make-playable='file-taxes'>Continue</button>
                 </section>
                 <section class='game-body' game='spend' player='nurse'> 
+                </section>    
+            </section>
+            
+        </section>
+
+        <section class='game' game='file-taxes'>
+            <section class='game-round-opening'>
+                <img src='img2.png' alt='image for first section' />
+                <div class='background'>
+                    <a href='#' class='return-to-image-nav'><- Go Back</a>
+                    <h2>File Taxes</h2>
+                    <p>How the Ultra Wealthy file corporate taxes, and why their tricks don't work for the rest of us.</p>
+                </div>
+            </section>
+            <section class='game-wrapper'> 
+                <section class='player-tabs'>
+                    <button id='earn-ceo-tab' active = '1' playable= "1" game='file-taxes' player='ceo' ><span></span>The CEO</button>
+                    <button id='earn-nurse-tab' game='file-taxes' player='nurse'><span></span>The Nurse</button>
+                </section>
+                <section class='game-body' game='file-taxes' player='ceo'>
+                    <p>You are the CEO of a massive corporation. Your Goal: Show your investors huge profits to get your bonus, while showing the IRS $0 in taxable profit. <strong>The chart below shows the numbers you shared with investors. Click the buttons to prepare your statement for the IRS.</strong></p>
+                    <p>Hint <span class='hint' id='file-taxes-game-hint'>?</span></p>
+
+                    <button class='btn-primary return-to-image-nav' make-playable='file-taxes'>Continue</button>
+                </section>
+                <section class='game-body' game='file-taxes' player='nurse'> 
                 </section>    
             </section>
             

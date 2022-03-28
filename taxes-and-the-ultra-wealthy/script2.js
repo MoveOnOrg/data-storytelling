@@ -1,8 +1,8 @@
 
 const tooltipTexts = {
-    salaryGameHint: "A large salary is taxed at a pretty high rate, but stock options aren't taxed until they're used",
-    futureTaxes: "We're just looking at taxes owed in the current year, since the ultra wealthy can often find other ways to avoid taxes down the line, as we'll see soon.",
-    nurseTab: "Move the sliders around below to get past this CEO round first" 
+    salaryGameHint: "A large salary is taxed at a pretty high rate, but stock options aren't taxed until they're used. <strong>Slide the slider all the way to the other end to see what happens</strong>",
+    futureTaxes: "This is showing taxes owed in the current year, since the ultra wealthy can often find other ways to avoid taxes down the line, as we'll see soon.",
+    nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" 
 }
 
 function showOverlay(selectString) {
@@ -101,6 +101,7 @@ salaryInputCeo.on('input', function() {
         adjustOwedBar(curValue*2*0.35, 'ceo')
         if(curValue == 0){
             d3.select('#earn-nurse-tab').attr('playable','1')
+            d3.select('#earn-nurse-tab').call(removeTooltip)
             showOverlay('#game-explain-earn-ceo')    
         }
     })
@@ -113,6 +114,7 @@ stockOptionsInputCeo.on('input', function() {
         adjustOwedBar((50-curValue)*2*0.35, 'ceo')
         if(curValue == 50){
             d3.select('#earn-nurse-tab').attr('playable','1')
+            d3.select('#earn-nurse-tab').call(removeTooltip)
             showOverlay('#game-explain-earn-ceo')    
         }
 
@@ -228,7 +230,7 @@ let tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0);
 
-function showTooltip(selection, curText='hi'){ 
+function showTooltip(selection, curText){ 
     selection
         .on('mouseover', function(event) {
             tooltip.transition()
@@ -248,9 +250,13 @@ function showTooltip(selection, curText='hi'){
                 .style('opacity', 0);
         })
 }
-d3.selectAll('.bar').call(showTooltip)
+function removeTooltip(selection){ 
+    selection
+        .on('mouseover', () => {})
+        .on('mousemove',  () => {})
+        .on('mouseout',  () => {})
+}
 
 d3.select('#salary-game-hint').call(showTooltip, tooltipTexts.salaryGameHint)
 d3.select('#future-taxes-hint').call(showTooltip, tooltipTexts.futureTaxes)
 d3.select('#earn-nurse-tab').call(showTooltip, tooltipTexts.nurseTab)
-// need to implement something to turn this off after "nurse becomes" playable.
