@@ -14,6 +14,22 @@ function hideOverlays() {
     d3.selectAll('.overlay').style('display','none')
 }
 
+function animateInteractionResponse(gameSection) {
+    gameSection.select('.over-container-sizer h2')
+        .style('font-size', '0rem')
+        .transition().style('font-size', '3rem')
+        .on('end', function() {
+            d3.select(this)
+            .transition()
+            .style('font-size','2rem')
+            .on('end', ()=> {
+                gameSection.select('.over-container-sizer button').style('visibility','visible')
+            })
+        })
+    }
+
+
+
 d3.select('button#get-started').on('click',hideOverlays)
 d3.selectAll('button.try-again').on('click',hideOverlays)
 
@@ -100,6 +116,8 @@ salaryInputCeo.on('input', function() {
         d3.select('label[for=stock-options]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' '))
         adjustOwedBar(curValue*2*0.35, 'ceo')
         if(curValue == 0){
+            d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
+            return 
             d3.select('#earn-nurse-tab').attr('playable','1')
             d3.select('#earn-nurse-tab').call(removeTooltip)
             showOverlay('#game-explain-earn-ceo')    
@@ -113,6 +131,8 @@ stockOptionsInputCeo.on('input', function() {
         d3.select('label[for=salary]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') )
         adjustOwedBar((50-curValue)*2*0.35, 'ceo')
         if(curValue == 50){
+            d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
+            return ;
             d3.select('#earn-nurse-tab').attr('playable','1')
             d3.select('#earn-nurse-tab').call(removeTooltip)
             showOverlay('#game-explain-earn-ceo')    
@@ -120,6 +140,12 @@ stockOptionsInputCeo.on('input', function() {
 
     })
 
+d3.selectAll('section.game-body[player="ceo"][game="earn"] .interaction-response button')
+    .on('click', ()=>{
+        d3.select('#earn-nurse-tab').attr('playable','1')
+        d3.select('#earn-nurse-tab').call(removeTooltip)
+        showOverlay('#game-explain-earn-ceo')    
+    })
 
 const controlsEarnNurse = d3.select("section.game-body[game='earn'][player='nurse'] .controls")
 const salaryInputNurse  = controlsEarnNurse.select('input#salary-nurse')

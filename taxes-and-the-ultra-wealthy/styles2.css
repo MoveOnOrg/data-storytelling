@@ -16,6 +16,31 @@ html {
     font-weight: 400;
     line-height: 1.4;
 }
+.interaction-response {
+    position: relative;
+    margin-top: 12px;
+}
+.interaction-response h2 {
+    font-size:3rem;
+    margin:0;
+}
+.interaction-response button {
+    font-size: 1.25rem;
+    visibility: hidden;
+}
+.container-sizer {
+    visibility: hidden;
+}
+.over-container-sizer {
+    position: absolute;
+    top:0;
+    left:0; 
+    width: 100%;
+    text-align: center;
+}
+.over-container-sizer h2 {
+    font-size: 0; 
+}
 
 header {
     background-color: black;
