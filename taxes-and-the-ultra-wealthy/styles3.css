@@ -370,6 +370,9 @@ section.game .results {
     display: flex;
     padding-top: 0.5rem;
 }
+section.game .results .controls  {
+    flex: 1;
+}
 section.game .results .controls p {
     font-size: 1.25rem;
 }
@@ -530,4 +533,26 @@ section.game-body[game="spend"][player="nurse"] .results span.inner-bar{
 span.annotation {
     font-size: 1.3rem;
     margin-top:6px;
+}
+
+
+/**************************/
+/**** FILE TAXES GAME *****/
+/**************************/
+
+section.game-body[game="file-taxes"] .controls .btn-group {
+    display: flex; 
+    gap: 4px;
+}
+section.game-body[game="file-taxes"] .controls button{
+    font-size:1rem;
+    flex:1;
+    padding: 10px 10px;
+}
+
+section.game-body[game="file-taxes"] .interaction-response p{
+    display:none;
+}
+section.game-body[game="file-taxes"] .interaction-response button{
+    display:none;
 }

@@ -6,7 +6,8 @@ const tooltipTexts = {
     salaryGameHint: "A large salary is taxed at a pretty high rate, but stock options aren't taxed until they're used. <strong>Slide the slider all the way to the other end to see what happens</strong>",
     futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
     nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
-    spendGameHint: "When you sell a stock or other investment you have to pay Capital Gains taxes. These taxes are lower than income taxes, but if you never sell at all you don't owe taxes on your investment gains."
+    spendGameHint: "When you sell a stock or other investment you have to pay Capital Gains taxes. These taxes are lower than income taxes, but if you never sell at all you don't owe taxes on your investment gains.",
+    fileTaxesGameHint: "Add hint here"
 }
 
 /***********************************************************/
@@ -185,11 +186,109 @@ d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-respons
         activatePlayerTab('nurse', 'spend')
     })
 
+
+/*******************************/
+/*** FILE TAXES INTERACTIONS ***/
+/*******************************/
+
+let incomeBarPct = 100
+let expenseBarPct = 30
+function getProfit(){
+    return 2*(incomeBarPct-expenseBarPct)
+}
+const svg = d3.select('section.game-body[game="file-taxes"][player="ceo"] .controls svg')
+function updateSvg(btn){
+    svg.select('rect#income').transition().attr('width', incomeBarPct+'%')
+    svg.select('rect#expense').transition().attr('width', expenseBarPct+'%')
+    svg.select('text#profit-text').text( '$' + getProfit() + (getProfit()>0 ? 'M': '') +' in taxable profit')
+    svg.select('line#profit').transition().attr('x1', expenseBarPct+'%').attr('x2', incomeBarPct+'%')
+    let incomeLineMid = expenseBarPct + (incomeBarPct-expenseBarPct)/2;
+    svg.select('line#profit-tab').transition().attr('x1', incomeLineMid+'%').attr('x2', incomeLineMid+'%')
+        .on('end', ()=>{
+            let curGame = d3.select('section.game-body[player="ceo"][game="file-taxes"]')
+            if(btn == 'reset'){
+                curGame.select('.interaction-response').style('visibility','hidden')
+                curGame.select('.interaction-response h2').text('Good Start!').style('visibility','hidden')
+                curGame.selectAll('.interaction-response p').style('display','none')
+                curGame.select('.interaction-response button').style('display','none')
+
+            } else {
+                curGame.selectAll('.interaction-response p').style('display','none')
+                d3.select('#file-taxes-ceo-' + btn + '-p').style('display','block')
+                if(getProfit()==0){
+                    curGame.select('#file-taxes-ceo-header').text('Goal acheived!')
+                    curGame.select('.interaction-response button').style('display','inline-block')
+                }
+                curGame.call(animateInteractionResponse)
+            }
+        })
+} 
+
+d3.select("#file-taxes-ceo-income-btn")
+    .on('click', ()=> {
+        incomeBarPct = 65;
+        updateSvg('income')
+
+    })
+d3.select("#file-taxes-ceo-expense-btn")
+    .on('click', ()=> {
+        expenseBarPct = 65;
+        updateSvg('expense') 
+    })
+d3.select("#file-taxes-ceo-reset")
+    .on('click', ()=> {
+        incomeBarPct = 100
+        expenseBarPct = 30
+        profit = getProfit()
+        updateSvg('reset') 
+
+    })
+
+
+d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
+    .on('click', ()=>{
+        activatePlayerTab('nurse', 'file-taxes')
+    })
+
+/*
+const spendInputCeo  = controlsInputCeo.select('.controls .spend-toggle input#spend-input')
+d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
+.style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
+spendInputCeo.on('input', function() {
+        console.log('hi')
+        let curValue = d3.select(this).property('value')
+        adjustOwedBarSpend((1-curValue)*20, 'ceo')
+
+        if(curValue == 1){
+            d3.select('section.game-body[player="ceo"][game="spend"]').call(animateInteractionResponse)
+            d3.select('#spend-nurse-tab').attr('playable','1')
+            d3.select('#spend-nurse-tab').call(removeTooltip)    
+        }
+    })
+
+const controlsInputNurse = d3.select("section.game-body[game='spend'][player='nurse']")
+const spendInputNurse  = controlsInputNurse.select('.controls .spend-toggle input#spend-input')
+d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
+.style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
+spendInputNurse.on('input', function() {
+        let targetValue = d3.select(this).property('value');
+        let curValue = 0
+        d3.select(this).property('value', curValue)
+
+        if(targetValue == 1){
+            d3.select('section.game-body[player="nurse"][game="spend"]').call(animateInteractionResponse)
+        }
+    })
+
 d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
     .on('click', ()=>{
         activatePlayerTab('nurse', 'spend')
     })
 
+d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
+    .on('click', ()=>{
+        activatePlayerTab('nurse', 'spend')
+    })
 
 
 /****************/
@@ -231,3 +330,4 @@ d3.select('#salary-game-hint').call(showTooltip, tooltipTexts.salaryGameHint)
 d3.select('#future-taxes-hint').call(showTooltip, tooltipTexts.futureTaxes)
 d3.select('#earn-nurse-tab').call(showTooltip, tooltipTexts.nurseTab)
 d3.select('#spend-game-hint').call(showTooltip, tooltipTexts.spendGameHint)
+d3.select('#file-taxes-game-hint').call(showTooltip, tooltipTexts.fileTaxesGameHint)

@@ -150,7 +150,7 @@
                         <div class='interaction-response'>
                             <h2>You got it!</h2>
                             <div class='interaction-content'>
-                                <p>Billionaire Carl Icahn, has had up to $1.2 billion in low-interest loans, which he uses to pay for his extravagant lifestyle and to make more investments, all without owing taxes on his gains. </p>
+                                <p>Billionaire Carl Icahn has had up to $1.2 billion in low-interest loans, which he uses to pay for his extravagant lifestyle and to make more investments, all without owing taxes on his gains. </p>
                                 <button class='btn-primary return-to-image-nav' id='continue-to-spend' make-playable='spend'>Continue</button>
                             </div>
                         </div>     
@@ -207,14 +207,80 @@
                     <button id='earn-ceo-tab' active = '1' playable= "1" game='file-taxes' player='ceo' ><span></span>The CEO</button>
                     <button id='earn-nurse-tab' game='file-taxes' player='nurse'><span></span>The Nurse</button>
                 </section>
-                <section class='game-body' game='file-taxes' player='ceo'>
-                    <p>You are the CEO of a massive corporation. Your Goal: Show your investors huge profits to get your bonus, while showing the IRS $0 in taxable profit. <strong>The chart below shows the numbers you shared with investors. Click the buttons to prepare your statement for the IRS.</strong></p>
-                    <p>Hint <span class='hint' id='file-taxes-game-hint'>?</span></p>
 
-                    <button class='btn-primary return-to-image-nav' make-playable='file-taxes'>Continue</button>
+                <section class='game-body' game='file-taxes' player='ceo'>
+                    <p>You are the CEO of a massive corporation. Your Goal: Show your investors huge profits to get your bonus, while showing the IRS $0 in taxable profit.</p>
+                    <div class='results'>
+                        <div class='controls'>
+                            <h3>What you shared with investors:</h3>   
+                            <svg width="100%" height="150px">
+                                <rect id='income' y = 10 x = 0 height = 30 width = "100%" fill = '#937D65'/>
+                                <text y = 35 x = 5 fill='white' font-weight='bold' font-size = '20px'>INCOME</text>
+                                <rect id='expense' y = 50 x = 0 height = 30 width = "30%" fill = '#937D65' />
+                                <text y = 75 x = 5 fill='white' font-weight='bold' font-size = '20px'>EXPENSES</text>
+                                <line id='profit' y1 = 85 x1 = 30% y2 = 85 x2 =  "100%" stroke = '#005680' stroke-width='3px'/>
+                                <line id='profit-tab' y1 = 85 x1 = 65% y2 = 100 x2 =  "65%" stroke = '#005680' stroke-width='3px'/>
+                                <text id='profit-text' y = 125 x = 100% text-anchor="end" font-weight='bold' fill='#005680' font-size = '1.25rem'>$140M in profit</text>
+                                                                
+                            </svg> 
+                            <h3>Now update it for the IRS: <span class='hint' id='file-taxes-game-hint'>?</span></h3> 
+                            <div class='btn-group'>
+                                <button class='btn-secondary' id='file-taxes-ceo-income-btn'>Move income to low-tax country</button>
+                                <button class='btn-secondary' id='file-taxes-ceo-expense-btn'>Change expense deduction method</button>
+                            </div>
+                            <button class='btn-primary' id='file-taxes-ceo-reset'>Reset</button>
+                        </div>
+                        <div class='interaction-response'>
+                            <h2 id = 'file-taxes-ceo-header'>Good start!</h2>
+                            <div class='interaction-content'>
+                                <p id='file-taxes-ceo-income-p'>Many corporations structure their businesses so that extra income looks like it's flowing to countries with very low corporate taxes.</p>
+                                <p id='file-taxes-ceo-expense-p'>There are different ways to deduct expenses - corporations use them to account for expenses in difference years. </p>
+                                <button class='btn-primary'>Continue</button>
+                            </div>
+                        </div>     
+                    </div>
+               
                 </section>
                 <section class='game-body' game='file-taxes' player='nurse'> 
+
+                    <p>You are a nurse ...</p>
+                    <div class='results'>
+                        <div class='controls'>
+                            <h3>What you shared with investors:</h3>   
+                            <svg width="100%" height="150px">
+                                <rect id='income' y = 10 x = 0 height = 30 width = "100%" fill = '#937D65'/>
+                                <text y = 35 x = 5 fill='white' font-weight='bold' font-size = '20px'>INCOME</text>
+                                <rect id='expense' y = 50 x = 0 height = 30 width = "30%" fill = '#937D65' />
+                                <text y = 75 x = 5 fill='white' font-weight='bold' font-size = '20px'>EXPENSES</text>
+                                <line id='profit' y1 = 85 x1 = 30% y2 = 85 x2 =  "100%" stroke = '#005680' stroke-width='3px'/>
+                                <line id='profit-tab' y1 = 85 x1 = 65% y2 = 100 x2 =  "65%" stroke = '#005680' stroke-width='3px'/>
+                                <text id='profit-text' y = 125 x = 100% text-anchor="end" font-weight='bold' fill='#005680' font-size = '1.25rem'>$140M in profit</text>
+                                                                
+                            </svg> 
+                            <h3>Now update it for the IRS: <span class='hint' id='file-taxes-game-hint'>?</span></h3> 
+                            <div class='btn-group'>
+                                <button class='btn-secondary' id='file-taxes-ceo-income-btn'>Move income to low-tax country</button>
+                                <button class='btn-secondary' id='file-taxes-ceo-expense-btn'>Change expense deduction method</button>
+                            </div>
+                            <button class='btn-primary' id='file-taxes-ceo-reset'>Reset</button>
+                        </div>
+                        <div class='interaction-response'>
+                            <h2 id = 'file-taxes-ceo-header'>Good start!</h2>
+                            <div class='interaction-content'>
+                                <p id='file-taxes-ceo-income-p'>Many corporations structure their businesses so that extra income looks like it's flowing to countries with very low corporate taxes.</p>
+                                <p id='file-taxes-ceo-expense-p'>There are different ways to deduct expenses - corporations use them to account for expenses in difference years. </p>
+                                <button class='btn-primary return-to-image-nav' id='continue-to-break-cycle' make-playable='break-cycle'>Continue</button>
+                            </div>
+                        </div>     
+                    </div>
                 </section>    
+
+
+
+
+
+
+
             </section>
             
         </section>
