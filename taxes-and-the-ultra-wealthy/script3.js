@@ -10,6 +10,7 @@ const tooltipTexts = {
     fileTaxesGameHint: "Add hint here"
 }
 
+
 /***********************************************************/
 /*** GENERAL HELPER FUNCTIONS AND UNIVERSAL INTERACTIONS ***/
 /***********************************************************/
@@ -113,8 +114,8 @@ earnSliderCeo.on('input', function() {
         adjustOwedBar((50-curValue)*2*0.35, 'ceo')
         if(curValue == 50){
             d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
-            d3.select('#earn-nurse-tab').attr('playable','1')
-            d3.select('#earn-nurse-tab').call(removeTooltip)    
+            d3.select('button[game="earn"][player="nurse"]').attr('playable','1')
+            d3.select('button[game="earn"][player="nurse"]').call(removeTooltip)    
         }
     })
 
@@ -162,8 +163,8 @@ spendInputCeo.on('input', function() {
 
         if(curValue == 1){
             d3.select('section.game-body[player="ceo"][game="spend"]').call(animateInteractionResponse)
-            d3.select('#spend-nurse-tab').attr('playable','1')
-            d3.select('#spend-nurse-tab').call(removeTooltip)    
+            d3.select('button[game="spend"][player="nurse"]').attr('playable','1')
+            d3.select('button[game="spend"][player="nurse"]').call(removeTooltip)    
         }
     })
 
@@ -198,31 +199,35 @@ function getProfit(){
 }
 const svg = d3.select('section.game-body[game="file-taxes"][player="ceo"] .controls svg')
 function updateSvg(btn){
-    svg.select('rect#income').transition().attr('width', incomeBarPct+'%')
-    svg.select('rect#expense').transition().attr('width', expenseBarPct+'%')
+    svg.select('rect#income').transition().duration(1200).attr('width', incomeBarPct+'%')
+    svg.select('rect#expense').transition().duration(1200).attr('width', expenseBarPct+'%')
     svg.select('text#profit-text').text( '$' + getProfit() + (getProfit()>0 ? 'M': '') +' in taxable profit')
-    svg.select('line#profit').transition().attr('x1', expenseBarPct+'%').attr('x2', incomeBarPct+'%')
+    svg.select('line#profit').transition().duration(1200).attr('x1', expenseBarPct+'%').attr('x2', incomeBarPct+'%')
     let incomeLineMid = expenseBarPct + (incomeBarPct-expenseBarPct)/2;
-    svg.select('line#profit-tab').transition().attr('x1', incomeLineMid+'%').attr('x2', incomeLineMid+'%')
+    svg.select('line#profit-tab').transition().duration(1200).attr('x1', incomeLineMid+'%').attr('x2', incomeLineMid+'%')
         .on('end', ()=>{
-            let curGame = d3.select('section.game-body[player="ceo"][game="file-taxes"]')
-            if(btn == 'reset'){
-                curGame.select('.interaction-response').style('visibility','hidden')
-                curGame.select('.interaction-response h2').text('Good Start!').style('visibility','hidden')
-                curGame.selectAll('.interaction-response p').style('display','none')
-                curGame.select('.interaction-response button').style('display','none')
-
-            } else {
-                curGame.selectAll('.interaction-response p').style('display','none')
-                d3.select('#file-taxes-ceo-' + btn + '-p').style('display','block')
-                if(getProfit()==0){
-                    curGame.select('#file-taxes-ceo-header').text('Goal acheived!')
-                    curGame.select('.interaction-response button').style('display','inline-block')
-                }
-                curGame.call(animateInteractionResponse)
-            }
+            fileTaxesInteractionResponseCeo(btn)
         })
 } 
+function fileTaxesInteractionResponseCeo(btn){
+    let curGame = d3.select('section.game-body[player="ceo"][game="file-taxes"]')
+    if(btn == 'reset'){
+        curGame.select('.interaction-response').style('visibility','hidden')
+        curGame.select('.interaction-response h2').text('Good Start!').style('visibility','hidden')
+        curGame.selectAll('.interaction-response p').style('display','none')
+        curGame.select('.interaction-response button').style('display','none')
+    } else {
+        curGame.selectAll('.interaction-response p').style('display','none')
+        d3.select('#file-taxes-ceo-' + btn + '-p').style('display','block')
+        if(getProfit()==0){
+            d3.select('button[game="file-taxes"][player="nurse"]').attr('playable','1')
+            d3.select('button[game="file-taxes"][player="nurse"]').call(removeTooltip)    
+            curGame.select('#file-taxes-ceo-header').text('Goal acheived!')
+            curGame.select('.interaction-response button').style('display','inline-block')
+        }
+        curGame.call(animateInteractionResponse)
+    }
+}
 
 d3.select("#file-taxes-ceo-income-btn")
     .on('click', ()=> {
@@ -243,52 +248,34 @@ d3.select("#file-taxes-ceo-reset")
         updateSvg('reset') 
 
     })
-
-
-d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
+d3.selectAll('section.game-body[player="ceo"][game="file-taxes"] .interaction-response button')
     .on('click', ()=>{
         activatePlayerTab('nurse', 'file-taxes')
     })
 
-/*
-const spendInputCeo  = controlsInputCeo.select('.controls .spend-toggle input#spend-input')
-d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
-.style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
-spendInputCeo.on('input', function() {
-        console.log('hi')
-        let curValue = d3.select(this).property('value')
-        adjustOwedBarSpend((1-curValue)*20, 'ceo')
-
-        if(curValue == 1){
-            d3.select('section.game-body[player="ceo"][game="spend"]').call(animateInteractionResponse)
-            d3.select('#spend-nurse-tab').attr('playable','1')
-            d3.select('#spend-nurse-tab').call(removeTooltip)    
-        }
+function fileTaxesInteractionResponseNurse(btn){
+    let curGame = d3.select('section.game-body[player="nurse"][game="file-taxes"]')
+    curGame.selectAll('.interaction-response p').style('display','none')
+    d3.select('#file-taxes-nurse-' + btn + '-p').style('display','block')
+    if(incomeClicked & expenseClicked){
+        curGame.select('.interaction-response button').style('display','inline-block')
+    }
+    curGame.call(animateInteractionResponse)
+}
+let incomeClicked = 0;
+let expenseClicked = 0;
+d3.select("#file-taxes-nurse-income-btn")
+    .on('click', ()=> {
+        incomeClicked = 1;
+        fileTaxesInteractionResponseNurse('income')
+    })
+d3.select("#file-taxes-nurse-expense-btn")
+    .on('click', ()=> {
+        expenseClicked = 1;
+        fileTaxesInteractionResponseNurse('expense') 
     })
 
-const controlsInputNurse = d3.select("section.game-body[game='spend'][player='nurse']")
-const spendInputNurse  = controlsInputNurse.select('.controls .spend-toggle input#spend-input')
-d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
-.style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
-spendInputNurse.on('input', function() {
-        let targetValue = d3.select(this).property('value');
-        let curValue = 0
-        d3.select(this).property('value', curValue)
 
-        if(targetValue == 1){
-            d3.select('section.game-body[player="nurse"][game="spend"]').call(animateInteractionResponse)
-        }
-    })
-
-d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
-    .on('click', ()=>{
-        activatePlayerTab('nurse', 'spend')
-    })
-
-d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
-    .on('click', ()=>{
-        activatePlayerTab('nurse', 'spend')
-    })
 
 
 /****************/

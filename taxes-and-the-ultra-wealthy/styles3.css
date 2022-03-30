@@ -3,6 +3,8 @@
     --blue-darker: #0080bf;
     --blue-darkest:#005680;
     --blue-light: #e5f5ff;
+    --blue-light2: #d9eefa;
+    --blue-light3: #d1edfe;
     --grey-primary: #b2b2b2;
     --red-primary: hsl(358, 83%, 51%);
     box-sizing: border-box;
@@ -12,12 +14,11 @@
 
 html {
     font-family: 'Roboto', sans-serif;
-    background-color: black;
+    /* background-color: black; */
+    background-color: var(--blue-light);
     font-weight: 400;
     line-height: 1.4;
 }
-
-
 
 h2 {
     margin-bottom: 2rem;
@@ -27,13 +28,18 @@ h3, input {
 }
 
 p {
+    font-size: 1.2rem; 
+    margin-bottom: 1rem;
+}
+
+p strong {
     font-size: 1.5rem; 
     margin-bottom: 1rem;
 }
 
 a {
     color: #000;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-decoration: none;
 }
 
@@ -53,19 +59,31 @@ button {
     margin-bottom: 1rem;
 }
 button.btn-primary {
-    background-color: #937D65;
+    background-color: var(--blue-darkest);
     border: 1px solid #000;
     color: white;
 }
 button.btn-secondary {
-    background-color: #FFF3E5;   
-    border: 1px solid #937D65;
-    color: #937D65;
+    background-color: var(--blue-light);   
+    border: 1px solid black;
+    color: black;
 }
 button:not(.player-tabs button):hover{
     background-color: var(--blue-darker);
     color: white;
 }
+
+button.btn-tertiary {
+    background-color: var(--blue-darker); 
+    border: 1px solid var(--blue-darker);  
+    color: white;
+}
+button.btn-tertiary:not(.player-tabs button):hover{ 
+    background-color: var(--blue-light);   
+    border: 1px solid black;
+    color: black;
+}
+
 
 /**************************/
 /******** TOOTTIPS ********/
@@ -133,7 +151,7 @@ input[type="range"]::-moz-range-track {
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: #828181;
+    background: var(--blue-darkest);
     border-radius: 50%;
     cursor: ew-resize;
     height: 38px;
@@ -144,7 +162,7 @@ input[type=range]::-webkit-slider-thumb {
 
 input[type="range"]::-moz-range-thumb {
     -webkit-appearance: none;
-    background: #828181;
+    background: var(--blue-darkest);
     border-radius: 50%;
     cursor: ew-resize;
     height: 38px;
@@ -161,8 +179,8 @@ input[type="range"]::-moz-range-thumb {
 
 section.overlay { 
     position: fixed;
-    background-color: #FFF3E5;
-    top: 25vh;
+    background-color: var(--blue-light);
+    top: 18vh;
     padding: 40px 80px;
     max-width: 50%;
     left: 50%; 
@@ -240,10 +258,11 @@ section#intro div {
 /********************************************/
 
 main { 
-    background-color: #F9EDE0;
-    width: clamp(400px, 85%, 1200px);
+    background-color: var(--blue-light);
+    width: 100%;
     margin:0px auto;
     position: relative;
+
 }
 
 /********************************************/
@@ -254,7 +273,7 @@ main {
     display: flex; 
     height: 75vh; 
     align-items: center;
-    max-width: 80%;
+    max-width: 65%;
     margin:0px auto;
 }
 #image-nav div {
@@ -262,8 +281,12 @@ main {
     flex-direction: column;
     align-items: center;
     margin-top:15%;
-    border-radius:10px;
+    border-radius: 10px 10px 40px 40px;
 }
+#image-nav div.nav-div{ 
+    background: #F9EDE0;
+}
+
 #image-nav div:not(:nth-of-type(1), :nth-last-of-type(1) ){
     margin-top: -20%;
 }
@@ -288,7 +311,8 @@ main {
 /***********************************/
 
 section.game{
-    max-width: 80%;
+    width: clamp(600px, 75%, 1000px);
+    max-width: 100%;
     margin: 0 auto;
     padding: 40px 0;
     display:none;
@@ -333,8 +357,8 @@ section.game-round-opening .background a {
 }
 .player-tabs span {
     position: relative;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
     border-radius: 50%;
     background: #C4C4C4;
     margin-right: 6px;
@@ -342,15 +366,26 @@ section.game-round-opening .background a {
 .player-tabs button {
     border: 1px solid black;
     border-radius: 10px 10px 0px 0px;
-    background-color: #FFF5EA;
+    background-color: var(--blue-light2);
     margin-bottom: -1px;
-    padding: 20px 40px 20px 20px;
+    padding: 14px 20px 5px 20px;
     text-transform: inherit;
+}
+.player-tabs div {
+    text-align:start;
+}
+.player-tabs h2 {
+    margin-bottom: 0px;
+}
+.player-tabs p {
+    margin-bottom: 0px;
+    font-weight: normal;
+    font-size: 1.2rem;
 }
 .player-tabs button[active='1'] {
     border: 1px solid black;
     border-bottom: none;
-    background-color:#FFF3E5;
+    background-color:var(--blue-light3);
 }
 .player-tabs button:not([playable='1']) {
     opacity: 0.3
@@ -361,7 +396,7 @@ section.game-wrapper {
 }
 
 section.game .game-body {
-    background-color: #FFF3E5;
+    background-color: var(--blue-light3);
     color: black;
     border: 1px solid #000000;
     padding: 1.5rem 3rem;
@@ -369,9 +404,10 @@ section.game .game-body {
 section.game .results {
     display: flex;
     padding-top: 0.5rem;
+    align-items: flex-start;
 }
 section.game .results .controls  {
-    flex: 1;
+    flex: 1.5;
 }
 section.game .results .controls p {
     font-size: 1.25rem;
@@ -418,10 +454,6 @@ section.game .results span.inner-bar {
 }
 .interaction-response .interaction-content {
     visibility: hidden;
-}
-
-.interaction-response .interaction-content p, button {
-    font-size: 1.25rem;
 }
 
 
@@ -540,6 +572,9 @@ span.annotation {
 /**** FILE TAXES GAME *****/
 /**************************/
 
+section.game-body[game="file-taxes"] .controls{
+    flex: 2;
+}
 section.game-body[game="file-taxes"] .controls .btn-group {
     display: flex; 
     gap: 4px;
@@ -549,6 +584,17 @@ section.game-body[game="file-taxes"] .controls button{
     flex:1;
     padding: 10px 10px;
 }
+section.game-body[game="file-taxes"] .controls .svg-container {
+    padding:10px;
+    background-color: white;
+    border: 1px solid var(--blue-darker);
+    margin-bottom: 18px;
+}
+section.game-body[game="file-taxes"] .controls svg {
+    border-left: 2px solid var(--grey-primary);
+    border-bottom: 2px solid var(--grey-primary);
+}
+
 
 section.game-body[game="file-taxes"] .interaction-response p{
     display:none;
@@ -556,3 +602,4 @@ section.game-body[game="file-taxes"] .interaction-response p{
 section.game-body[game="file-taxes"] .interaction-response button{
     display:none;
 }
+
