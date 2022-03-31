@@ -69,7 +69,7 @@ d3.selectAll('.player-tabs button')
 // for all buttons classed 'return-to-image-nav' return to main nav screen and makePlayable any nav-sections the button indicates
 d3.selectAll('.return-to-image-nav').on('click',function(){
     hideOverlays();
-    d3.select('#image-nav').style('display','flex')
+    d3.select('#image-nav').style('display','block')
     d3.selectAll('section.game').style('display','none')
     let makePlayable = d3.select(this).attr('make-playable')
     if(makePlayable){
@@ -222,7 +222,7 @@ function fileTaxesInteractionResponseCeo(btn){
         if(getProfit()==0){
             d3.select('button[game="file-taxes"][player="nurse"]').attr('playable','1')
             d3.select('button[game="file-taxes"][player="nurse"]').call(removeTooltip)    
-            curGame.select('#file-taxes-ceo-header').text('Goal acheived!')
+            curGame.select('#file-taxes-ceo-header').text('Goal achieved!')
             curGame.select('.interaction-response button').style('display','inline-block')
         }
         curGame.call(animateInteractionResponse)
@@ -275,7 +275,24 @@ d3.select("#file-taxes-nurse-expense-btn")
         fileTaxesInteractionResponseNurse('expense') 
     })
 
+d3.select('#continue-to-break-cycle')
+    .on('click', ()=> {
+        d3.select('#break-the-cycle')
+            .style('display','flex')
+        hideOverlays();
+        d3.select('#image-nav').style('display','block')
+        d3.selectAll('section.game').style('display','none')        
+    })
 
+
+/*****************************/
+/****** BREAK THE CYCLE ******/
+/*****************************/
+d3.select('#break-the-cycle button')
+    .on('click', () => {
+        d3.select('#image-nav').style('display','none')
+        d3.selectAll('section.game[game="break-the-cycle"').style('display','block')        
+    })
 
 
 /****************/
