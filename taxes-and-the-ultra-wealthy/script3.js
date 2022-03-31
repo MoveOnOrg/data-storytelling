@@ -46,7 +46,7 @@ function animateInteractionResponse(gameSection) {
                 gameSection.selectAll('input[type="range"]').attr('disabled',null)
             })
         })
-    }
+}
 
 // Toggling between player tabs for all different games (ceo/nurse)
 
@@ -79,13 +79,13 @@ d3.selectAll('.return-to-image-nav').on('click',function(){
 
 // for all nav div's go to appropriate game if playable="1"
 d3.selectAll('div.nav-div')
-   .on('click',function(){
-       let curGame = d3.select(this).attr('game')
-       if(d3.select(this).attr('playable') == '1') {
-        d3.select('#image-nav').style('display','none')
-        d3.select('section.game[game="'+curGame+ '"]').style('display','block')
-       }
-   })
+    .on('click',function(){
+        let curGame = d3.select(this).attr('game')
+        if(d3.select(this).attr('playable') == '1') {
+            d3.select('#image-nav').style('display','none')
+            d3.select('section.game[game="'+curGame+ '"]').style('display','block')
+        }
+    })
 
 /******************************/
 /*** START GAME INTERACTION ***/
@@ -108,32 +108,32 @@ const controlsEarnCeo = d3.select("section.game-body[game='earn'][player='ceo']"
 const earnSliderCeo  = controlsEarnCeo.select('.controls input#salary-stock')
 
 earnSliderCeo.on('input', function() {
-        let curValue = d3.select(this).property('value')
-        controlsEarnCeo.select('label div.in-stock-options').html('$' + curValue + (curValue>0 ? ' Million' : ' ') + '<br />in stock options')
-        controlsEarnCeo.select('label div.in-salary').html('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') + '<br />in salary')
-        adjustOwedBar((50-curValue)*2*0.35, 'ceo')
-        if(curValue == 50){
-            d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
-            d3.select('button[game="earn"][player="nurse"]').attr('playable','1')
-            d3.select('button[game="earn"][player="nurse"]').call(removeTooltip)    
-        }
-    })
+    let curValue = d3.select(this).property('value')
+    controlsEarnCeo.select('label div.in-stock-options').html('$' + curValue + (curValue>0 ? ' Million' : ' ') + '<br />in stock options')
+    controlsEarnCeo.select('label div.in-salary').html('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') + '<br />in salary')
+    adjustOwedBar((50-curValue)*2*0.35, 'ceo')
+    if(curValue == 50){
+        d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
+        d3.select('button[game="earn"][player="nurse"]').attr('playable','1')
+        d3.select('button[game="earn"][player="nurse"]').call(removeTooltip)    
+    }
+})
 
 const controlsEarnNurse = d3.select("section.game-body[game='earn'][player='nurse']")
 const earnSliderNurse  = controlsEarnNurse.select(' .controls input#salary-stock-nurse')
 
 earnSliderNurse.on('input', function() {
-        let targetValue = d3.select(this).property('value')
-        let curValue = d3.min([targetValue, 15])    
-        d3.select(this).property('value', curValue)
-        controlsEarnNurse.select('label div.in-stock-options').html('$' + curValue + (curValue>0 ? 'K' : ' ') + '<br />in stock options')
-        controlsEarnNurse.select('label div.in-salary').html('$' + (90 - curValue) + (curValue<90 ? 'K' : ' ') + '<br />in salary')
-        adjustOwedBar(18 * (90-curValue)/90, 'nurse')
-        
-        if(curValue >= 15){
-            d3.select('section.game-body[player="nurse"][game="earn"]').call(animateInteractionResponse)
-        }
-    })
+    let targetValue = d3.select(this).property('value')
+    let curValue = d3.min([targetValue, 15])    
+    d3.select(this).property('value', curValue)
+    controlsEarnNurse.select('label div.in-stock-options').html('$' + curValue + (curValue>0 ? 'K' : ' ') + '<br />in stock options')
+    controlsEarnNurse.select('label div.in-salary').html('$' + (90 - curValue) + (curValue<90 ? 'K' : ' ') + '<br />in salary')
+    adjustOwedBar(18 * (90-curValue)/90, 'nurse')
+    
+    if(curValue >= 15){
+        d3.select('section.game-body[player="nurse"][game="earn"]').call(animateInteractionResponse)
+    }
+})
 
 d3.selectAll('section.game-body[player="ceo"][game="earn"] .interaction-response button')
     .on('click', ()=>{
@@ -155,32 +155,31 @@ function adjustOwedBarSpend(pct, player){
 const controlsInputCeo = d3.select("section.game-body[game='spend'][player='ceo']")
 const spendInputCeo  = controlsInputCeo.select('.controls .spend-toggle input#spend-input')
 d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
-.style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
+    .style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
 spendInputCeo.on('input', function() {
-        console.log('hi')
-        let curValue = d3.select(this).property('value')
-        adjustOwedBarSpend((1-curValue)*20, 'ceo')
+    let curValue = d3.select(this).property('value')
+    adjustOwedBarSpend((1-curValue)*20, 'ceo')
 
-        if(curValue == 1){
-            d3.select('section.game-body[player="ceo"][game="spend"]').call(animateInteractionResponse)
-            d3.select('button[game="spend"][player="nurse"]').attr('playable','1')
-            d3.select('button[game="spend"][player="nurse"]').call(removeTooltip)    
-        }
-    })
+    if(curValue == 1){
+        d3.select('section.game-body[player="ceo"][game="spend"]').call(animateInteractionResponse)
+        d3.select('button[game="spend"][player="nurse"]').attr('playable','1')
+        d3.select('button[game="spend"][player="nurse"]').call(removeTooltip)    
+    }
+})
 
 const controlsInputNurse = d3.select("section.game-body[game='spend'][player='nurse']")
-const spendInputNurse  = controlsInputNurse.select('.controls .spend-toggle input#spend-input')
+const spendInputNurse = controlsInputNurse.select('.controls .spend-toggle input#spend-input')
 d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
 .style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
 spendInputNurse.on('input', function() {
-        let targetValue = d3.select(this).property('value');
-        let curValue = 0
-        d3.select(this).property('value', curValue)
+    let targetValue = d3.select(this).property('value');
+    let curValue = 0
+    d3.select(this).property('value', curValue)
 
-        if(targetValue == 1){
-            d3.select('section.game-body[player="nurse"][game="spend"]').call(animateInteractionResponse)
-        }
-    })
+    if(targetValue == 1){
+        d3.select('section.game-body[player="nurse"][game="spend"]').call(animateInteractionResponse)
+    }
+})
 
 d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
     .on('click', ()=>{
@@ -233,7 +232,6 @@ d3.select("#file-taxes-ceo-income-btn")
     .on('click', ()=> {
         incomeBarPct = 65;
         updateSvg('income')
-
     })
 d3.select("#file-taxes-ceo-expense-btn")
     .on('click', ()=> {

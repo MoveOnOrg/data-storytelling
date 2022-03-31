@@ -13,6 +13,18 @@
         <h1>The Taxes Game</h1>
         <p>How the Ultra Wealthy avoid taxes and leave us paying the bills</p>
     </header>
+
+    <div id='overlay-background'></div>
+    <section class = 'overlay' id ='intro'>
+        <p>ProPublica got access to 5 years of tax returns of some of the richest people in the U.S. </p>
+        <p>While people who live off their income might typically pay 14% of their income in Federal taxes</p>
+            <div class='bar'><span class='inner-bar' style="width:14%;"></span><span>14%</span></div>
+        <p>ProPublica found the richest 25 people -- who live off their wealth -- paid a true tax rate of only 3.4%</p> 
+            <div class='bar'><span class='inner-bar' style="width:3.4%;"></span><span>3.4%</span></div>
+        <p>Try your hand at gaming our rigged tax system to see how they do it!</p>
+        <button id='get-started' class='btn-primary'>Get Started</button>
+    </section>
+
     <main>
         <section id='image-nav'> 
             <div id='main-games-nav'>       
@@ -40,16 +52,6 @@
                 </div>   
                 </div>     
             <div id='break-the-cycle'><button class='btn-primary'>Break the cycle</button></div>
-        </section>
-        <div id='overlay-background'></div>
-        <section class = 'overlay' id ='intro'>
-            <p>ProPublica got access to 5 years of tax returns of some of the richest people in the U.S. </p>
-            <p>While people who live off their income might typically pay 14% of their income in Federal taxes</p>
-                <div class='bar'><span class='inner-bar' style="width:14%;"></span><span>14%</span></div>
-            <p>ProPublica found the richest 25 people -- who live off their wealth -- paid a true tax rate of only 3.4%</p> 
-                <div class='bar'><span class='inner-bar' style="width:3.4%;"></span><span>3.4%</span></div>
-            <p>Try your hand at gaming our rigged tax system to see how they do it!</p>
-            <button id='get-started' class='btn-primary'>Get Started</button>
         </section>
         <section class='game' game='earn'>
             <section class='game-wrapper'> 
@@ -172,7 +174,7 @@
                             </div>
                             <h3>Amount you owe in taxes.</h3>
                             <div class='bar'><span class='inner-bar'></span></div>                      
-                            <span class='annotation'>30% of withdrawn funds<br/>(income taxes + early withdrawal penalty)</span>       
+                            <span class='annotation'>30% of withdrawn funds (income taxes + early withdrawal penalty)</span>       
                         </div>
                         <div class='interaction-response'>
                             <h2>Not so fast!</h2>
