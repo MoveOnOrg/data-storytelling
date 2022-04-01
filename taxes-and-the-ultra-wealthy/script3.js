@@ -87,6 +87,13 @@ d3.selectAll('div.nav-div')
         }
     })
 
+d3.selectAll('div.interaction-response')
+    .on('click',function(){
+        const responseDiv = d3.select(this);
+        responseDiv.classed('expand', !responseDiv.classed('expand'));
+    })
+
+
 /******************************/
 /*** START GAME INTERACTION ***/
 /******************************/

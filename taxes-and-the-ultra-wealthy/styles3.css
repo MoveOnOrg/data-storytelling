@@ -654,7 +654,6 @@ section.game-body[game="file-taxes"] .interaction-response button{
     section.overlay {
         max-width: 90%;
         padding: 20px;
-        position: absolute;
         width: 90%;
     }
     section#intro div.bar {
@@ -710,6 +709,9 @@ section.game-body[game="file-taxes"] .interaction-response button{
     }
     .interaction-response h2 {
         font-size: 1.4rem;
+    }
+    .interaction-response.expand {
+        height: auto;
     }
     .spend-toggle {
         margin: 1rem 0 2rem;
