@@ -18,7 +18,7 @@
         <section id='image-nav'> 
             <div id='main-games-nav'>       
                 <div class='nav-div' playable="1" game='earn'>
-                    <img class='nav-img' id='img1' src='img2.png' alt='first section icon' />
+                    <img class='nav-img' id='img1' src='img2.png' alt='first section icon' role='button' tabindex='2' />
                     <h3>Earn</h3>
                 </div>
                 <div class = 'nav-arrow' game='spend'>
@@ -27,7 +27,7 @@
                     </svg>
                 </div>
                 <div class='nav-div' id='nav-spend' game='spend'>
-                    <img class='nav-img' id='img2' src='img2.png' alt='second section icon' />
+                    <img class='nav-img' id='img2' src='img2.png' alt='second section icon' role='button' tabindex='3' />
                     <h3>Spend</h3>
                 </div>
                 <div class = 'nav-arrow' game='file-taxes'>
@@ -36,7 +36,7 @@
                     </svg>
                 </div>  
                 <div class='nav-div' game='file-taxes'>
-                    <img class='nav-img' id='img3' src='img2.png' alt='third section icon' />
+                    <img class='nav-img' id='img3' src='img2.png' alt='third section icon' role='button' tabindex='4' />
                     <h3>File Taxes</h3>
                 </div>   
                 </div>     
@@ -50,21 +50,21 @@
             <p>ProPublica found the richest 25 people -- who live off their wealth -- paid a true tax rate of only 3.4%</p> 
                 <div class='bar'><span class='inner-bar' style="width:3.4%;"></span><span>3.4%</span></div>
             <p>Try your hand at gaming our rigged tax system to see how they do it!</p>
-            <button id='get-started' class='btn-primary'>Get Started</button>
+            <button id='get-started' class='btn-primary' type='button' tabindex='1'>Get Started</button>
         </section>
         <section class='game' game='earn'>
             <section class='game-wrapper'> 
-                <section class='player-tabs'>
-                    <button active = '1' playable= "1" game='earn' player='ceo' >
+                <section class='player-tabs' role='tablist'>
+                    <button active = '1' playable= "1" game='earn' player='ceo' role='tab' id='tabCEO'>
                         <span></span>
                         <div><h2>The CEO</h2><p>of a major corporation</p></div>
                     </button>
-                    <button game='earn' player='nurse'>
+                    <button game='earn' player='nurse' role='tab' id='tabNurse'>
                         <span></span>
                         <div><h2>A Nurse</h2><p>from Springfield</p></div>    
                     </button>
                 </section>
-                <section class='game-body' game='earn' player='ceo'>
+                <section class='game-body' game='earn' player='ceo' role='tabpanel' aria-labelledby='tabCEO'>
                     <p><strong>Your Goal</strong>: Pay yourself $50 million this year, while keeping down your taxes.</p>
                     <div class='results'>
                         <div class='controls'>
@@ -72,7 +72,13 @@
                             <div class='salary-slider'>
                                 <div class = 'slider-label-box-left'></div>
                                 <div class = 'slider-label-box-right'></div>
-                                <input id='salary-stock' type="range" min="0" max="50" step="1" value="0"/>
+                                <input id='salary-stock' type='range' min='0' max='50' step='1' value='0' 
+                                    role='slider'
+                                    aria-labelledby='salary-stock'
+                                    aria-valuemin='0'
+                                    aria-valuemax='50'
+                                    aria-valuenow='0'
+                                    aria-valuetext='Salary' />
                                 <label for='salary-stock'>
                                     <div class='in-stock-options'>$0 <br />in stock options</div>
                                     <div class='in-salary'>$50 million <br />in salary</div>
@@ -90,7 +96,7 @@
                             </div>
                         </div>                   
                 </section>
-                <section class='game-body' game='earn' player='nurse'> 
+                <section class='game-body' game='earn' player='nurse' role='tabpanel' aria-labelledby='tabNurse'> 
                     <p><strong>Your goal</strong>: Try out the CEO's tricks for yourself.</p>
                     <div class='results'>
                         <div class='controls'>
