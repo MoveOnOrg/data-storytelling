@@ -86,7 +86,7 @@ button.btn-tertiary:not(.player-tabs button):hover{
 
 
 /**************************/
-/******** TOOTTIPS ********/
+/******** TOOLTIPS ********/
 /**************************/
 
 /* for hint question mark */
@@ -101,7 +101,7 @@ span.hint {
 }
 
 .tooltip {
-    background-color: #FFFAF4;
+    background-color: #FFF;
     border-radius: 6px;
     border: 1px solid #000;
     font-size: 1.2rem;
@@ -110,7 +110,7 @@ span.hint {
     position: absolute;  
     pointer-events: none;
     text-align: center;
-    width: 200px;
+    width: 300px;
 }
 .tooltip::after {
     background: #FFFAF4;
@@ -132,43 +132,48 @@ span.hint {
 /******************************/
 
 input[type=range] {
-  -webkit-appearance: none;
-  background: transparent;
-  margin: 10px auto 30px;
-  width: 80%;
-  margin-left: 10%;
+    -webkit-appearance: none;
+    background: transparent;
+    margin: 10px auto 30px;
+    width: 80%;
+    margin-left: 10%;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-  background: #C4C4C4;
-  height: 10px;
+    background: #C4C4C4;
+    height: 10px;
 }
 
 input[type="range"]::-moz-range-track {
-  background: #C4C4C4;
-  height: 10px;
+    background: #C4C4C4;
+    height: 10px;
 }
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: var(--blue-darkest);
-    border-radius: 50%;
     cursor: ew-resize;
     height: 38px;
     margin-top: -14px;
-    width: 14px;
+    width: 6px;
     border: 0;
 }
 
 input[type="range"]::-moz-range-thumb {
     -webkit-appearance: none;
     background: var(--blue-darkest);
-    border-radius: 50%;
     cursor: ew-resize;
     height: 38px;
     margin-top: -14px;
     width: 14px;
     border: 0;
+}
+
+#spend-input::-webkit-slider-thumb {
+    border-radius: 50%;
+}
+#spend-input::-moz-range-thumb {
+    border-radius: 50%;
 }
 
 
@@ -177,16 +182,16 @@ input[type="range"]::-moz-range-thumb {
 /** inc. first screen *****/
 /**************************/
 
-section.overlay { 
-    position: fixed;
-    background-color: var(--blue-light);
-    top: 18vh;
-    padding: 40px 80px;
-    max-width: 50%;
+section.overlay {     
+    background-color: #FFF3E5;
+    border: 1px solid black;
     left: 50%; 
-    margin-left:-25%;
-    border: 1px solid black;  
-    z-index: 2;   
+    max-width: 50%;
+    padding: 40px 80px;
+    position: fixed;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;  
 }
 
 div#overlay-background{ 
@@ -207,7 +212,7 @@ header {
     background-color: black;
     color:white; 
     text-align: center;
-    padding: 1rem 0 ;
+    padding: 1rem;
 }
 
 header h1 {
@@ -287,7 +292,7 @@ main {
     border-radius: 10px 10px 40px 40px;
 }
 #main-games-nav div.nav-div{ 
-    background: #F9EDE0;
+    background: transparent;
 }
 
 #main-games-nav div:not(:nth-of-type(1), :nth-last-of-type(1) ){
@@ -374,6 +379,7 @@ section.game-round-opening .background a {
     height: 3.5rem;
     border-radius: 50%;
     background: #C4C4C4;
+    flex-shrink: 0;
     margin-right: 6px;
 }
 .player-tabs button {
@@ -520,6 +526,7 @@ label[for="salary-stock"]{
 }
 
 label[for="salary-stock"] div {
+    line-height: 1.2rem;
     padding: 4px;
 }
 
@@ -577,7 +584,6 @@ section.game-body[game="spend"][player="nurse"] .results span.inner-bar{
 }
 span.annotation {
     font-size: 1.3rem;
-    margin-top:6px;
 }
 
 
@@ -616,3 +622,103 @@ section.game-body[game="file-taxes"] .interaction-response button{
     display:none;
 }
 
+
+
+/**************************/
+/**** MOBILE STYLES *******/
+/**************************/
+@media (max-width: 1007px) {
+    header h1 {
+        font-size: 2.9rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+    p strong {
+        font-size: 1rem;
+    }
+    #main-games-nav {
+        flex-flow: column;
+    }
+    #main-games-nav div {
+        flex-flow: row;
+        margin-top: 5%;
+    }
+    #main-games-nav .nav-img {
+        height: 20vh;
+        width: auto;
+    }
+    #image-nav {
+        max-width: 100%;
+    }
+    section.overlay {
+        max-width: 90%;
+        padding: 20px;
+        width: 90%;
+    }
+    section#intro div.bar {
+        width: 100%;
+    }
+    section.game {
+        padding: 1.5rem;
+    }
+    section.game .game-body {
+        padding: 1.5rem;
+    }
+    section.game .results {
+        flex-flow: column;
+    }
+    section.game .results .controls {
+        width: 100%;
+    }
+    section.game .results .controls h3 {
+        font-size: 1rem;
+    }
+    section.game-wrapper {
+        margin-top: 0;
+    }
+    .player-tabs button {
+        padding: 1rem;
+    }
+    .player-tabs h2 {
+        font-size: 1.4rem;
+    }
+    .player-tabs p {
+        font-size: 1rem;
+    }
+    .player-tabs span {
+        height: 2rem;
+        width: 2rem;
+    }
+    span.annotation {
+        font-size: 1rem;
+    }
+    span.hint {
+        height: 1.4rem;
+        width: 1.4rem;
+    }
+    .interaction-response {
+        bottom: 0;
+        left: 0;
+        height: 100px;
+        margin: 0;
+        overflow-y: scroll;
+        padding: 1rem 2rem;
+        position: fixed;
+        right: 0;
+    }
+    .interaction-response h2 {
+        font-size: 1.4rem;
+    }
+    .interaction-response.expand {
+        height: auto;
+    }
+    .spend-toggle {
+        margin: 1rem 0 2rem;
+        width: 100%;
+    }
+    label[for="spend-input"] {
+        font-size: 1rem;
+        line-height: 1.2rem;
+    }
+}
