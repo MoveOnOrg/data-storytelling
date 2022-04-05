@@ -667,8 +667,17 @@ section.game-body[game="file-taxes"] .interaction-response button{
 /**** MOBILE STYLES *******/
 /**************************/
 @media (max-width: 1007px) {
+    header {
+        text-align: start;
+    }
     header h1 {
-        font-size: 2.9rem;
+        font-size: 2rem;
+    }
+    header img.moveon-logo {
+        position:absolute;
+        width:50px;
+        top:5px;
+        right:5px;
     }
     p {
         font-size: 1rem;
@@ -678,22 +687,35 @@ section.game-body[game="file-taxes"] .interaction-response button{
     }
     #main-games-nav {
         flex-flow: column;
+        gap: 20px;
+        align-items: start;
     }
+    
     #main-games-nav div {
         flex-flow: row;
-        margin-top: 5%;
+        margin-top: 5% !important;
     }
     #main-games-nav .nav-img {
         height: 20vh;
         width: auto;
     }
+    #main-games-nav h3{
+        text-align: start;
+    }
+
     #image-nav {
         max-width: 100%;
+    }
+    #main-games-nav div.nav-arrow {
+        display:none;
     }
     section.overlay {
         max-width: 90%;
         padding: 20px;
         width: 90%;
+        top: 10%;
+        transform: translate(-50%, 0%);
+    
     }
     section#intro div.bar {
         width: 100%;
@@ -723,7 +745,8 @@ section.game-body[game="file-taxes"] .interaction-response button{
         font-size: 1.4rem;
     }
     .player-tabs p {
-        font-size: 1rem;
+        /*font-size: 1rem;*/
+        display: none;
     }
     .player-tabs span {
         height: 2rem;
@@ -761,4 +784,7 @@ section.game-body[game="file-taxes"] .interaction-response button{
         font-size: 1rem;
         line-height: 1.2rem;
     }
+    section.game .game-body img.character-full {
+        display:none;
+        }
 }
