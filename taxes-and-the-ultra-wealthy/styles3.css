@@ -378,7 +378,7 @@ section.game-round-opening .background a {
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 50%;
-    background: #C4C4C4;
+    /*background: #C4C4C4;*/
     flex-shrink: 0;
     margin-right: 6px;
 }
