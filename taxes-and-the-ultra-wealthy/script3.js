@@ -4,10 +4,12 @@
 
 const tooltipTexts = {
     salaryGameHint: "A large salary is taxed at a pretty high rate, but stock options aren't taxed until they're used. <strong>Slide the slider all the way to the other end to see what happens</strong>",
+    salaryGameHintNurse: "Yeah yeah, nurses can’t choose to get their pay in stock options, but let’s just pretend.",
     futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
     nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
     spendGameHint: "When you sell a stock or other investment you have to pay Capital Gains taxes. These taxes are lower than income taxes, but if you never sell at all you don't owe taxes on your investment gains.",
-    fileTaxesGameHint: "Add hint here"
+    fileTaxesGameHint: "Click these buttons and see how to chart changes",
+    fileTaxesSvgGameHint: "Click the buttons below to see how this chart changes"
 }
 
 
@@ -137,13 +139,13 @@ const earnSliderNurse  = controlsEarnNurse.select(' .controls input#salary-stock
 
 earnSliderNurse.on('input', function() {
     let targetValue = d3.select(this).property('value')
-    let curValue = d3.min([targetValue, 15])    
+    let curValue = d3.min([targetValue, 5])    
     d3.select(this).property('value', curValue)
     controlsEarnNurse.select('label div.in-stock-options').html('$' + curValue + (curValue>0 ? 'K' : ' ') + '<br />in stock options')
-    controlsEarnNurse.select('label div.in-salary').html('$' + (90 - curValue) + (curValue<90 ? 'K' : ' ') + '<br />in salary')
-    adjustOwedBar(18 * (90-curValue)/90, 'nurse')
+    controlsEarnNurse.select('label div.in-salary').html('$' + (70 - curValue) + (curValue<70 ? 'K' : ' ') + '<br />in salary')
+    adjustOwedBar(18 * (70-curValue)/70, 'nurse')
     
-    if(curValue >= 15){
+    if(curValue >= 5){
         d3.select('section.game-body[player="nurse"][game="earn"]').call(animateInteractionResponse)
     }
 })
@@ -204,8 +206,8 @@ d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-respons
 /*** FILE TAXES INTERACTIONS ***/
 /*******************************/
 
-let incomeBarPct = 100
-let expenseBarPct = 30
+let incomeBarPct = 98
+let expenseBarPct = 28
 function getProfit(){
     return 2*(incomeBarPct-expenseBarPct)
 }
@@ -214,9 +216,11 @@ function updateSvg(btn){
     svg.select('rect#income').transition().duration(1200).attr('width', incomeBarPct+'%')
     svg.select('rect#expense').transition().duration(1200).attr('width', expenseBarPct+'%')
     svg.select('text#profit-text').text( '$' + getProfit() + (getProfit()>0 ? 'M': '') +' in taxable profit')
+        .transition().duration(1200).attr('x',incomeBarPct + "%")
     svg.select('line#profit').transition().duration(1200).attr('x1', expenseBarPct+'%').attr('x2', incomeBarPct+'%')
-    let incomeLineMid = expenseBarPct + (incomeBarPct-expenseBarPct)/2;
-    svg.select('line#profit-tab').transition().duration(1200).attr('x1', incomeLineMid+'%').attr('x2', incomeLineMid+'%')
+    // let incomeLineMid = expenseBarPct + (incomeBarPct-expenseBarPct)/2;
+    svg.select('line#profit-inner-tab').transition().duration(1200).attr('x1', expenseBarPct+'%').attr('x2', expenseBarPct+'%')
+    svg.select('line#profit-outer-tab').transition().duration(1200).attr('x1', incomeBarPct+'%').attr('x2', incomeBarPct+'%')
         .on('end', ()=>{
             fileTaxesInteractionResponseCeo(btn)
         })
@@ -243,18 +247,18 @@ function fileTaxesInteractionResponseCeo(btn){
 
 d3.select("#file-taxes-ceo-income-btn")
     .on('click', ()=> {
-        incomeBarPct = 65;
+        incomeBarPct = 63;
         updateSvg('income')
     })
 d3.select("#file-taxes-ceo-expense-btn")
     .on('click', ()=> {
-        expenseBarPct = 65;
+        expenseBarPct = 63;
         updateSvg('expense') 
     })
 d3.select("#file-taxes-ceo-reset")
     .on('click', ()=> {
-        incomeBarPct = 100
-        expenseBarPct = 30
+        incomeBarPct = 98
+        expenseBarPct = 28
         profit = getProfit()
         updateSvg('reset') 
 
@@ -342,7 +346,9 @@ function removeTooltip(selection){
 }
 
 d3.select('#salary-game-hint').call(showTooltip, tooltipTexts.salaryGameHint)
+d3.select('#salary-game-hint-nurse').call(showTooltip, tooltipTexts.salaryGameHintNurse)
 d3.select('#future-taxes-hint').call(showTooltip, tooltipTexts.futureTaxes)
-d3.select('#earn-nurse-tab').call(showTooltip, tooltipTexts.nurseTab)
+d3.select('button[player="nurse"][game="earn"]').call(showTooltip, tooltipTexts.nurseTab)
 d3.select('#spend-game-hint').call(showTooltip, tooltipTexts.spendGameHint)
 d3.select('#file-taxes-game-hint').call(showTooltip, tooltipTexts.fileTaxesGameHint)
+d3.select('svg[game="file-taxes"]').call(showTooltip, tooltipTexts.fileTaxesSvgGameHint)
