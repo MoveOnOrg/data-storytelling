@@ -93,6 +93,12 @@ d3.selectAll('div.interaction-response')
         responseDiv.classed('expand', !responseDiv.classed('expand'));
     })
 
+d3.select('body')
+    .on('keydown',function(e){
+        if(e.key == 'Enter') {
+            document.activeElement.click();
+        }
+    })
 
 /******************************/
 /*** START GAME INTERACTION ***/
