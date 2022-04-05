@@ -448,6 +448,8 @@ section.game .game-body {
 }
 section.game .game-body img.character-full {
 position: absolute;
+-webkit-transform: scaleX(-1);
+transform: scaleX(-1);
 width: 35%;
 top: -20%;
 right: -10%;

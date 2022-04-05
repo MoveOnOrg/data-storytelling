@@ -34,7 +34,7 @@ function animateInteractionResponse(gameSection) {
     gameSection.selectAll('input[type="range"]').attr('disabled',true)
     gameSection.select('.interaction-response').style('visibility','visible')
         .transition().style('opacity',1)
-
+    gameSection.select('img.character-full').attr('src', gameSection.attr('player') + '_full_reacted.png')
     gameSection.select('.interaction-response h2')
         .style('font-size', '0rem')
         .style('visibility','visible')
