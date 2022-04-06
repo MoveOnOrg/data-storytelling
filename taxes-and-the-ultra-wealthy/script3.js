@@ -7,7 +7,7 @@ const tooltipTexts = {
     salaryGameHintNurse: "Yeah yeah, nurses can’t choose to get their pay in stock options, but let’s just pretend.",
     futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
     nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
-    spendGameHint: "When you sell a stock or other investment you have to pay Capital Gains taxes. These taxes are lower than income taxes, but if you never sell at all you don't owe taxes on your investment gains.",
+    spendGameHint: "When you sell a stock or other investment you have to pay capital gains taxes. These taxes are generally lower than the  tax on wages–even better, if you don’t sell your investments, you don’t owe any taxes at all.",
     fileTaxesGameHint: "Click these buttons and see how to chart changes",
     fileTaxesSvgGameHint: "Click the buttons below to see how this chart changes"
 }
@@ -97,7 +97,7 @@ d3.selectAll('div.nav-div')
 d3.selectAll('div.interaction-response')
     .on('click',function(){
         const responseDiv = d3.select(this);
-        responseDiv.classed('expand', !responseDiv.classed('expand'));
+        responseDiv.classed('shrink', !responseDiv.classed('shrink'));
     })
 
 d3.select('body')
@@ -121,7 +121,7 @@ d3.select('button#get-started').on('click',hideOverlays)
 function adjustOwedBar(pct, player){
     d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.inner-bar').style('width', pct + '%')
     d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.annotation')
-        .html(Math.round(pct) + '% of pay')
+        .html(Math.round(pct) + '% of gains')
 } 
 
 const controlsEarnCeo = d3.select("section.game-body[game='earn'][player='ceo']")
@@ -129,8 +129,8 @@ const earnSliderCeo  = controlsEarnCeo.select('.controls input#salary-stock')
 
 earnSliderCeo.on('input', function() {
     let curValue = d3.select(this).property('value')
-    controlsEarnCeo.select('label div.in-stock-options').html('$' + curValue + (curValue>0 ? ' Million' : ' ') + '<br />in stock options')
-    controlsEarnCeo.select('label div.in-salary').html('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') + '<br />in salary')
+    controlsEarnCeo.select('label div.in-stock-options').html(2* curValue + '% in<br />investment gains')
+    controlsEarnCeo.select('label div.in-salary').html(2*(50 - curValue) + '% in<br />salary')
     adjustOwedBar((50-curValue)*2*0.35, 'ceo')
     if(curValue == 50){
         d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
@@ -144,13 +144,13 @@ const earnSliderNurse  = controlsEarnNurse.select(' .controls input#salary-stock
 
 earnSliderNurse.on('input', function() {
     let targetValue = d3.select(this).property('value')
-    let curValue = d3.min([targetValue, 5])    
+    let curValue = d3.min([targetValue, 8])    
     d3.select(this).property('value', curValue)
-    controlsEarnNurse.select('label div.in-stock-options').html('$' + curValue + (curValue>0 ? 'K' : ' ') + '<br />in stock options')
-    controlsEarnNurse.select('label div.in-salary').html('$' + (70 - curValue) + (curValue<70 ? 'K' : ' ') + '<br />in salary')
-    adjustOwedBar(18 * (70-curValue)/70, 'nurse')
+    controlsEarnNurse.select('label div.in-stock-options').html(curValue + '% in<br />investment gains')
+    controlsEarnNurse.select('label div.in-salary').html((100 - curValue) + '% in<br />salary')
+    adjustOwedBar(18 * (100-curValue)/100, 'nurse')
     
-    if(curValue >= 5){
+    if(curValue >= 8){
         d3.select('section.game-body[player="nurse"][game="earn"]').call(animateInteractionResponse)
     }
 })

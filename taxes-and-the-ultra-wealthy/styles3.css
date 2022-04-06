@@ -333,9 +333,8 @@ main {
     background: var(--blue-light);
     border: 1px solid var(--blue-primary);
     color: var(--blue-primary);
-    font-size: 1rem;
+    font-size: 1.4rem;
     border-radius: 4rem;
-    margin-top: 1rem;
 }
 
 #main-games-nav div.nav-div[playable="1"][current="1"] button:hover {
@@ -375,8 +374,8 @@ main {
     text-transform: uppercase;
     text-align: center;
     font-size: 3rem;
-    margin-top: 1rem;
-    line-height: 1.4;
+    margin-top: 8px;
+    line-height: 1;
     margin-bottom: 0;
 }
 #main-games-nav p {
@@ -747,13 +746,28 @@ section.game-body[game="file-taxes"] .interaction-response button{
         font-size: 1rem;
     }
     #main-games-nav {
-        flex-flow: column;
-        gap: 20px;
+       /* flex-flow: column;
+        gap: 20px;*/
         align-items: start;
+        flex-wrap: wrap;
+    }
+    #main-games-nav div.nav-div[current="1"]  {
+        width: 100%;
+        margin-top:7%;
+        order: 0; 
+        flex-basis: 100%;
+    }
+    
+    #main-games-nav div.nav-div[current="1"] .nav-img {
+        height: 30vh;
+    }
+
+    #main-games-nav div.nav-div[playable="1"][current="1"] button { 
+        display: none;
     }
     
     #main-games-nav div {
-        flex-flow: row;
+       /* flex-flow: row;*/
         margin-top: 5% !important;
     }
     #main-games-nav .nav-img {
@@ -782,10 +796,17 @@ section.game-body[game="file-taxes"] .interaction-response button{
         width: 100%;
     }
     section.game {
-        padding: 1.5rem;
+        padding: 1rem 0.6rem;
+        overflow: hidden;
     }
     section.game .game-body {
-        padding: 1.5rem;
+        padding: 0.8rem ;
+        padding-right: 15%;
+        margin-bottom: 50%; /* to give space to scroll down for fixed position interaction response */
+    }
+
+    #main-games-nav div:not([current="1"])  {
+        order: 2
     }
     section.game .results {
         flex-flow: column;
@@ -800,19 +821,15 @@ section.game-body[game="file-taxes"] .interaction-response button{
         margin-top: 0;
     }
     .player-tabs button {
-        padding: 1rem;
+        padding: 0.2rem 0.8rem;
     }
     .player-tabs h2 {
         font-size: 1.4rem;
     }
-    .player-tabs p {
-        /*font-size: 1rem;*/
+    .player-tabs span {
         display: none;
     }
-    .player-tabs span {
-        height: 2rem;
-        width: 2rem;
-    }
+
     span.annotation {
         font-size: 1rem;
     }
@@ -823,7 +840,7 @@ section.game-body[game="file-taxes"] .interaction-response button{
     .interaction-response {
         bottom: 0;
         left: 0;
-        height: 100px;
+        height: auto;
         margin: 0;
         overflow-y: scroll;
         padding: 1rem 2rem;
@@ -834,8 +851,21 @@ section.game-body[game="file-taxes"] .interaction-response button{
     .interaction-response h2 {
         font-size: 1.4rem;
     }
-    .interaction-response.expand {
-        height: auto;
+    .interaction-response.shrink {
+        height: 50px;
+    }
+
+    .interaction-response h2::before {
+        content:"▼";
+        margin-right: -10px;
+        position: absolute;
+        top: 4px;
+        right: 24px;
+        font-size: 1.5rem;
+        color: var(--blue-medium)
+    }
+    .interaction-response.shrink h2::before {
+        content:"▲";
     }
     .spend-toggle {
         margin: 1rem 0 2rem;
@@ -846,6 +876,17 @@ section.game-body[game="file-taxes"] .interaction-response button{
         line-height: 1.2rem;
     }
     section.game .game-body img.character-full {
-        display:none;
-        }
+        width: 30%;
+        top: -50px;
+        right: -12%;
+    }
+    
+    section.game .game-body[player="nurse"] img.character-full {
+        right: -8%;
+    }
+
+    section.game-body[game="file-taxes"] .controls .svg-container{
+        padding: 5px;
+        width: 115%; /* goes into the margin-right */
+    }
 }
