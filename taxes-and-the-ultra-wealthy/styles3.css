@@ -287,6 +287,7 @@ main {
 /********** NAVIGATION MAIN PAGE ************/
 /********************************************/
 
+
 #image-nav{
     display:block;
     height: 75vh; 
@@ -295,37 +296,95 @@ main {
 }
 #main-games-nav{
     display: flex; 
-    align-items: center;
+    text-align: center;
+    /*align-items: center;*/
 }
 #main-games-nav div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:30%;
-    border-radius: 10px 10px 40px 40px;
 }
 #main-games-nav div.nav-div{ 
     background: transparent;
+    flex: 1;
 }
 
-#main-games-nav div:not(:nth-of-type(1), :nth-last-of-type(1) ){
-    margin-top: -5%;
+#main-games-nav div.nav-arrow { 
+    flex: 0.6;
 }
-#main-games-nav div:not([playable="1"]){
-    opacity: 0.25;
-}
-#main-games-nav div.nav-div[playable="1"]:hover {
-    box-shadow: 0px 0px 10px rgba(64, 55, 55, 0.63);
+#main-games-nav div.nav-arrow img{ 
+    width: 100%;
 }
 
+#main-games-nav div.nav-div[current="1"]  {
+    flex: 2.2;
+    margin-top:7%;
+}
+
+#main-games-nav div:not([current="1"])  {
+    flex: 1;
+    margin-top:20%;
+}
+#main-games-nav div.nav-div[playable="1"] img:hover {
+    opacity: 70%;
+}
+
+#main-games-nav div.nav-div[playable="1"][current="1"] button {
+    background: var(--blue-light);
+    border: 1px solid var(--blue-primary);
+    color: var(--blue-primary);
+    font-size: 1rem;
+    border-radius: 4rem;
+    margin-top: 1rem;
+}
+
+#main-games-nav div.nav-div[playable="1"][current="1"] button:hover {
+    background: var(--blue-primary);
+    color: white;
+}
+
+#main-games-nav div.nav-div:not([current="1"]) button {
+    display:none
+}
+#main-games-nav div.nav-div:not([current="1"]) p {
+    display:none
+}
+
+#main-games-nav div.nav-div:not([current="1"]) h3 {
+    color: var(--blue-medium);
+    font-size: 1.8rem;
+    margin-top:0px;
+    display: flex;
+    align-items: center;
+}
+
+    
+#main-games-nav div.nav-div[current="0"] h3::before {
+    background-image: url('game-played-check.png');
+    background-size: 3.2rem;
+    display: inline-block;
+    width: 3.2rem; 
+    height: 3.2rem;
+    content:" ";
+}
+#main-games-nav div.nav-div[current="1"]  {
+    flex: 2;
+    margin-top:10%;
+}
 #main-games-nav h3 {
     text-transform: uppercase;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 3rem;
+    margin-top: 1rem;
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+#main-games-nav p {
+    font-weight: lighter;
 }
 #main-games-nav .nav-img {
-    width: 110%;
-    margin-left: 5%;
+    width: 90%;
+    /*margin-left: 5%;*/
 }
 
 #break-the-cycle {

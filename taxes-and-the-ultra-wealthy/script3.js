@@ -70,12 +70,17 @@ d3.selectAll('.player-tabs button')
 
 // for all buttons classed 'return-to-image-nav' return to main nav screen and makePlayable any nav-sections the button indicates
 d3.selectAll('.return-to-image-nav').on('click',function(){
+    console.log('hi')
     hideOverlays();
     d3.select('#image-nav').style('display','block')
+    d3.selectAll('#main-games-nav div.nav-div[current="1"]').attr('current','0')
+    d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+
     d3.selectAll('section.game').style('display','none')
     let makePlayable = d3.select(this).attr('make-playable')
     if(makePlayable){
-        d3.selectAll('section#image-nav div[game="'+ makePlayable +'"]').attr('playable',"1")
+        d3.selectAll('section#image-nav div.nav-div[game="'+ makePlayable +'"]').attr('playable',"1").attr('current','1')
+        d3.selectAll('section#image-nav div.nav-div[game="'+ makePlayable +'"] img').attr('src', 'nav-page-main-img.png')
     }
 })
 
@@ -295,6 +300,9 @@ d3.select('#continue-to-break-cycle')
         d3.select('#break-the-cycle')
             .style('display','flex')
         hideOverlays();
+        d3.selectAll('#main-games-nav div.nav-div[current="1"]').attr('current','0')
+        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+    
         d3.select('#image-nav').style('display','block')
         d3.selectAll('section.game').style('display','none')        
     })
