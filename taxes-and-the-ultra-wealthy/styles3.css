@@ -532,14 +532,23 @@ section.game .game-body img.character-full {
 position: absolute;
 -webkit-transform: scaleX(-1);
 transform: scaleX(-1);
-width: 35%;
+width: 40%;
 top: -20%;
-right: -10%;
+right: 5%;
+transition: width 0.5s ease-in-out, 
+            right 0.5s ease-in-out;
 }
 
 section.game .game-body[player="ceo"] img.character-full {
     top: -10%;
 }
+
+section.game .game-body img.character-full.shifted {
+    width: 35%;
+    right: -10%;
+}
+
+
 
 section.game .game-body>p{
     width: 75%;
@@ -766,6 +775,14 @@ section.game-body[game="file-taxes"] .interaction-response button{
         top:5px;
         right:5px;
     }
+
+    button.help {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        z-index: 1;
+        padding: 0px;
+    }    
 
     header img.faceoff {
         display:none;

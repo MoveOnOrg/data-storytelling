@@ -184,8 +184,8 @@ function adjustOwedBarSpend(pct, player){
         .html(Math.round(pct) + '% of investment gains')
 } 
 
-const controlsInputCeo = d3.select("section.game-body[game='spend'][player='ceo']")
-const spendInputCeo  = controlsInputCeo.select('.controls .spend-toggle input#spend-input')
+const spendCeo = d3.select("section.game-body[game='spend'][player='ceo']")
+const spendInputCeo  = spendCeo.select('.controls .spend-toggle input#spend-input')
 d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
     .style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
 spendInputCeo.on('input', function() {
@@ -193,14 +193,23 @@ spendInputCeo.on('input', function() {
     adjustOwedBarSpend((1-curValue)*20, 'ceo')
 
     if(curValue == 1){
-        d3.select('section.game-body[player="ceo"][game="spend"]').call(animateInteractionResponse)
         d3.select('button[game="spend"][player="nurse"]').attr('playable','1')
-        d3.select('button[game="spend"][player="nurse"]').call(removeTooltip)    
+        d3.select('button[game="spend"][player="nurse"]').call(removeTooltip) 
+//        if(spendCeo.select('img.character-full').classed('shifted')){
+        if(1){
+            spendCeo.call(animateInteractionResponse)
+        } else {
+            spendCeo.select('img.character-full')
+                .classed('shifted', true)
+                .on('transitionend', ()=> {
+                    spendCeo.call(animateInteractionResponse)
+                })
+        }
     }
 })
 
-const controlsInputNurse = d3.select("section.game-body[game='spend'][player='nurse']")
-const spendInputNurse = controlsInputNurse.select('.controls .spend-toggle input#spend-input')
+const spendNurse = d3.select("section.game-body[game='spend'][player='nurse']")
+const spendInputNurse = spendNurse.select('.controls .spend-toggle input#spend-input')
 d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
 .style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
 spendInputNurse.on('input', function() {
@@ -209,7 +218,7 @@ spendInputNurse.on('input', function() {
     d3.select(this).property('value', curValue)
 
     if(targetValue == 1){
-        d3.select('section.game-body[player="nurse"][game="spend"]').call(animateInteractionResponse)
+        spendNurse.call(animateInteractionResponse)
         d3.selectAll('#main-games-nav div.nav-div[game="spend"]').attr('current','0')
         d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
         d3.selectAll('#main-games-nav div.nav-div[game="file-taxes"]')
