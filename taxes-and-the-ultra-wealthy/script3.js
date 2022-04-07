@@ -3,8 +3,8 @@
 
 
 const tooltipTexts = {
-    salaryGameHint: "A large salary is taxed at a pretty high rate, but stock options aren't taxed until they're used. <strong>Slide the slider all the way to the other end to see what happens</strong>",
-    salaryGameHintNurse: "Yeah yeah, nurses can’t choose to get their pay in stock options, but let’s just pretend.",
+    salaryGameHint: "A large salary is taxed at a pretty high rate, but investment gains may never be taxed. <strong>Slide the slider all the way to the other end to see what happens</strong>.",
+    salaryGameHintNurse: "Nurses don’t usually have much investment income, but let’s just pretend.",
     futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
     nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
     spendGameHint: "When you sell a stock or other investment you have to pay capital gains taxes. These taxes are generally lower than the  tax on wages–even better, if you don’t sell your investments, you don’t owe any taxes at all.",
@@ -70,25 +70,21 @@ d3.selectAll('.player-tabs button')
 
 // for all buttons classed 'return-to-image-nav' return to main nav screen and makePlayable any nav-sections the button indicates
 d3.selectAll('.return-to-image-nav').on('click',function(){
-    console.log('hi')
     hideOverlays();
     d3.select('#image-nav').style('display','block')
-    d3.selectAll('#main-games-nav div.nav-div[current="1"]').attr('current','0')
-    d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
-
     d3.selectAll('section.game').style('display','none')
-    let makePlayable = d3.select(this).attr('make-playable')
-    if(makePlayable){
-        d3.selectAll('section#image-nav div.nav-div[game="'+ makePlayable +'"]').attr('playable',"1").attr('current','1')
-        d3.selectAll('section#image-nav div.nav-div[game="'+ makePlayable +'"] img').attr('src', 'nav-page-main-img.png')
-    }
 })
+
+d3.select('img.faceoff')
+    .on('mouseover', function(){d3.select(this).attr('src', 'faceoff.png')})
+    .on('mouseleave', function(){d3.select(this).attr('src', 'faceoff2.png')})
 
 // for all nav div's go to appropriate game if playable="1"
 d3.selectAll('div.nav-div')
     .on('click',function(){
         let curGame = d3.select(this).attr('game')
         if(d3.select(this).attr('playable') == '1') {
+            hideOverlays()
             d3.select('#image-nav').style('display','none')
             d3.select('section.game[game="'+curGame+ '"]').style('display','block')
         }
@@ -100,6 +96,11 @@ d3.selectAll('div.interaction-response')
         responseDiv.classed('shrink', !responseDiv.classed('shrink'));
     })
 
+d3.select('button.help')
+    .on('click', function() {
+        showOverlay('section.overlay#nav-help')
+    })
+
 d3.select('body')
     .on('keydown',function(e){
         if(e.key == 'Enter') {
@@ -107,11 +108,17 @@ d3.select('body')
         }
     })
 
+
 /******************************/
 /*** START GAME INTERACTION ***/
 /******************************/
 
-d3.select('button#get-started').on('click',hideOverlays)
+d3.selectAll('button#get-started').on('click',hideOverlays)
+
+d3.select('button#unlock-all-challenges').on('click',() => {
+    d3.selectAll('.nav-div').attr('playable',1)
+    hideOverlays()
+})
 
 
 /******************************/
@@ -152,6 +159,11 @@ earnSliderNurse.on('input', function() {
     
     if(curValue >= 8){
         d3.select('section.game-body[player="nurse"][game="earn"]').call(animateInteractionResponse)
+        d3.selectAll('#main-games-nav div.nav-div[game="earn"]').attr('current','0')
+        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+        d3.selectAll('#main-games-nav div.nav-div[game="spend"]').attr('current','1').attr('playable',"1")
+            .select('img').attr('src', 'nav-page-main-img.png')
+
     }
 })
 
@@ -198,6 +210,11 @@ spendInputNurse.on('input', function() {
 
     if(targetValue == 1){
         d3.select('section.game-body[player="nurse"][game="spend"]').call(animateInteractionResponse)
+        d3.selectAll('#main-games-nav div.nav-div[game="spend"]').attr('current','0')
+        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+        d3.selectAll('#main-games-nav div.nav-div[game="file-taxes"]')
+            .attr('current','1').attr('playable',"1")
+            .select('img').attr('src', 'nav-page-main-img.png')
     }
 })
 
@@ -279,6 +296,10 @@ function fileTaxesInteractionResponseNurse(btn){
     d3.select('#file-taxes-nurse-' + btn + '-p').style('display','block')
     if(incomeClicked & expenseClicked){
         curGame.select('.interaction-response button').style('display','inline-block')
+        d3.select('#break-the-cycle').style('display','flex')
+        d3.selectAll('#main-games-nav div.nav-div:not([current="0"])').attr('current','0')
+        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+
     }
     curGame.call(animateInteractionResponse)
 }
@@ -297,12 +318,7 @@ d3.select("#file-taxes-nurse-expense-btn")
 
 d3.select('#continue-to-break-cycle')
     .on('click', ()=> {
-        d3.select('#break-the-cycle')
-            .style('display','flex')
         hideOverlays();
-        d3.selectAll('#main-games-nav div.nav-div[current="1"]').attr('current','0')
-        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
-    
         d3.select('#image-nav').style('display','block')
         d3.selectAll('section.game').style('display','none')        
     })

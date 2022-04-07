@@ -9,14 +9,17 @@
     <title>Taxes and the Ultra Wealthy</title>
 </head>
 <body>
-    <header class='return-to-image-nav'> <!-- this class lets us click header to return -- in production need to replace this with propper buttons -->
+    <header> <!-- this class lets us click header to return -- in production need to replace this with propper buttons -->
         <h1>The Taxes Game</h1>
         <p>How billionaires avoid taxes and leave us paying the bills</p>
         <img class='moveon-logo' src = "https://s26030.pcdn.co/wp-content/uploads/2017/06/moveon-logo-suprt-rev-rgb-e1518202117808.png" /> 
+        <img class='faceoff return-to-image-nav' src = "faceoff2.png" role='button' tabindex="1" alt = 'page icon, return to nav pge' /> 
     </header>
 
     <main>
         <section id='image-nav'> 
+            <button class='help'><img src = "help-icon.png" alt = 'help button' /></button>
+
             <div id='main-games-nav'>       
                 <div class='nav-div' playable="1" game='earn' current="1" role='button' tabindex='2'>
                     <img class='nav-img' id='img1' src='nav-page-main-img.png' alt='first section icon'  />
@@ -62,6 +65,14 @@
             <p>Want to know how the ultra wealthy avoid paying their fair share in taxes? Try your hand at gaming the GOP-rigged tax system to see how they do it!</p>
             <button id='get-started' class='btn-primary' type='button' tabindex='1'>Get Started</button>
         </section>
+        <section class = 'overlay' id ='nav-help'>
+            <p>Walk through the EARN, SPEND, and FILE TAXES challenges as a billionare CEO and as a nurse to learn about our rigged tax system. </p>
+            <p>If you get stuck, you can unlock all challenges here: </p>
+            <div class='btn-group'>
+                <button id='unlock-all-challenges' class='btn-primary' type='button' tabindex='2'>Unlock All</button>
+                <button id='get-started' class='btn-primary' type='button' tabindex='3'>Close</button>
+            </div>
+        </section>
         <section class='game' game='earn'>
             <section class='game-wrapper'> 
                 <section class='player-tabs' role='tablist'>
@@ -79,7 +90,7 @@
                     <p><strong>Your Goal</strong>: Get richer, while keeping down your taxes.</p>
                     <div class='results'>
                         <div class='controls'>
-                            <h3>Choose how to grow your wealth. <span class='hint' id='salary-game-hint'>?</span></h3>
+                            <h3>Choose how to make your income. <span class='hint' id='salary-game-hint'>?</span></h3>
                             <div class='salary-slider'>
                                 <div class = 'slider-label-box-left'></div>
                                 <div class = 'slider-label-box-right'></div>
@@ -102,7 +113,7 @@
                             <h2>Nice Moves!</h2>
                             <div class='interaction-content'>
                                 <p>You've joined Elon Musk, Larry Ellison, and many others who have at times chosen to take a salary of $1 or less as they find less taxing ways to add to their Billions.</p>
-                                <button class='btn-primary'>Next Challenge</button>
+                                <button class='btn-primary'>Play as nurse</button>
                             </div>
                         </div>                   
                 </section>
@@ -112,7 +123,7 @@
                     <p><strong>Your goal</strong>: Try out the Billionaire CEO's tricks for yourself.</p>
                     <div class='results'>
                         <div class='controls'>
-                            <h3>Choose how to pay yourself. <span class='hint' id='salary-game-hint-nurse'>?</span></h3>
+                            <h3>Choose how to make your income. <span class='hint' id='salary-game-hint-nurse'>?</span></h3>
                             <div class='salary-slider'>
                                 <div class = 'slider-label-box-left'></div>
                                 <div class = 'slider-label-box-right'></div>
@@ -131,7 +142,7 @@
                                 <div class='interaction-content'>
                                     <p>Most workers don't have enough wealth to live off investment gains. </p>
                                     <p>Your money will need to come from wages to pay for housing, food, health care and other basic expenses.</p>
-                                    <button class='btn-primary return-to-image-nav' id='continue-to-spend' make-playable='spend'>Continue</button>
+                                    <button class='btn-primary return-to-image-nav' id='continue-to-spend'>Next Challenge</button>
                                 </div>
                             </div>                       
                     </div>
@@ -169,7 +180,7 @@
                             <h2>You got it!</h2>
                             <div class='interaction-content'>
                                 <p>Billionaire Carl Icahn has had over $1.2 billion in low-interest loans, which he uses to pay for his extravagant lifestyle and to make more investments, all without owing taxes on his gains. </p>
-                                <button class='btn-primary'>Next Challenge</button>
+                                <button class='btn-primary'>Try as nurse</button>
                             </div>
                         </div>     
                     </div>
@@ -196,9 +207,9 @@
                         <div class='interaction-response'>
                             <h2>Not so fast!</h2>
                             <div class='interaction-content'>
-                                <p>Low-interest loans are hard to come by for emergency expenses.</p> 
+                                <p>Low-interest loans are hard to come by for working families' emergency expenses.</p> 
                                 <p>Your best bet might be joining the millions of Americans in credit card debt, facing very high interest rates.</p>
-                                <button class='btn-primary return-to-image-nav' id='continue-to-file-taxes' make-playable='file-taxes'>Next Challenge</button>
+                                <button class='btn-primary return-to-image-nav' id='continue-to-file-taxes'>Next Challenge</button>
                             </div>
                         </div>     
                     </div>
@@ -226,20 +237,20 @@
 
                 <section class='game-body' game='file-taxes' player='ceo'>
                     <img class='character-full' src= 'ceo_full.png' alt ='image of wolf ceo' />
-                    <p><strong>Your Goal</strong>: Claim your corporation had $0 in taxable profits, in spite of the big earning you boasted to your investors.</p>
+                    <p><strong>Your Goal</strong>: Claim your corporation had $0 in taxable profits, in spite of the big earnings you boasted to your investors.</p>
                     <div class='results'>
                         <div class='controls'>
                             <h3>What you shared with investors:</h3>  
                             <div class='svg-container'>
                                 <svg game='file-taxes' player='ceo' width="100%" height="140px">
-                                    <rect id='income' y = 95 x = 0 height = 30 width = 99% fill = 'var(--blue-darkest)'/>
+                                    <rect id='income' y = 95 x = 0 height = 30 width = 98% fill = 'var(--blue-darkest)'/>
                                     <text y = 120 x = 5 fill='white' font-weight='bold' font-size = 'clamp(16px, 1rem, 24px)'>INCOME</text>
-                                    <rect id='expense' y = 60 x = 0 height = 30 width = 30% fill = 'var(--blue-light)' stroke='var(--blue-darkest)'/>
+                                    <rect id='expense' y = 60 x = 0 height = 30 width = 28% fill = 'var(--blue-light)' stroke='var(--blue-darkest)'/>
                                     <text y = 85 x = 5 fill='var(--blue-darkest)' font-weight='bold' font-size = 'clamp(16px, 1rem, 24px)'>EXPENSES</text>
-                                    <line id='profit' y1 = 38 x1 = 30% y2 = 38 x2 =  99% stroke = 'var(--blue-darker)' stroke-width='3px'/>
-                                    <line id='profit-inner-tab' y1 = 55 x1 = 30% y2 = 38 x2 =  30% stroke = 'var(--blue-darker)' stroke-width='3px'/>
-                                    <line id='profit-outer-tab' y1 = 55 x1 = 99% y2 = 38 x2 =  99% stroke = 'var(--blue-darker)' stroke-width='3px'/>
-                                    <text id='profit-text' y = 28 x = 99% text-anchor="end" font-weight='bold' fill='var(--blue-darker)' font-size = '1.25rem'>$140M in profit</text>
+                                    <line id='profit' y1 = 38 x1 = 28% y2 = 38 x2 =  98% stroke = 'var(--blue-darker)' stroke-width='3px'/>
+                                    <line id='profit-inner-tab' y1 = 55 x1 = 28% y2 = 38 x2 =  28% stroke = 'var(--blue-darker)' stroke-width='3px'/>
+                                    <line id='profit-outer-tab' y1 = 55 x1 = 98% y2 = 38 x2 =  98% stroke = 'var(--blue-darker)' stroke-width='3px'/>
+                                    <text id='profit-text' y = 28 x = 98% text-anchor="end" font-weight='bold' fill='var(--blue-darker)' font-size = '1.1rem'>$140M in profit</text>
                                 </svg> 
                             </div>              
                         <h3>Now update it for the IRS: <span class='hint' id='file-taxes-game-hint'>?</span></h3> 
@@ -254,7 +265,7 @@
                             <div class='interaction-content'>
                                 <p id='file-taxes-ceo-income-p'>Loopholes let corporations shift American-made profits to offshore havens that charge little or no tax.</p>
                                 <p id='file-taxes-ceo-expense-p'>Loopholes let corporations claim expenses they haven’t really incurred–and that they don’t report to investors.</p>
-                                <button class='btn-primary'>Next Challenge</button>
+                                <button class='btn-primary'>Try as nurse</button>
                             </div>
                         </div>     
                     </div>
@@ -275,13 +286,13 @@
                                     <line id='profit' y1 = 38 x1 = 14% y2 = 38 x2 =  99% stroke = 'var(--blue-darker)' stroke-width='3px'/>
                                     <line id='profit-inner-tab' y1 = 55 x1 = 14% y2 = 38 x2 =  14% stroke = 'var(--blue-darker)' stroke-width='3px'/>
                                     <line id='profit-outer-tab' y1 = 55 x1 = 99% y2 = 38 x2 =  99% stroke = 'var(--blue-darker)' stroke-width='3px'/>
-                                    <text id='profit-text' y = 28 x = 99% text-anchor="end" font-weight='bold' fill='var(--blue-darker)' font-size = '1.25rem'>$60K in taxable income</text>
+                                    <text id='profit-text' y = 28 x = 99% text-anchor="end" font-weight='bold' fill='var(--blue-darker)' font-size = '1.1rem'>$60K in taxable income</text>
                                 </svg> 
                             </div>
-                            <h3>Adjust it for the IRS: <span class='hint' id='file-taxes-game-hint'>?</span></h3> 
+                            <h3>Adjust it for the IRS:</h3> 
                             <div class='btn-group'>
-                                <button class='btn-secondary' id='file-taxes-nurse-income-btn'>Move income to low-tax country</button>
-                                <button class='btn-secondary' id='file-taxes-nurse-expense-btn'>Change expense deduction method</button>
+                                <button class='btn-tertiary' id='file-taxes-nurse-income-btn'>Move income to low-tax country</button>
+                                <button class='btn-tertiary' id='file-taxes-nurse-expense-btn'>Change expense deduction method</button>
                             </div>
                         </div>
                         <div class='interaction-response'>

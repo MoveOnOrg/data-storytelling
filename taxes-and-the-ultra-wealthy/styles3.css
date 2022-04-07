@@ -236,6 +236,15 @@ header img.moveon-logo {
     right:15px;
 }
 
+header img.faceoff {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    opacity: .8;
+}
+
+
 /***********************************/
 /********** BAR STYLING ************/
 /***********************************/
@@ -287,7 +296,22 @@ main {
 /********** NAVIGATION MAIN PAGE ************/
 /********************************************/
 
-
+button.help {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1;
+    padding: 0px;
+}
+button.help:hover {
+    opacity: 0.75;
+}
+button.help img {
+    width: 120px;
+}
+section.overlay#nav-help {
+    display: none;
+}
 #image-nav{
     display:block;
     height: 75vh; 
@@ -517,6 +541,9 @@ section.game .game-body[player="ceo"] img.character-full {
     top: -10%;
 }
 
+section.game .game-body>p{
+    width: 75%;
+}
 section.game .results {
     display: flex;
     padding-top: 0.5rem;
@@ -739,6 +766,11 @@ section.game-body[game="file-taxes"] .interaction-response button{
         top:5px;
         right:5px;
     }
+
+    header img.faceoff {
+        display:none;
+    }
+
     p {
         font-size: 1rem;
     }
