@@ -1,56 +1,49 @@
 * {
     --blue-primary: #00ABFF;
+    --blue-medium: #99ddff;
+    --blue-bar: #abe9ff;
     --blue-darker: #0080bf;
     --blue-darkest:#005680;
     --blue-light: #e5f5ff;
+    --blue-light2: #d9eefa;
+    --blue-light3: #d1edfe;
     --grey-primary: #b2b2b2;
     --red-primary: hsl(358, 83%, 51%);
+    --red-dark: #9b0000;
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
-
 }
+
 html {
     font-family: 'Roboto', sans-serif;
+    /* background-color: black; */
     background-color: var(--blue-light);
+    font-weight: 400;
     line-height: 1.4;
 }
 
-header {
-    background-color: black;
-}
-
-h1 {
-    color: black;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 4rem ;
-    font-weight: bold ;
-    margin: 0 0 50px ;
-    padding: 3rem 0 ;
-    text-align: center;
-    text-transform: uppercase ;
-  }
-h1 span {
-    background-color: var(--blue-primary);
-    line-height: 4.5rem;
-    padding: 2px 10px;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-}
 h2 {
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
+    margin-bottom: 2rem;
 }
 h3, input {
     margin-bottom: 0.5rem;
 }
 
 p {
-    font-size: 1.25rem; 
+    font-size: 1.2rem; 
     margin-bottom: 1rem;
 }
-hr {
+
+.game-body p strong {
+    font-size: 1.5rem; 
     margin-bottom: 1rem;
+}
+
+a {
+    color: #000;
+    font-size: 1.2rem;
+    text-decoration: none;
 }
 
 button {
@@ -59,203 +52,1029 @@ button {
     align-items: center;
     border: 0;
     border-radius: 0;
-    font-size: 1.5rem;
-    padding: 8px 20px;
-    background-color: var(--blue-primary);
-    color: white;
+    font-size: 1.8rem;
+    padding: 10px 16px;
     cursor: pointer;
     text-transform: uppercase;
     box-shadow: none;
     font-family: "Roboto Condensed",sans-serif;
-    font-weight: bolder;
+    font-weight: bold;
     margin-bottom: 1rem;
 }
-button:hover{
-    background-color: var(--blue-darker);
+button.btn-primary {
+    background-color: var(--blue-primary);
+    color: black;
 }
-main { 
-    width: clamp(400px, 65%, 800px);
-    max-width: 100%;
-    margin: 0px auto;
+.game-body button.btn-primary {
+    background-color: var(--blue-darkest);
+    border: 1px solid #000;
+    font-size: 1.5rem;
+    color: white;
+}
+button.btn-secondary {
+    background-color: var(--blue-light);   
+    border: 1px solid black;
+    color: black;
+}
+button:not(.player-tabs button):hover{
+    background-color: var(--blue-darker);
+    color: white;
 }
 
-section#help-modal-wrapper {
+button.btn-tertiary {
+    background-color: var(--blue-darker); 
+    border: 1px solid var(--blue-darker);  
+    color: white;
+}
+button.btn-tertiary:not(.player-tabs button):hover{ 
+    background-color: var(--blue-light);   
+    border: 1px solid black;
+    color: black;
+}
+
+
+/**************************/
+/******** TOOLTIPS ********/
+/**************************/
+
+/* for hint question mark */
+span.hint {
+    position:relative; 
+    background-color: #c4c4c4; 
+    display: inline-block; 
+    text-align: center;
+    width: 2rem;
+    height: 2rem; 
+    border-radius: 50%;
+}
+
+.tooltip {
+    background-color: #FFF;
+    border-radius: 6px;
+    border: 1px solid #000;
+    font-size: 1.2rem;
+    height: auto;
+    padding: 15px;
+    position: absolute;  
+    pointer-events: none;
+    text-align: center;
+    width: 300px;
+    z-index: 2;
+}
+.tooltip::after {
+    background: #FFFAF4;
+    border-bottom: inherit;
+    border-right: inherit;
+    content: '';
+    left: 50%;
+    height: 20px;
+    margin-left: -10px;
+    position: absolute;
+    top: -webkit-calc(100% - 10px); /*may require prefix for old browser support*/
+    top: calc(100% - 10px); /*i.e. half the height*/
+    transform: rotate(45deg);
+    width: 20px;
+}
+
+/******************************/
+/******** RANGE INPUTS ********/
+/******************************/
+
+input[type=range] {
+    -webkit-appearance: none;
+    background: transparent;
+    margin: 10px auto 30px;
+    width: 80%;
+    margin-left: 10%;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background: #C4C4C4;
+    height: 10px;
+}
+
+input[type="range"]::-moz-range-track {
+    background: #C4C4C4;
+    height: 10px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: ew-resize;
+    background: var(--blue-darkest);
+    height: 38px;
+    margin-top: -14px;
+    width: 18px;
+    border: 0;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+
+}
+
+input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    cursor: ew-resize;
+    background: var(--blue-darkest);
+    height: 38px;
+    margin-top: -14px;
+    width: 12px;
+    border: 0;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+#spend-input::-webkit-slider-thumb {
+    clip-path: none;
+    border-radius: 50%;
+}
+#spend-input::-moz-range-thumb {
+    clip-path: none;
+    border-radius: 50%;
+}
+
+
+/**************************/
+/******** OVERLAYS ********/
+/** inc. first screen *****/
+/**************************/
+
+section.overlay {     
+    background-color: white;
+    left: 50%;
+    max-width: 50%;
+    position: fixed;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    box-shadow: 0 0 20px;
+}
+section.overlay h2 {
+    background-color: var(--blue-primary);
+    padding: 10px 10%;
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+}
+
+section.overlay h3 {
+    font-size: 1.5rem;
+}
+section.overlay .overlay-body{
+    padding: 6px 15%;
+}
+section.overlay p{
+    font-weight: lighter;
+}
+div#overlay-background{ 
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,.8);
-    top: 0;
-    left: 0;
+    top:0;
+    left:0;
+    background-color: rgba(0, 0, 0, 0.73);
+    z-index: 1;
+}
+
+/*********************/
+/****** HEADER *******/
+/*********************/
+
+header {
+    background-color: black;
+    color:white; 
+    text-align: center;
+}
+header .attribution { 
+    text-align: right;
+    background-color: var(--blue-primary);
+    color:black;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding-top: 4px;
+}
+
+header .attribution img.moveon-logo {
+    width: 70px;
+    display: inline-block;
+    margin-bottom: -13px;
+    margin-left: 12px;
+    margin-right: clamp(5px, 12%, 250px);
+}
+
+header .main-title{ 
+    padding: 1rem;
+    margin-left: clamp(5px, 10%, 200px);
+    text-align: left;
     display: flex;
+    line-height: 1;
     align-items: center;
-    justify-content: center;
-    display:none;
-}
-div#help-modal-box {
-    background-color: var(--blue-darkest);
-    color: white;
-    padding: 40px;
-    width: clamp(200px, 50%, 500px);
-    max-width: 100%;
-    position: relative;
 }
 
-button#close-modal {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 1rem;
-    padding: 4px;
+header .main-title img.faceoff {
+    width: 100px;
+    opacity: 0.8;
 }
 
-button.help {
-    position: absolute;
-    bottom: -4rem;
-    right: 0;
+header h1 {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 3.5rem ;
+    font-weight: bold ;
+    text-transform: uppercase ;
+}
+
+header p {
+    font-size: 1.4rem;
+    margin: 8px 0px 0px 0.4rem ;
 }
 
 
+
+
+
+/***********************************/
+/********** BAR STYLING ************/
+/***********************************/
 
 div.bar { 
-    background-color: black;
-    width: 40%;
+    background-color: var(--blue-bar);
+    width: 100%;
     height: 2rem;
-    color: var(--blue-primary);
+    color: black;
     font-size: 1.3rem;
     display: flex;
     align-items: center;
-    gap: 5px;
 }
 div.bar span.inner-bar {
     display: inline-block;
-    background-color: var(--blue-primary);
+    background-color: var(--red-dark);
     height: 2rem;
+    padding-left: 0px;
 }
 div.bar span {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
+    padding-left: 10px;
+    color: var(--red-dark);
 }
 
+.game-body div.bar {
+    background-color: var(--blue-darkest);
+    height: 2.2rem;
+}
+.game-body div.bar span.inner-bar {
+    background-color: var(--blue-primary);
+    height: 2.2rem;
+}
+.game-body div.bar span {
+    color: white;
+}
+
+/* bars in intro overlay */ 
 section#intro div {
     margin-bottom: 1rem;
 }
 
-section.game{
+/********************************************/
+/****************** MAIN ********************/
+/* background for main nav and game screens */
+/********************************************/
+
+main { 
+    background-color: var(--blue-light);
+    width: 100%;
+    margin:0px auto;
+    position: relative;
+
+}
+
+/********************************************/
+/********** NAVIGATION MAIN PAGE ************/
+/********************************************/
+
+button.help {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1;
+    padding: 0px;
+}
+button.help:hover {
+    opacity: 0.75;
+}
+button.help span {
     display:none;
 }
-section.game-body { 
-    background-color: var(--blue-primary);
-    display: flex;
-    width: 120%;
-    margin: 0 -10%;
-    position: relative; /* so that help button can be placed 'absolute' */
+button.help img {
+    width: 130px;
 }
-section.game .situation {
-    flex: 1;
-    padding: 1.2rem;
+section.overlay#nav-help {
+    display: none;
+    padding: 40px 40px 20px;
 }
-section.game .results {
-    flex: 3;
-    background-color: black;
-    color: white;
-    padding: 1.2rem;
-    display: flex;
+section.overlay#nav-help .btn-group {
+    display: flex; 
+    gap: 6px;
+    justify-content: center;
 }
-section.game .results .controls {
-    flex: 2;
+section.overlay#nav-help button {
+    font-size: 1.2rem;
+    margin-bottom: none;
 }
-
-section.game .results .controls input[type="range"] {
+#image-nav{
     display:block;
-    width: 70%; 
-    margin: 3px auto;
+    height: 75vh; 
+    max-width: 65%;
+    margin:0px auto;
 }
-section.game .results .controls label {
-    display:block;
-    width: 70%; 
-    margin: 3px auto 15px;
+#main-games-nav{
+    display: flex; 
+    text-align: center;
+    /*align-items: center;*/
 }
-
-section.game .results .taxes-owed {
-    flex: 1;
+#main-games-nav div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*justify-content: space-between;*/
-    gap:5px;
-    color: var(--blue-primary);
-    text-transform: uppercase;
 }
-section.game .results .bar {
-    flex-direction: column-reverse;
-    width: 50%;
-    height: 100%;
-    border: 1px solid var(--blue-primary);
-    text-align: center;
-    max-height: 200px;
+#main-games-nav div.nav-div{ 
+    background: transparent;
+    flex: 1;
 }
 
-section.game .results span.inner-bar {
+#main-games-nav div.nav-arrow { 
+    flex: 0.6;
+}
+#main-games-nav div.nav-arrow img{ 
     width: 100%;
 }
 
-#game-round1 .results span.inner-bar{
-    height: 35%;
+#main-games-nav div.nav-div[current="1"]  {
+    flex: 2.2;
+    margin-top:7%;
 }
 
-#game-round2 .results span.inner-bar{
-    height: 18%;
+#main-games-nav div:not([current="1"])  {
+    flex: 1;
+    margin-top:20%;
+}
+#main-games-nav div.nav-div[playable="1"] img:hover {
+    opacity: 70%;
 }
 
-#game-round3 .results span.inner-bar{
-    height: 0%;
+#main-games-nav div.nav-div:not([current="1"]) button {
+    display:none
+}
+#main-games-nav div.nav-div:not([current="1"]) p {
+    display:none
 }
 
-section.game-explanation { 
-    height: 100vh;
-    padding: 3rem; 
-    width: clamp(300px, 60%, 500px);
+#main-games-nav div.nav-div:not([current="1"]) h3 {
+    color: var(--blue-medium);
+    font-size: 1.8rem;
+    margin-top:0px;
+    display: flex;
+    align-items: center;
+}
+
+    
+#main-games-nav div.nav-div[current="0"] h3::before {
+    background-image: url('game-played-check.png');
+    background-size: 3.2rem;
+    display: inline-block;
+    width: 3.2rem; 
+    height: 3.2rem;
+    content:" ";
+}
+#main-games-nav div.nav-div[current="1"]  {
+    flex: 2;
+    margin-top:10%;
+}
+#main-games-nav h3 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 8px;
+    line-height: 1;
+    margin-bottom: 0;
+}
+#main-games-nav p {
+    font-weight: lighter;
+}
+#main-games-nav .nav-img {
+    width: 90%;
+    /*margin-left: 5%;*/
+}
+
+#break-the-cycle {
+    display: flex;
+    justify-content: center;
+    display: none; 
+}
+
+#break-the-cycle button {
+    font-size: 3.5rem;
+}
+
+/***********************************/
+/****** GENERAL GAME SCREEN ********/
+/***********************************/
+
+section.game{
+    width: clamp(850px, 75%, 1000px);
     max-width: 100%;
     margin: 0 auto;
-    text-align: center; 
-    visibility:hidden;
+    padding: 40px 0;
+    display:none;
 }
-p.hint {
+
+section.game-body[player="nurse"]{
+    display: none;
+}
+
+/* until we figure out where this navigation back to home screen should actually go */ 
+section.game-round-opening a {
+    position:absolute;
+    top:5px;
+    right: 5px;
+}
+section.game-round-opening img {
+    width: 50px;
+}
+section.game-round-opening .background {
+    display: flex;
+    flex-direction: column;  
+    gap: 6px;
+}
+section.game-round-opening .background h2 {
+    margin-bottom: 0.1rem;
+}
+section.game-round-opening .background h2 .subtitle {
+    font-size: 1.25rem;
+    font-weight: normal;
+}
+section.game-round-opening .background p {
+    font-size: 1.25rem
+}
+
+section.game-round-opening .background a {
     font-size: 1rem;
+    font-weight: bold;
+}
+.player-tabs {
+    display: flex;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+}
+
+.player-tabs button {
+    border: 1px solid black;
+    border-radius: 10px 10px 0px 0px;
+    background-color: var(--blue-light2);
+    margin-bottom: -1px;
+    padding: 14px 20px 5px 20px;
+    text-transform: inherit;
+}
+.player-tabs button span {
+    position: relative;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 6px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+.player-tabs button[player="ceo"] span {
+    background-image: url(ceo_char.png);
+}
+.player-tabs button[player="nurse"] span {
+    background-image: url(nurse_char.png);
+}
+.player-tabs div {
+    text-align:start;
+}
+.player-tabs h2 {
+    margin-bottom: 0px;
+    font-size: 1.8rem;
+}
+.player-tabs p {
+    margin-bottom: 0px;
+    font-weight: normal;
+    font-size: 1.2rem;
+}
+.player-tabs button[active='1'] {
+    border: 1px solid black;
+    border-bottom: none;
+    background-color:var(--blue-light3);
+}
+.player-tabs button:not([playable='1']) {
+    opacity: 0.3
+}
+section.game-wrapper { 
+    margin-top: 24px;
+    position: relative; /* so that help button can be placed 'absolute'  - although not currently using the help button*/
+}
+
+section.game .game-body {
+    background-color: var(--blue-light3);
+    color: black;
+    border: 1px solid #000000;
+    padding: 1.5rem 3rem;
+    position: relative;
+}
+section.game .game-body img.character-full {
+    position: absolute;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    width: min(35%,350px);
+    top: -20%;
+    right: 0%;
+}
+
+section.game .game-body[player="ceo"] img.character-full {
+    top: -10%;
 }
 
 
-#stocks-play{
-    display: block;
+section.game .game-body>p{
+    width: 70%; /* this is the Goal p, probably should move it over */
+}
+section.game .results {
+    display: flex;
+    padding-top: 0.5rem;
+    align-items: flex-start;
+}
+section.game .results .controls  {
+    flex: 1.5;
+}
+section.game .results .controls p {
+    font-size: 1.25rem;
 }
 
-#stocks-annote {
-    color: white;
-    text-transform: none;
+section.game .results .controls h3 {
+    font-size: 1.5rem;
 }
 
-section.game#game-round3 .results .taxes-owed {
+section.game .results .taxes-owed {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
+
+section.game .results .bar {
+    width: 100%;
+    max-height: 5rem;
+    text-align: center;
+}
+
+/********************************************/
+/****** INTERACTION RESPONSE SECTION ********/
+/********************************************/
+
+.interaction-response {
+    flex: 1;
+    position: relative;
+    padding: 12px 24px ;
+    margin-left: 60px;
+    margin-top: 40px;
+    text-align: center;
+    visibility: hidden;
+    background-color: #444444CC;
+    color:white;
+    opacity:0;
+    border-radius: 14px;
+}
+.interaction-response h2 {
+    font-size:0;
+    margin:0;
+}
+.interaction-response .interaction-content {
     visibility: hidden;
 }
 
-.tooltip {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 6px;
-    font-size: 14px;
-    height: auto;
-    padding: 10px;
-    position: absolute;  
-    pointer-events: none;
-    text-align: center;
-    width: 150px;
+
+/*************************/
+/****** EARN GAME ********/
+/*************************/
+
+section.game-body[game="earn"][player="ceo"] .results span.inner-bar{
+    width: 35%;
 }
-.tooltip::after {
-    border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
-    border-style: solid;
-    border-width: 10px;
-    content: '';
-    left: 50%;
-    margin-left: -10px;
+
+section.game-body[game="earn"][player="nurse"] .results span.inner-bar{
+    width: 18%;
+}
+
+section.game-explanation {
+    display: none;
+}
+
+section.game-body[game="earn"] input[type=range] {
+    width: 80%;
+}
+
+.salary-slider {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.salary-slider>div{
     position: absolute;
-    top: 100%;
+    top: 14px;
+    width: 3%;
+    height: 36px;   
+    border-top: 1px solid black; 
+}
+.slider-label-box-left{
+    border-left: 1px solid black; 
+    left: 5%;
+}
+
+.slider-label-box-right{
+    border-right: 1px solid black; 
+    left: 92%;
+}
+
+label[for="salary-stock"]{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    gap: 20px;
+}
+
+label[for="salary-stock"] div {
+    line-height: 1.2rem;
+    padding: 4px;
+}
+
+label[for="salary-stock"] div:nth-last-of-type(1) {
+    text-align: end;
+}
+
+/**************************/
+/****** SPEND GAME ********/
+/**************************/
+
+.spend-toggle {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    width: 75%;
+}
+
+label[for="spend-input"] {
+    font-size:1.25rem;
+}
+section.game-body[game="spend"] input[type=range] {
+    width: 65px;
+    margin: 0;
+}
+
+section.game-body[game="spend"] input[type=range]::-webkit-slider-runnable-track {
+    height: 38px;
+    border-radius: 19px;
+  }
+  
+section.game-body[game="spend"] input[type="range"]::-moz-range-track {
+    height: 38px;
+    border-radius: 19px;
+  }
+  
+section.game-body[game="spend"] input[type=range]::-webkit-slider-thumb {
+    margin-top: 0;
+      width: 38px;
+  }
+  
+section.game-body[game="spend"] input[type="range"]::-moz-range-thumb {
+    margin-top: 0;
+      width: 38px;
+
+  }
+
+section.game-body[game="spend"][player="ceo"] .results span.inner-bar{
+    width: 20%;
+}
+section.game-body[game="spend"][player="nurse"] .results span.inner-bar{
+    width: 30%;
+}
+
+span.annotation-sub {
+    display: inline-block;
+    padding-top: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/**************************/
+/**** FILE TAXES GAME *****/
+/**************************/
+
+section.game-body[game="file-taxes"] .controls{
+    flex: 2;
+}
+section.game-body[game="file-taxes"] .controls .btn-group {
+    display: flex; 
+    gap: 4px;
+}
+section.game-body[game="file-taxes"] .controls button{
+    font-size:1rem;
+    flex:1;
+    padding: 10px 10px;
+}
+section.game-body[game="file-taxes"] .controls .svg-container {
+    padding:10px;
+    background-color: white;
+    border: 1px solid var(--blue-darker);
+    margin-bottom: 18px;
+}
+section.game-body[game="file-taxes"] .controls svg {
+    border-left: 2px solid var(--grey-primary);
+    border-bottom: 2px solid var(--grey-primary);
+}
+
+
+section.game-body[game="file-taxes"] .interaction-response p{
+    display:none;
+}
+section.game-body[game="file-taxes"] .interaction-response button{
+    display:none;
+}
+
+
+
+/**************************/
+/**** MOBILE STYLES *******/
+/**************************/
+@media (max-width: 850px) {
+    header {
+        text-align: start;
+    }
+    header .attribution  {
+        text-align: center;
+        padding-top: 0;
+        margin-top: -6px;
+    }
+
+    header .attribution span{
+        display: none;
+    }
+    header .attribution img.moveon-logo{
+        width: 40px;
+        margin: 0 0 -10px;
+    }
+
+    button.help img {
+        display:none;
+    }
+    button.help span {
+        display: inline-block;
+        color: white;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    button.help span span.hint{
+        background: none;
+        border: 1.5px solid white;
+        font-size: 0.8rem;
+        width: 1rem;
+        height: 1rem; 
+        font-weight: bold;
+    }
+    button.help:not(.player-tabs button):hover{
+        background-color: black;
+    }
+    button.help {
+        background: black;
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: 100%;
+        z-index: 1;
+        padding: 3px;
+        margin-bottom: 0px;
+    }   
+
+    header .main-title{ 
+        padding: 1rem;
+        margin-left: 10px;
+        text-align: left;
+        display: flex;
+        line-height: 1;
+        align-items: center;
+    }
+
+    header h1 {
+        font-size: 1.7rem ;
+    }
+    header p {
+        font-size: 0.95rem ;
+        line-height: 1.2;
+        margin: 5px 0px 0px 3px;
+        font-weight: lighter;
+        
+    }
+    header .main-title img.faceoff {
+        width: 65px;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+    p strong {
+        font-size: 1rem;
+    }
+    #main-games-nav {
+       /* flex-flow: column;
+        gap: 20px;
+        align-items: start;*/
+        flex-wrap: wrap;
+    }
+
+
+    #main-games-nav div.nav-div[current="1"]  {
+        width: 100%;
+        margin-top:7%;
+        order: 0; 
+        flex-basis: 100%;
+    }
+    
+    #main-games-nav div.nav-div[current="1"] .nav-img {
+        height: 30vh;
+    }
+
+    #main-games-nav div.nav-div[playable="1"][current="1"] button { 
+        display: none;
+    }
+    
+    #main-games-nav div {
+        margin-top: 5% !important;
+    }
+    #main-games-nav .nav-img {
+        height: 20vh;
+        width: auto;
+    }
+    #image-nav {
+        max-width: 100%;
+    }
+    #main-games-nav div.nav-div span {
+        position:relative;
+    }
+    #main-games-nav div.nav-div span:before {
+        position: absolute;
+        font-size: 2.1rem;
+        background: var(--blue-light);
+        border-radius: 50%;
+        width: 2.7rem;
+        height: 2.7rem;
+        color: var(--blue-darker);
+        border: 1px solid var(--blue-darker);
+        top: -0.5rem;
+        left: -0.1rem;
+    }
+    #main-games-nav div.nav-div[game="earn"] span:before {
+        content: "1";
+    }
+
+    #main-games-nav div.nav-div[game="spend"] span:before {
+        content: "2";
+    }
+
+    #main-games-nav div.nav-div[game="file-taxes"] span:before {
+        content: "3";
+    }
+    #main-games-nav div.nav-div:not([current='1']) span:before {
+        font-size: 1.5rem;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--blue-medium);
+        background-color: var(--blue-light);
+        color: var(--blue-medium);
+ 
+    }
+
+    #main-games-nav div.nav-arrow {
+        display:none;
+    }
+
+    section.overlay {
+        max-width: 90%;
+        width: 90%;
+        top: 10%;
+        transform: translate(-50%, 0%);
+    }
+    section.overlay .overlay-body{
+        padding: 6px 4%;
+    }
+    section.overlay h2 {
+        padding: 10px 5%;
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+    }
+    section.overlay h3 {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+    }
+    section#intro div.bar {
+        width: 100%;
+    }
+    section.game {
+        padding: 1rem 0.6rem;
+        overflow: hidden;
+    }
+    section.game .game-body {
+        padding: 0.8rem ;
+        padding-right: 15%;
+        margin-bottom: 50%; /* to give space to scroll down for fixed position interaction response */
+    }
+
+    #main-games-nav div:not([current="1"])  {
+        order: 2
+    }
+    section.game .results {
+        flex-flow: column;
+    }
+    section.game .results .controls {
+        width: min(500px, 100%);
+    }
+    section.game .results .controls h3 {
+        font-size: 1rem;
+    }
+    section.game-wrapper {
+        margin-top: 0;
+    }
+    .player-tabs button {
+        padding: 0.2rem 0.8rem;
+    }
+    .player-tabs h2 {
+        font-size: 1.4rem;
+    }
+    .player-tabs span {
+        display: none;
+    }
+
+    div.bar span.annotation {
+        font-size: 1rem;
+    }
+    span.annotation-sub{
+        font-size: inherit;
+    }
+    span.hint {
+        height: 1.4rem;
+        width: 1.4rem;
+    }
+    .interaction-response {
+        bottom: 0;
+        left: 0;
+        height: auto;
+        margin: 0;
+        overflow-y: scroll;
+        padding: 1rem 2rem;
+        position: fixed;
+        right: 0;
+        border-radius: 0;
+    }
+    .interaction-response h2 {
+        font-size: 1.4rem;
+    }
+    .interaction-response.shrink {
+        height: 50px;
+    }
+
+    .interaction-response h2::before {
+        content:"▼";
+        margin-right: -10px;
+        position: absolute;
+        top: 4px;
+        right: 24px;
+        font-size: 1.5rem;
+        color: var(--blue-medium)
+    }
+    .interaction-response.shrink h2::before {
+        content:"▲";
+    }
+    .spend-toggle {
+        margin: 1rem 0 2rem;
+        width: 100%;
+    }
+    label[for="spend-input"] {
+        font-size: 1rem;
+        line-height: 1.2rem;
+    }
+    section.game .game-body img.character-full {
+        width: 30%;
+        top: -50px;
+        right: -12%;
+    }
+    
+    section.game .game-body[player="nurse"] img.character-full {
+        right: -8%;
+    }
+
+    section.game-body[game="file-taxes"] .controls .svg-container{
+        padding: 5px;
+        width: 115%; /* goes into the margin-right */
+    }
 }

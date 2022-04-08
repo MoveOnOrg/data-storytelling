@@ -1,210 +1,378 @@
+// to test any rounds d3.selectAll('.nav-div').attr('playable',1)
 
 
 
-function showAndScrollTo(element){
-    element.style('display','block');
-    element.node().scrollIntoView(true);
+const tooltipTexts = {
+    salaryGameHint: "A large salary is taxed at a pretty high rate, but investment gains may never be taxed. <strong>Slide the slider all the way to the other end to see what happens</strong>.",
+    salaryGameHintNurse: "Nurses don’t usually have much investment income, but let’s just pretend.",
+    futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
+    nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
+    spendGameHint: "When you sell a stock or other investment you have to pay capital gains taxes. These taxes are generally lower than the  tax on wages–even better, if you don’t sell your investments, you don’t owe any taxes at all.",
+    fileTaxesGameHint: "Click these buttons and see how to chart changes",
+    fileTaxesSvgGameHint: "Click the buttons below to see how this chart changes"
 }
 
-d3.select('button#get-started')
-    .on('click',()=> showAndScrollTo(d3.select('#game-round1')))
 
-d3.select('button#continue-to2')
-    .on('click',()=> showAndScrollTo(d3.select('#game-round2')))
+/***********************************************************/
+/*** GENERAL HELPER FUNCTIONS AND UNIVERSAL INTERACTIONS ***/
+/***********************************************************/
 
-d3.select('button#continue-to3')
-    .on('click',()=> showAndScrollTo(d3.select('#game-round3')))
 
-function showHelpText(helpButtonId) {
-    if (helpButtonId == 'help-button-round1'){
-        d3.select('#help-modal-text').html('Try sliding the sliders all the way to the ends and see what happens!') 
-    } else if (1) {
-        d3.select('#help-modal-text').html('Try sliding the sliders all the way to the ends and see what happens!') 
-    }
-    d3.select('#help-modal-wrapper').style('display','flex')
-    } 
-d3.select('button.help')
-    .on('click', function(event) {
-        showHelpText(d3.select(this).attr('id'))
-    })
+// currently only overlay is opening screen, but these helper functions should help if we want to put them back elsewhere. 
+function showOverlay(selectString) {
+    d3.select('#overlay-background').style('display','block')
+    d3.select(selectString).style('display','block')
+}
+function hideOverlays() {
+    d3.select('#overlay-background').style('display','none')
+    d3.selectAll('.overlay').style('display','none')
+}
 
-d3.select('button#close-modal')
-    .on('click', () => {
-        d3.select('#help-modal-wrapper').style('display','none')
-    })
-
-function adjustOwedBar(pct, round){
-    d3.select('section#game-round' + round + ' .results span.inner-bar').style('height', pct + '%')
-    d3.select('section#game-round' + round + ' .results span.annotation')
-        .html(Math.round(pct) + '%<br />of pay')
-} 
-function unhideRoundExplain(round) {
-    let curExplanation = d3.select('#game-explain-round' + round)
-
-    curExplanation.select('h2')
-        .style('font-size','0rem')
+// this animates the h2 in a .interaction-response section, and then unhides the rest of the section. 
+function animateInteractionResponse(gameSection) {
+    // if range can keep move transition keeps being triggered. Disabling the range for duration of animation helps. 
+    gameSection.selectAll('input[type="range"]').attr('disabled',true)
+    gameSection.select('.interaction-response').style('visibility','visible')
+        .transition().style('opacity',1)
+    gameSection.select('img.character-full').attr('src', gameSection.attr('player') + '_full_reacted.png')
+    gameSection.select('.interaction-response h2')
+        .style('font-size', '0rem')
         .style('visibility','visible')
-        .transition()
-        .style('font-size','3rem')
+        .transition().style('font-size', '3rem')
         .on('end', function() {
             d3.select(this)
-                .transition()
-                .style('font-size','2rem')
-                .on('end', ()=> {
-                    curExplanation.style('visibility','visible')
-                })
+            .transition()
+            .style('font-size','2rem')
+            .on('end', ()=> {
+                gameSection.transition().delay(200).duration(100).select('.interaction-response .interaction-content').style('visibility','visible')
+                gameSection.selectAll('input[type="range"]').attr('disabled',null)
+            })
         })
-
 }
 
-const controlsRound1 = d3.select('#game-round1 .controls')
-const salaryInput  = controlsRound1.select('input#salary')
-const stockOptionsInput  = controlsRound1.select('input#stock-options')
+// Toggling between player tabs for all different games (ceo/nurse)
 
-salaryInput.on('input', function() {
-        let curValue = d3.select(this).property('value')
-        stockOptionsInput.property('value',50-curValue)
-        d3.select('label[for=salary]').text('$' + curValue + (curValue>0 ? ' Million' : ' ') + ' in salary')
-        d3.select('label[for=stock-options]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') + ' in stock options')
-        adjustOwedBar(curValue*2*0.35, 1)
-        if(curValue == 0){unhideRoundExplain(1)}
+function activatePlayerTab(player, game){
+    d3.selectAll('.player-tabs button[game="'+ game +'"]').attr('active','0')
+    d3.selectAll('section.game-body[game="'+ game +'"]').style('display','none')
+    d3.select('.player-tabs button[player="'+ player +'"][game="'+ game +'"]').attr('active','1')
+    d3.select('section.game-body[player="'+ player +'"][game="'+ game +'"]').style('display','block')
+}
+
+d3.selectAll('.player-tabs button')
+    .on('click', function() {
+        let curPlayer = d3.select(this).attr('player')
+        let curGame = d3.select(this).attr('game')
+        if (d3.select(this).attr('playable')== "1"){
+            activatePlayerTab(curPlayer, curGame)
+        }
     })
 
-stockOptionsInput.on('input', function() {
-        let curValue = d3.select(this).property('value')
-        salaryInput.property('value',50-curValue)
-        d3.select('label[for=stock-options]').text('$' + curValue + (curValue>0 ? ' Million' : ' ') + ' in stock options')
-        d3.select('label[for=salary]').text('$' + (50 - curValue) + (curValue<50 ? ' Million' : ' ') + ' in salary')
-        adjustOwedBar((50-curValue)*2*0.35, 1)
-        if(curValue == 50){unhideRoundExplain(1)}
+// for all buttons classed 'return-to-image-nav' return to main nav screen and makePlayable any nav-sections the button indicates
+d3.selectAll('.return-to-image-nav').on('click',function(){
+    hideOverlays();
+    d3.select('#image-nav').style('display','block')
+    d3.selectAll('section.game').style('display','none')
+})
 
+d3.select('img.faceoff')
+    .on('mouseover', function(){d3.select(this).attr('src', 'faceoff.png')})
+    .on('mouseleave', function(){d3.select(this).attr('src', 'faceoff2.png')})
+
+// for all nav div's go to appropriate game if playable="1"
+d3.selectAll('div.nav-div')
+    .on('click',function(){
+        let curGame = d3.select(this).attr('game')
+        if(d3.select(this).attr('playable') == '1') {
+            hideOverlays()
+            d3.select('#image-nav').style('display','none')
+            d3.select('section.game[game="'+curGame+ '"]').style('display','block')
+        }
+    })
+
+d3.selectAll('div.interaction-response')
+    .on('click',function(){
+        const responseDiv = d3.select(this);
+        responseDiv.classed('shrink', !responseDiv.classed('shrink'));
+    })
+
+d3.select('button.help')
+    .on('click', function() {
+        showOverlay('section.overlay#nav-help')
+    })
+
+d3.select('body')
+    .on('keydown',function(e){
+        if(e.key == 'Enter') {
+            document.activeElement.click();
+        }
     })
 
 
-const controlsRound2 = d3.select('#game-round2 .controls')
-const salaryInputRound2  = controlsRound2.select('input#salary-nurse')
-const stockOptionsInputRound2 = controlsRound2.select('input#stock-options-nurse')
+/******************************/
+/*** START GAME INTERACTION ***/
+/******************************/
 
-salaryInputRound2.on('input', function() {
-    let targetValue = d3.select(this).property('value')
-    let curValue = d3.max([targetValue, 75])
-    d3.select(this).property('value', curValue)
-    stockOptionsInputRound2.property('value',90-curValue)
-    d3.select('label[for=salary-nurse]').text('$' + curValue + (curValue>0 ? 'K' : '') + ' in salary')
-    d3.select('label[for=stock-options-nurse]').text('$' + (90 - curValue) + (curValue<90 ? 'K' : '') + ' in stock options')
-    adjustOwedBar(18 * curValue/90, 2)
-    if(targetValue < 75){unhideRoundExplain(2)}
+d3.selectAll('button#get-started').on('click',hideOverlays)
+
+d3.select('button#unlock-all-challenges').on('click',() => {
+    d3.selectAll('.nav-div').attr('playable',1)
+    hideOverlays()
 })
 
-stockOptionsInputRound2.on('input', function() {
-    let targetValue = d3.select(this).property('value')
-    let curValue = d3.min([targetValue, 15])
-    d3.select(this).property('value', curValue)
-    salaryInputRound2.property('value',90-curValue)
 
-    d3.select('label[for=stock-options-nurse]').text('$' + curValue + (curValue>0 ? 'K' : ' ') + ' in stock options')
-    d3.select('label[for=salary-nurse]').text('$' + (90 - curValue) + (curValue<90 ? 'K' : ' ') + ' in salary')
-    adjustOwedBar(18 * (90-curValue)/90, 2)
-    if(targetValue > 15){unhideRoundExplain(2)}
+/******************************/
+/*** EARN GAME INTERACTIONS ***/
+/******************************/
+
+function adjustOwedBar(pct, player){
+    d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.inner-bar').style('width', pct + '%')
+    d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.annotation')
+        .html(Math.round(pct) + '% of gains')
+} 
+
+const controlsEarnCeo = d3.select("section.game-body[game='earn'][player='ceo']")
+const earnSliderCeo  = controlsEarnCeo.select('.controls input#salary-stock')
+
+earnSliderCeo.on('input', function() {
+    let curValue = d3.select(this).property('value')
+    controlsEarnCeo.select('label div.in-stock-options').html(2* curValue + '% in<br />investment gains')
+    controlsEarnCeo.select('label div.in-salary').html(2*(50 - curValue) + '% in<br />salary')
+    adjustOwedBar((50-curValue)*2*0.35, 'ceo')
+    if(curValue == 50){
+        d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
+        d3.select('button[game="earn"][player="nurse"]').attr('playable','1')
+        d3.select('button[game="earn"][player="nurse"]').call(removeTooltip)    
+    }
 })
 
-const stocksSvg = d3.select('#stocks-svg') 
-const playStocks = d3.select('#stocks-play')
-const moneyTowardsYachtDiv = d3.select('#money-towards-yacht')
+const controlsEarnNurse = d3.select("section.game-body[game='earn'][player='nurse']")
+const earnSliderNurse  = controlsEarnNurse.select(' .controls input#salary-stock-nurse')
 
-d3.json('dataProportionChangeFiltered.json')
-	.then( function (data) {
-        const stockValues = new Map(data)
-        let stockChart= stocksSvg.append('g')
-        let bars = stockChart.selectAll('rect').data(stockValues).join('rect')
-        .attr('x',(d,i) => (10 + i*40 ))
-        .attr('y',(d,i) => 520)
-        .attr('height', 80)
-        .attr('width', 30)
-        .attr('fill', 'var(--blue-primary')
-        
-        let barText = stockChart.selectAll('text').data(stockValues).join('text')
-            .attr('fill', 'white')
-            .text(d => d[1].name)
-            .attr('transform',(d,i) => "translate(" + (30 + i*40 ) + ",600) rotate(270)")
-            .style('font-weight','bold')
-            .style('pointer-events','none')
+earnSliderNurse.on('input', function() {
+    let targetValue = d3.select(this).property('value')
+    let curValue = d3.min([targetValue, 8])    
+    d3.select(this).property('value', curValue)
+    controlsEarnNurse.select('label div.in-stock-options').html(curValue + '% in<br />investment gains')
+    controlsEarnNurse.select('label div.in-salary').html((100 - curValue) + '% in<br />salary')
+    adjustOwedBar(18 * (100-curValue)/100, 'nurse')
+    
+    if(curValue >= 8){
+        d3.select('section.game-body[player="nurse"][game="earn"]').call(animateInteractionResponse)
+        d3.selectAll('#main-games-nav div.nav-div[game="earn"]').attr('current','0')
+        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+        d3.selectAll('#main-games-nav div.nav-div[game="spend"]').attr('current','1').attr('playable',"1")
+            .select('img').attr('src', 'nav-page-main-img.png')
 
-        let year = stocksSvg.append('text').attr('x',300).attr('y',40).text('2015').attr('font-size', '24px').attr('fill','white').attr('font-weight','bold')
-        let stockTotalVal = stocksSvg.append('text').attr('x',200).attr('y',70).text('Total Stock Value: $50M').attr('font-size', '18px').attr('fill','white').attr('font-weight','bold')
-        let hoveredStockValue = stocksSvg.append('text').attr('x',200).attr('y',120).attr('font-size', '18px').attr('fill','white').attr('font-weight','bold')
-        //            hoveredStockValue.text(d[0]+ ': $' + 5 * d[1].valueChange[365] + "M")
+    }
+})
+
+d3.selectAll('section.game-body[player="ceo"][game="earn"] .interaction-response button')
+    .on('click', ()=>{
+        activatePlayerTab('nurse', 'earn')
+    })
 
 
-        // add lines to chart
-        stocksSvg.append('line').attr('x1',0).attr('x2',420).attr('y1',520).attr('y2',520).attr('stroke','white')
-        stocksSvg.append('text').attr('x',410).attr('y',520).attr('font-size', '14px').attr('fill','white').attr('font-weight','bold').text('$5M')
-        stocksSvg.append('line').attr('x1',0).attr('x2',420).attr('y1',600).attr('y2',600).attr('stroke','white')
-        stocksSvg.append('text').attr('x',410).attr('y',600).attr('font-size', '14px').attr('fill','white').attr('font-weight','bold').text('$0')
+/*******************************/
+/*** SPEND GAME INTERACTIONS ***/
+/*******************************/
 
-        let moneyTowardsYacht = 0;
+function adjustOwedBarSpend(pct, player){
+    d3.select('section.game-body[game="spend"][player="' + player + '"] .results span.inner-bar')
+        .transition().style('width', pct + '%')
+    d3.select('section.game-body[game="spend"][player="' + player + '"] .results span.annotation')
+        .html(Math.round(pct) + '% of investment gains')
+} 
 
-        playStocks.on('click', ()=> {
-            //startingLine.attr('x1',0).attr('x2',420).attr('y1',520).attr('y2',520).attr('stroke','white')
-            //startingLineAnnotation
-            let transitionLength = 6000
-            bars.transition().duration(transitionLength).ease(d3.easeLinear)
-                .attrTween('y',d=> t=> 600 - 80 * d[1].valueChange[Math.floor(365*t)])
-                .attrTween('height', d=> t=> 80 * d[1].valueChange[Math.floor(365*t)])
-                .on('end', () => {
-                    //d3.select('section.game#game-round3 .results .taxes-owed')
-                    //    .style('visibility','visible')
-                    bars
-                    .on('mouseenter', function(event, d) {
-                        d3.select(this).attr('fill', 'var(--blue-darker)')
-                        hoveredStockValue.text(d[1].name+ ': $' + Math.round(10 * 5 * d[1].valueChange[365])/10 + "M")
-                    })
-                    .on('mouseleave', function(event, d) {
-                        d3.select(this).attr('fill', 'var(--blue-primary)')
-                        hoveredStockValue.text('')
-                    })
-                    .on('click', function(event,d) {
-                        d3.select(this).attr('fill', 'var(--blue-darkest)')
-                        moneyTowardsYacht += (5 * d[1].valueChange[365]);
-                        moneyTowardsYachtDiv.style('visibility','visible').text('Money towards yacht: $' + Math.round(10 * moneyTowardsYacht)/10 + " Million")
-                        if(moneyTowardsYacht >=8 ){unhideRoundExplain(3)}
-                    })
-                    d3.select('#stocks-annote').style('visibility','visible')
-                    d3.select('#game-round3 .game-body').node().scrollIntoView(true);
-                })
-            year.transition().duration(transitionLength).ease(d3.easeLinear)
-                .textTween(()=> t=> 2015 + Math.floor(6*t))
-            stockTotalVal.transition().duration(transitionLength).ease(d3.easeLinear)
-                .textTween(()=> t=> 'Total Stock Value: $' + 
-                Math.round(d3.sum(Array.from(stockValues).map(d=> 5 * d[1].valueChange[Math.floor(365*t)])))
-                 + 'M' )
+const spendCeo = d3.select("section.game-body[game='spend'][player='ceo']")
+const spendInputCeo  = spendCeo.select('.controls .spend-toggle input#spend-input')
+d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
+    .style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
+spendInputCeo.on('input', function() {
+    let curValue = d3.select(this).property('value')
+    adjustOwedBarSpend((1-curValue)*20, 'ceo')
+
+    if(curValue == 1){
+        d3.select('button[game="spend"][player="nurse"]').attr('playable','1')
+        d3.select('button[game="spend"][player="nurse"]').call(removeTooltip) 
+        spendCeo.call(animateInteractionResponse)
+    }
+})
+
+const spendNurse = d3.select("section.game-body[game='spend'][player='nurse']")
+const spendInputNurse = spendNurse.select('.controls .spend-toggle input#spend-input')
+d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
+.style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
+spendInputNurse.on('input', function() {
+    let targetValue = d3.select(this).property('value');
+    let curValue = 0
+    d3.select(this).property('value', curValue)
+
+    if(targetValue == 1){
+        spendNurse.call(animateInteractionResponse)
+        d3.selectAll('#main-games-nav div.nav-div[game="spend"]').attr('current','0')
+        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+        d3.selectAll('#main-games-nav div.nav-div[game="file-taxes"]')
+            .attr('current','1').attr('playable',"1")
+            .select('img').attr('src', 'nav-page-main-img.png')
+    }
+})
+
+d3.selectAll('section.game-body[player="ceo"][game="spend"] .interaction-response button')
+    .on('click', ()=>{
+        activatePlayerTab('nurse', 'spend')
+    })
+
+
+/*******************************/
+/*** FILE TAXES INTERACTIONS ***/
+/*******************************/
+
+let incomeBarPct = 98
+let expenseBarPct = 28
+function getProfit(){
+    return 2*(incomeBarPct-expenseBarPct)
+}
+const svg = d3.select('section.game-body[game="file-taxes"][player="ceo"] .controls svg')
+function updateSvg(btn){
+    svg.select('rect#income').transition().duration(1200).attr('width', incomeBarPct+'%')
+    svg.select('rect#expense').transition().duration(1200).attr('width', expenseBarPct+'%')
+    svg.select('text#profit-text').text( '$' + getProfit() + (getProfit()>0 ? 'M': '') +' in taxable profit')
+        .transition().duration(1200).attr('x',incomeBarPct + "%")
+    svg.select('line#profit').transition().duration(1200).attr('x1', expenseBarPct+'%').attr('x2', incomeBarPct+'%')
+    // let incomeLineMid = expenseBarPct + (incomeBarPct-expenseBarPct)/2;
+    svg.select('line#profit-inner-tab').transition().duration(1200).attr('x1', expenseBarPct+'%').attr('x2', expenseBarPct+'%')
+    svg.select('line#profit-outer-tab').transition().duration(1200).attr('x1', incomeBarPct+'%').attr('x2', incomeBarPct+'%')
+        .on('end', ()=>{
+            fileTaxesInteractionResponseCeo(btn)
         })
-		;
-});
+} 
+function fileTaxesInteractionResponseCeo(btn){
+    let curGame = d3.select('section.game-body[player="ceo"][game="file-taxes"]')
+    if(btn == 'reset'){
+        curGame.select('.interaction-response').style('visibility','hidden')
+        curGame.select('.interaction-response h2').text('Good Start!').style('visibility','hidden')
+        curGame.selectAll('.interaction-response p').style('display','none')
+        curGame.select('.interaction-response button').style('display','none')
+    } else {
+        curGame.selectAll('.interaction-response p').style('display','none')
+        d3.select('#file-taxes-ceo-' + btn + '-p').style('display','block')
+        if(getProfit()==0){
+            d3.select('button[game="file-taxes"][player="nurse"]').attr('playable','1')
+            d3.select('button[game="file-taxes"][player="nurse"]').call(removeTooltip)    
+            curGame.select('#file-taxes-ceo-header').text('Goal achieved!')
+            curGame.select('.interaction-response button').style('display','inline-block')
+        }
+        curGame.call(animateInteractionResponse)
+    }
+}
+
+d3.select("#file-taxes-ceo-income-btn")
+    .on('click', ()=> {
+        incomeBarPct = 63;
+        updateSvg('income')
+    })
+d3.select("#file-taxes-ceo-expense-btn")
+    .on('click', ()=> {
+        expenseBarPct = 63;
+        updateSvg('expense') 
+    })
+d3.select("#file-taxes-ceo-reset")
+    .on('click', ()=> {
+        incomeBarPct = 98
+        expenseBarPct = 28
+        profit = getProfit()
+        updateSvg('reset') 
+
+    })
+d3.selectAll('section.game-body[player="ceo"][game="file-taxes"] .interaction-response button')
+    .on('click', ()=>{
+        activatePlayerTab('nurse', 'file-taxes')
+    })
+
+function fileTaxesInteractionResponseNurse(btn){
+    let curGame = d3.select('section.game-body[player="nurse"][game="file-taxes"]')
+    curGame.selectAll('.interaction-response p').style('display','none')
+    d3.select('#file-taxes-nurse-' + btn + '-p').style('display','block')
+    if(incomeClicked & expenseClicked){
+        curGame.select('.interaction-response button').style('display','inline-block')
+        d3.select('#break-the-cycle').style('display','flex')
+        d3.selectAll('#main-games-nav div.nav-div:not([current="0"])').attr('current','0')
+        d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
+
+    }
+    curGame.call(animateInteractionResponse)
+}
+let incomeClicked = 0;
+let expenseClicked = 0;
+d3.select("#file-taxes-nurse-income-btn")
+    .on('click', ()=> {
+        incomeClicked = 1;
+        fileTaxesInteractionResponseNurse('income')
+    })
+d3.select("#file-taxes-nurse-expense-btn")
+    .on('click', ()=> {
+        expenseClicked = 1;
+        fileTaxesInteractionResponseNurse('expense') 
+    })
+
+d3.select('#continue-to-break-cycle')
+    .on('click', ()=> {
+        hideOverlays();
+        d3.select('#image-nav').style('display','block')
+        d3.selectAll('section.game').style('display','none')        
+    })
+
+
+/*****************************/
+/****** BREAK THE CYCLE ******/
+/*****************************/
+d3.select('#break-the-cycle button')
+    .on('click', () => {
+        d3.select('#image-nav').style('display','none')
+        d3.selectAll('section.game[game="break-the-cycle"').style('display','block')        
+    })
 
 
 /****************/
 /*** TOOLTIPS ***/
 /****************/
+
 let tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0);
 
-d3.selectAll('.bar')
-    .on('mouseover', function(event) {
-        tooltip.transition()
-            .duration(200)
-            .style('opacity', 1);
-        tooltip.html('Example of a tooltip');
-    })
-    .on('mousemove', function(event) {
-        let rect = d3.select('.tooltip').node().getBoundingClientRect();
-        tooltip
-            .style('left', `${event.pageX - rect.width/2}px`)
-            .style('top', `${event.pageY - rect.height - 10}px`);
-    })
-    .on('mouseout', function(d) {
-        tooltip.transition()
-            .duration(200)
-            .style('opacity', 0);
-    });
+function showTooltip(selection, curText){ 
+    selection
+        .on('mouseover', function(event) {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 1);
+            tooltip.html(curText);
+        })
+        .on('mousemove', function(event) {
+            let rect = d3.select('.tooltip').node().getBoundingClientRect();
+            tooltip
+                .style('left', `${event.pageX - rect.width/2}px`)
+                .style('top', `${event.pageY - rect.height - 10}px`);
+        })
+        .on('mouseout', function(d) {
+            tooltip.transition()
+                .duration(200)
+                .style('opacity', 0);
+        })
+}
+function removeTooltip(selection){ 
+    selection
+        .on('mouseover', () => {})
+        .on('mousemove',  () => {})
+        .on('mouseout',  () => {})
+}
+
+d3.select('#salary-game-hint').call(showTooltip, tooltipTexts.salaryGameHint)
+d3.select('#salary-game-hint-nurse').call(showTooltip, tooltipTexts.salaryGameHintNurse)
+d3.select('#future-taxes-hint').call(showTooltip, tooltipTexts.futureTaxes)
+d3.select('button[player="nurse"][game="earn"]').call(showTooltip, tooltipTexts.nurseTab)
+d3.select('#spend-game-hint').call(showTooltip, tooltipTexts.spendGameHint)
+d3.select('#file-taxes-game-hint').call(showTooltip, tooltipTexts.fileTaxesGameHint)
+d3.select('svg[game="file-taxes"]').call(showTooltip, tooltipTexts.fileTaxesSvgGameHint)
