@@ -195,16 +195,7 @@ spendInputCeo.on('input', function() {
     if(curValue == 1){
         d3.select('button[game="spend"][player="nurse"]').attr('playable','1')
         d3.select('button[game="spend"][player="nurse"]').call(removeTooltip) 
-//        if(spendCeo.select('img.character-full').classed('shifted')){
-        if(1){
-            spendCeo.call(animateInteractionResponse)
-        } else {
-            spendCeo.select('img.character-full')
-                .classed('shifted', true)
-                .on('transitionend', ()=> {
-                    spendCeo.call(animateInteractionResponse)
-                })
-        }
+        spendCeo.call(animateInteractionResponse)
     }
 })
 

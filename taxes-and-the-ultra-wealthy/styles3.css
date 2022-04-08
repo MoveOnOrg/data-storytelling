@@ -1,6 +1,7 @@
 * {
     --blue-primary: #00ABFF;
     --blue-medium: #99ddff;
+    --blue-bar: #abe9ff;
     --blue-darker: #0080bf;
     --blue-darkest:#005680;
     --blue-light: #e5f5ff;
@@ -8,6 +9,7 @@
     --blue-light3: #d1edfe;
     --grey-primary: #b2b2b2;
     --red-primary: hsl(358, 83%, 51%);
+    --red-dark: #9b0000;
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
@@ -33,7 +35,7 @@ p {
     margin-bottom: 1rem;
 }
 
-p strong {
+.game-body p strong {
     font-size: 1.5rem; 
     margin-bottom: 1rem;
 }
@@ -50,18 +52,23 @@ button {
     align-items: center;
     border: 0;
     border-radius: 0;
-    font-size: 1.5rem;
-    padding: 10px 20px;
+    font-size: 1.8rem;
+    padding: 10px 16px;
     cursor: pointer;
     text-transform: uppercase;
     box-shadow: none;
     font-family: "Roboto Condensed",sans-serif;
-    font-weight: bolder;
+    font-weight: bold;
     margin-bottom: 1rem;
 }
 button.btn-primary {
+    background-color: var(--blue-primary);
+    color: black;
+}
+.game-body button.btn-primary {
     background-color: var(--blue-darkest);
     border: 1px solid #000;
+    font-size: 1.5rem;
     color: white;
 }
 button.btn-secondary {
@@ -153,28 +160,33 @@ input[type="range"]::-moz-range-track {
 
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: var(--blue-darkest);
     cursor: ew-resize;
+    background: var(--blue-darkest);
     height: 38px;
     margin-top: -14px;
-    width: 6px;
+    width: 18px;
     border: 0;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+
 }
 
 input[type="range"]::-moz-range-thumb {
     -webkit-appearance: none;
-    background: var(--blue-darkest);
     cursor: ew-resize;
+    background: var(--blue-darkest);
     height: 38px;
     margin-top: -14px;
-    width: 14px;
+    width: 12px;
     border: 0;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
 #spend-input::-webkit-slider-thumb {
+    clip-path: none;
     border-radius: 50%;
 }
 #spend-input::-moz-range-thumb {
+    clip-path: none;
     border-radius: 50%;
 }
 
@@ -185,24 +197,39 @@ input[type="range"]::-moz-range-thumb {
 /**************************/
 
 section.overlay {     
-    background-color: #FFF3E5;
-    border: 1px solid black;
-    left: 50%; 
+    background-color: white;
+    left: 50%;
     max-width: 50%;
-    padding: 40px 80px;
     position: fixed;
-    top: 40%;
+    top: 45%;
     transform: translate(-50%, -50%);
-    z-index: 2;  
+    z-index: 2;
+    text-align: center;
+    box-shadow: 0 0 20px;
+}
+section.overlay h2 {
+    background-color: var(--blue-primary);
+    padding: 10px 10%;
+    font-size: 1.7rem;
+    margin-bottom: 24px;
 }
 
+section.overlay h3 {
+    font-size: 1.5rem;
+}
+section.overlay .overlay-body{
+    padding: 6px 15%;
+}
+section.overlay p{
+    font-weight: lighter;
+}
 div#overlay-background{ 
     position: fixed;
     width: 100%;
     height: 100%;
     top:0;
     left:0;
-    background-color: rgba(64, 55, 55, 0.63);
+    background-color: rgba(0, 0, 0, 0.73);
     z-index: 1;
 }
 
@@ -214,35 +241,53 @@ header {
     background-color: black;
     color:white; 
     text-align: center;
+}
+header .attribution { 
+    text-align: right;
+    background-color: var(--blue-primary);
+    color:black;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding-top: 4px;
+}
+
+header .attribution img.moveon-logo {
+    width: 70px;
+    display: inline-block;
+    margin-bottom: -13px;
+    margin-left: 12px;
+    margin-right: clamp(5px, 12%, 250px);
+}
+
+header .main-title{ 
     padding: 1rem;
+    margin-left: clamp(5px, 10%, 200px);
+    text-align: left;
+    display: flex;
+    line-height: 1;
+    align-items: center;
+}
+
+header .main-title img.faceoff {
+    width: 100px;
+    opacity: 0.8;
 }
 
 header h1 {
     font-family: 'Roboto Condensed', sans-serif;
-    font-size: 2.2rem ;
+    font-size: 3.5rem ;
     font-weight: bold ;
     text-transform: uppercase ;
 }
 
 header p {
-    font-size: 1rem;
-    margin-bottom: 0 ;
+    font-size: 1.4rem;
+    margin: 8px 0px 0px 0.4rem ;
 }
 
-header img.moveon-logo {
-    position:absolute;
-    width:100px;
-    top:15px;
-    right:15px;
-}
 
-header img.faceoff {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 100px;
-    opacity: .8;
-}
+
 
 
 /***********************************/
@@ -250,29 +295,38 @@ header img.faceoff {
 /***********************************/
 
 div.bar { 
-    /* background-color: black; */
-    width: 40%;
-    height: 2.5rem;
+    background-color: var(--blue-bar);
+    width: 100%;
+    height: 2rem;
     color: black;
     font-size: 1.3rem;
     display: flex;
     align-items: center;
-    gap: 5px;
-    border: 3px solid black;
 }
 div.bar span.inner-bar {
     display: inline-block;
-    background-color: #C4C4C4;
-    border: 3px solid black;
-    height: 2.5rem;
-    margin-left: -3px;
+    background-color: var(--red-dark);
+    height: 2rem;
     padding-left: 0px;
 }
 div.bar span {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
     padding-left: 10px;
+    color: var(--red-dark);
 }
 
+.game-body div.bar {
+    background-color: var(--blue-darkest);
+    height: 2.2rem;
+}
+.game-body div.bar span.inner-bar {
+    background-color: var(--blue-primary);
+    height: 2.2rem;
+}
+.game-body div.bar span {
+    color: white;
+}
 
 /* bars in intro overlay */ 
 section#intro div {
@@ -306,8 +360,11 @@ button.help {
 button.help:hover {
     opacity: 0.75;
 }
+button.help span {
+    display:none;
+}
 button.help img {
-    width: 120px;
+    width: 130px;
 }
 section.overlay#nav-help {
     display: none;
@@ -351,19 +408,6 @@ section.overlay#nav-help {
 }
 #main-games-nav div.nav-div[playable="1"] img:hover {
     opacity: 70%;
-}
-
-#main-games-nav div.nav-div[playable="1"][current="1"] button {
-    background: var(--blue-light);
-    border: 1px solid var(--blue-primary);
-    color: var(--blue-primary);
-    font-size: 1.4rem;
-    border-radius: 4rem;
-}
-
-#main-games-nav div.nav-div[playable="1"][current="1"] button:hover {
-    background: var(--blue-primary);
-    color: white;
 }
 
 #main-games-nav div.nav-div:not([current="1"]) button {
@@ -532,26 +576,18 @@ section.game .game-body img.character-full {
 position: absolute;
 -webkit-transform: scaleX(-1);
 transform: scaleX(-1);
-width: 40%;
+width: 35%;
 top: -20%;
-right: 5%;
-transition: width 0.5s ease-in-out, 
-            right 0.5s ease-in-out;
+right: 0%;
 }
 
 section.game .game-body[player="ceo"] img.character-full {
     top: -10%;
 }
 
-section.game .game-body img.character-full.shifted {
-    width: 35%;
-    right: -10%;
-}
-
-
 
 section.game .game-body>p{
-    width: 75%;
+    width: 70%; /* this is the Goal p, probably should move it over */
 }
 section.game .results {
     display: flex;
@@ -579,10 +615,6 @@ section.game .results .bar {
     width: 100%;
     max-height: 5rem;
     text-align: center;
-}
-
-section.game .results span.inner-bar {
-    height: calc(100% + 6px); /* 2x width  of border */
 }
 
 /********************************************/
@@ -709,6 +741,7 @@ section.game-body[game="spend"] input[type=range]::-webkit-slider-thumb {
 section.game-body[game="spend"] input[type="range"]::-moz-range-thumb {
     margin-top: 0;
       width: 38px;
+
   }
 
 section.game-body[game="spend"][player="ceo"] .results span.inner-bar{
@@ -717,10 +750,13 @@ section.game-body[game="spend"][player="ceo"] .results span.inner-bar{
 section.game-body[game="spend"][player="nurse"] .results span.inner-bar{
     width: 30%;
 }
-span.annotation {
-    font-size: 1.3rem;
-}
 
+span.annotation-sub {
+    display: inline-block;
+    padding-top: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
 
 /**************************/
 /**** FILE TAXES GAME *****/
@@ -766,27 +802,74 @@ section.game-body[game="file-taxes"] .interaction-response button{
     header {
         text-align: start;
     }
-    header h1 {
-        font-size: 2rem;
-    }
-    header img.moveon-logo {
-        position:absolute;
-        width:50px;
-        top:5px;
-        right:5px;
+    header .attribution  {
+        text-align: center;
+        padding-top: 0;
+        margin-top: -6px;
     }
 
-    button.help {
-        position: fixed;
-        bottom: 10px;
-        right: 10px;
-        z-index: 1;
-        padding: 0px;
-    }    
+    header .attribution span{
+        display: none;
+    }
+    header .attribution img.moveon-logo{
+        width: 40px;
+        margin: 0 0 -10px;
+    }
 
-    header img.faceoff {
+    button.help img {
         display:none;
     }
+    button.help span {
+        display: inline-block;
+        color: white;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    button.help span span.hint{
+        background: none;
+        border: 1.5px solid white;
+        font-size: 0.8rem;
+        width: 1rem;
+        height: 1rem; 
+        font-weight: bold;
+    }
+    button.help:not(.player-tabs button):hover{
+        background-color: black;
+    }
+    button.help {
+        background: black;
+        position: fixed;
+        bottom: 0px;
+        right: 0px;
+        width: 100%;
+        z-index: 1;
+        padding: 0px;
+        margin-bottom: 0px;
+    }   
+
+    header .main-title{ 
+        padding: 1rem;
+        margin-left: 10px;
+        text-align: left;
+        display: flex;
+        line-height: 1;
+        align-items: center;
+    }
+
+    header h1 {
+        font-size: 1.7rem ;
+    }
+    header p {
+        font-size: 0.95rem ;
+        line-height: 1.2;
+        margin: 5px 0px 0px 3px;
+        font-weight: lighter;
+        
+    }
+    header img.faceoff {
+        width: 40px;
+    }
+
 
     p {
         font-size: 1rem;
@@ -796,10 +879,12 @@ section.game-body[game="file-taxes"] .interaction-response button{
     }
     #main-games-nav {
        /* flex-flow: column;
-        gap: 20px;*/
-        align-items: start;
+        gap: 20px;
+        align-items: start;*/
         flex-wrap: wrap;
     }
+
+
     #main-games-nav div.nav-div[current="1"]  {
         width: 100%;
         margin-top:7%;
@@ -816,30 +901,72 @@ section.game-body[game="file-taxes"] .interaction-response button{
     }
     
     #main-games-nav div {
-       /* flex-flow: row;*/
         margin-top: 5% !important;
     }
     #main-games-nav .nav-img {
         height: 20vh;
         width: auto;
     }
-    #main-games-nav h3{
-        text-align: start;
-    }
-
     #image-nav {
         max-width: 100%;
     }
+    #main-games-nav div.nav-div span {
+        position:relative;
+    }
+    #main-games-nav div.nav-div span:before {
+        position: absolute;
+        font-size: 2.1rem;
+        background: var(--blue-light);
+        border-radius: 50%;
+        width: 2.7rem;
+        height: 2.7rem;
+        color: var(--blue-darker);
+        border: 1px solid var(--blue-darker);
+        top: -0.5rem;
+        left: -0.1rem;
+    }
+    #main-games-nav div.nav-div[game="earn"] span:before {
+        content: "1";
+    }
+
+    #main-games-nav div.nav-div[game="spend"] span:before {
+        content: "2";
+    }
+
+    #main-games-nav div.nav-div[game="file-taxes"] span:before {
+        content: "3";
+    }
+    #main-games-nav div.nav-div:not([current='1']) span:before {
+        font-size: 1.5rem;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--blue-medium);
+        background-color: var(--blue-light);
+        color: var(--blue-medium);
+ 
+    }
+
     #main-games-nav div.nav-arrow {
         display:none;
     }
+
     section.overlay {
         max-width: 90%;
-        padding: 20px;
         width: 90%;
         top: 10%;
         transform: translate(-50%, 0%);
-    
+    }
+    section.overlay .overlay-body{
+        padding: 6px 4%;
+    }
+    section.overlay h2 {
+        padding: 10px 5%;
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+    }
+    section.overlay h3 {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
     }
     section#intro div.bar {
         width: 100%;
@@ -879,8 +1006,11 @@ section.game-body[game="file-taxes"] .interaction-response button{
         display: none;
     }
 
-    span.annotation {
+    div.bar span.annotation {
         font-size: 1rem;
+    }
+    span.annotation-sub{
+        font-size: inherit;
     }
     span.hint {
         height: 1.4rem;
