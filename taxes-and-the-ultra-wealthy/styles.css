@@ -201,7 +201,9 @@ section.overlay {
     left: 50%;
     max-width: 50%;
     position: fixed;
-    top: 45%;
+    top: 50%;
+    max-height: 95%;
+    overflow: auto;
     transform: translate(-50%, -50%);
     z-index: 2;
     text-align: center;
@@ -989,7 +991,9 @@ section.game-body[game="file-taxes"] .interaction-response button{
         padding-right: 15%;
         margin-bottom: 50%; /* to give space to scroll down for fixed position interaction response */
     }
-
+    section.game .game-body>p {
+        width: auto;
+    }
     #main-games-nav div:not([current="1"])  {
         order: 2
     }
