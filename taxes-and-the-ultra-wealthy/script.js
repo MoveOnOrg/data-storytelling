@@ -4,12 +4,12 @@
 
 const tooltipTexts = {
     salaryGameHint: "A large salary is taxed at a pretty high rate, but investment gains may never be taxed. <strong>Slide the slider all the way to the other end to see what happens</strong>.",
-    salaryGameHintNurse: "Nurses don’t usually have much investment income, but let’s just pretend.",
+    salaryGameHintNurse: "Nurses don't usually have much investment income, but let's just pretend.",
     futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
     nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
-    spendGameHint: "When you sell a stock or other investment you have to pay capital gains taxes. These taxes are generally lower than the  tax on wages–even better, if you don’t sell your investments, you don’t owe any taxes at all.",
-    fileTaxesGameHint: "Click these buttons and see how to chart changes",
-    fileTaxesSvgGameHint: "Click the buttons below to see how this chart changes"
+    spendGameHint: "When you sell a stock or other investments you have to pay capital gains taxes. If you don't sell your investments, you don't owe any taxes at all.",
+    fileTaxesGameHint: "Check these checkboxes and see how to chart changes",
+    fileTaxesSvgGameHint: "Check the checkboxes above to see how this chart changes"
 }
 
 
@@ -128,18 +128,39 @@ d3.select('button#unlock-all-challenges').on('click',() => {
 function adjustOwedBar(pct, player){
     d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.inner-bar').style('width', pct + '%')
     d3.select('section.game-body[game="earn"][player="' + player + '"] .results span.annotation')
-        .html(Math.round(pct) + '% of gains')
+        .html(Math.round(pct) + '% of ' + (player == 'nurse' ? 'income' : 'income'))
 } 
 
 const controlsEarnCeo = d3.select("section.game-body[game='earn'][player='ceo']")
 const earnSliderCeo  = controlsEarnCeo.select('.controls input#salary-stock')
+let sliderTooltip = d3.select('.slider-tooltip')
+let sliderRect;
+let sliderOuterRect ; 
 
-earnSliderCeo.on('input', function() {
+earnSliderCeo.on('input', function(event) {
+    sliderRect = earnSliderCeo.node().getBoundingClientRect(); 
+    sliderOuterRect = controlsEarnCeo.select('div.salary-slider').node().getBoundingClientRect(); 
+    console.log('sliderOuterRect',sliderOuterRect)
+
     let curValue = d3.select(this).property('value')
     controlsEarnCeo.select('label div.in-stock-options').html(2* curValue + '% in<br />investment gains')
     controlsEarnCeo.select('label div.in-salary').html(2*(50 - curValue) + '% in<br />salary')
     adjustOwedBar((50-curValue)*2*0.35, 'ceo')
-    if(curValue == 50){
+    if(curValue < 20){
+        d3.select('.slider-tooltip').style('opacity',0)
+    } else if(curValue >= 20 & curValue<50){
+        sliderTooltip.text(curValue > 35 ? 'Almost there!' : 'Keep going...').style('opacity',1)
+        let sliderTooltipRect = sliderTooltip.node().getBoundingClientRect();
+        console.log('left',  (sliderOuterRect.width * 0.1) + (sliderRect.width * (curValue/50) ), sliderOuterRect.width , sliderRect.width, sliderTooltipRect, sliderOuterRect, sliderTooltipRect.height, sliderTooltipRect.width, sliderRect.width)
+        sliderTooltip
+            .style('top', -(sliderTooltipRect.height + 20) + 'px')
+            .style('left', (9 * (25-curValue)/25) // to deal with 18px width of thumb 
+                       + (sliderOuterRect.width * 0.1) // to deal with 10% margin-left
+                       + (sliderRect.width * (curValue/50) ) // to deal with overall position along slider
+                       - (sliderTooltipRect.width/2) // to deal with width of tooltip itself 
+                       + 'px')
+    } else if(curValue == 50){
+        d3.select('.slider-tooltip').style('opacity',0)
         d3.select('section.game-body[player="ceo"][game="earn"]').call(animateInteractionResponse)
         d3.select('button[game="earn"][player="nurse"]').attr('playable','1')
         d3.select('button[game="earn"][player="nurse"]').call(removeTooltip)    
@@ -159,6 +180,7 @@ earnSliderNurse.on('input', function() {
     
     if(curValue >= 8){
         d3.select('section.game-body[player="nurse"][game="earn"]').call(animateInteractionResponse)
+        d3.selectAll('#main-games-nav div.nav-div[current="1"]').attr('current','0')
         d3.selectAll('#main-games-nav div.nav-div[game="earn"]').attr('current','0')
         d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
         d3.selectAll('#main-games-nav div.nav-div[game="spend"]').attr('current','1').attr('playable',"1")
@@ -189,10 +211,10 @@ const spendInputCeo  = spendCeo.select('.controls .spend-toggle input#spend-inpu
 d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
     .style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
 spendInputCeo.on('input', function() {
-    let curValue = d3.select(this).property('value')
-    adjustOwedBarSpend((1-curValue)*20, 'ceo')
+    let isChecked = d3.select(this).property('checked')
+    adjustOwedBarSpend((isChecked?0:1)*20, 'ceo')
 
-    if(curValue == 1){
+    if(isChecked){
         d3.select('button[game="spend"][player="nurse"]').attr('playable','1')
         d3.select('button[game="spend"][player="nurse"]').call(removeTooltip) 
         spendCeo.call(animateInteractionResponse)
@@ -200,16 +222,16 @@ spendInputCeo.on('input', function() {
 })
 
 const spendNurse = d3.select("section.game-body[game='spend'][player='nurse']")
-const spendInputNurse = spendNurse.select('.controls .spend-toggle input#spend-input')
+const spendInputNurse = spendNurse.select('.controls .spend-toggle input#spend-input-nurse')
 d3.select('section.game-body[game="spend"][player="ceo"] .results span.inner-bar')
 .style('width','20%') // even though it's in the css, initiating this here makes the transition smooth
 spendInputNurse.on('input', function() {
-    let targetValue = d3.select(this).property('value');
-    let curValue = 0
-    d3.select(this).property('value', curValue)
+    let triedToCheck = d3.select(this).property('checked');
+    d3.select(this).property('checked', false)
 
-    if(targetValue == 1){
+    if(triedToCheck){
         spendNurse.call(animateInteractionResponse)
+        d3.selectAll('#main-games-nav div.nav-div[current="1"]').attr('current','0')
         d3.selectAll('#main-games-nav div.nav-div[game="spend"]').attr('current','0')
         d3.selectAll('#main-games-nav div.nav-div[current="0"] img.nav-img').attr('src',"nav-page-lost-round.png")
         d3.selectAll('#main-games-nav div.nav-div[game="file-taxes"]')
@@ -249,32 +271,39 @@ function updateSvg(btn){
 } 
 function fileTaxesInteractionResponseCeo(btn){
     let curGame = d3.select('section.game-body[player="ceo"][game="file-taxes"]')
-    if(btn == 'reset'){
+    if(btn == 'reset' || getProfit() == 140 ){
         curGame.select('.interaction-response').style('visibility','hidden')
         curGame.select('.interaction-response h2').text('Good Start!').style('visibility','hidden')
         curGame.selectAll('.interaction-response p').style('display','none')
         curGame.select('.interaction-response button').style('display','none')
+        curGame.selectAll('.controls input[type="checkbox"]').property('checked', false)
     } else {
         curGame.selectAll('.interaction-response p').style('display','none')
-        d3.select('#file-taxes-ceo-' + btn + '-p').style('display','block')
         if(getProfit()==0){
+            d3.select('#file-taxes-ceo-' + btn + '-p').style('display','block')
             d3.select('button[game="file-taxes"][player="nurse"]').attr('playable','1')
-            d3.select('button[game="file-taxes"][player="nurse"]').call(removeTooltip)    
             curGame.select('#file-taxes-ceo-header').text('Goal achieved!')
             curGame.select('.interaction-response button').style('display','inline-block')
+        } else {
+            curGame.select('#file-taxes-ceo-header').text('Good start!')
+            if(incomeBarPct < 98){
+                d3.select('#file-taxes-ceo-income-p').style('display','block')
+            } else if (expenseBarPct > 28){
+                d3.select('#file-taxes-ceo-expense-p').style('display','block')
+            }
         }
         curGame.call(animateInteractionResponse)
     }
 }
 
 d3.select("#file-taxes-ceo-income-btn")
-    .on('click', ()=> {
-        incomeBarPct = 63;
+    .on('click', function() {
+        incomeBarPct = d3.select(this).property('checked') ? 63 : 98;
         updateSvg('income')
     })
 d3.select("#file-taxes-ceo-expense-btn")
-    .on('click', ()=> {
-        expenseBarPct = 63;
+    .on('click', function() {
+        expenseBarPct = d3.select(this).property('checked') ? 63 : 28;
         updateSvg('expense') 
     })
 d3.select("#file-taxes-ceo-reset")
@@ -306,13 +335,17 @@ function fileTaxesInteractionResponseNurse(btn){
 let incomeClicked = 0;
 let expenseClicked = 0;
 d3.select("#file-taxes-nurse-income-btn")
-    .on('click', ()=> {
+    .on('click', function() {
         incomeClicked = 1;
+        d3.select(this).property('disabled', true).property('checked', false)
+        d3.select('label[for="file-taxes-nurse-income-btn"]').style('text-decoration', 'line-through')
         fileTaxesInteractionResponseNurse('income')
     })
 d3.select("#file-taxes-nurse-expense-btn")
-    .on('click', ()=> {
+    .on('click', function() {
         expenseClicked = 1;
+        d3.select(this).property('disabled', true).property('checked', false)
+        d3.select('label[for="file-taxes-nurse-expense-btn"]').style('text-decoration', 'line-through')
         fileTaxesInteractionResponseNurse('expense') 
     })
 
@@ -360,6 +393,22 @@ function showTooltip(selection, curText){
             tooltip.transition()
                 .duration(200)
                 .style('opacity', 0);
+        })
+        .on('keydown', function(event) {
+            tooltip.html(curText);
+            let rect = d3.select('.tooltip').node().getBoundingClientRect();
+            if (event.keyCode == 13){ // enter key
+                let boundingRect = selection.node().getBoundingClientRect() ;
+                tooltip
+                    .style('left', `${document.body.scrollLeft + boundingRect.x + boundingRect.width/2 -rect.width/2}px`)
+                    .style('top', `${document.body.scrollTop + (boundingRect.y - boundingRect.height/2) - rect.height}px`)
+                    .transition().duration(200).style('opacity',1);
+            } else if (event.keyCode == 27) { // escape key
+                tooltip.transition().duration(200).style('opacity',0);
+            }
+        })
+        .on('focusout', function() {
+            tooltip.transition().duration(200).style('opacity',0);
         })
 }
 function removeTooltip(selection){ 

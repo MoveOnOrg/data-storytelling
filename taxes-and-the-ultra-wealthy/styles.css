@@ -36,7 +36,7 @@ p {
 }
 
 .game-body p strong {
-    font-size: 1.5rem; 
+    font-size: 1.7rem; 
     margin-bottom: 1rem;
 }
 
@@ -65,11 +65,11 @@ button.btn-primary {
     background-color: var(--blue-primary);
     color: black;
 }
-.game-body button.btn-primary {
-    background-color: var(--blue-darkest);
+game-body button.btn-primary {
+/*    background-color: var(--blue-darkest);
     border: 1px solid #000;
-    font-size: 1.5rem;
-    color: white;
+    color: white; */
+    font-size: 1.4rem;
 }
 button.btn-secondary {
     background-color: var(--blue-light);   
@@ -108,7 +108,7 @@ span.hint {
     border-radius: 50%;
 }
 
-.tooltip {
+.tooltip, .slider-tooltip {
     background-color: #FFF;
     border-radius: 6px;
     border: 1px solid #000;
@@ -121,7 +121,7 @@ span.hint {
     width: 300px;
     z-index: 2;
 }
-.tooltip::after {
+.tooltip::after, .slider-tooltip::after {
     background: #FFFAF4;
     border-bottom: inherit;
     border-right: inherit;
@@ -134,6 +134,15 @@ span.hint {
     top: calc(100% - 10px); /*i.e. half the height*/
     transform: rotate(45deg);
     width: 20px;
+}
+
+.slider-tooltip {
+    width: fit-content;
+    opacity: 0;
+    padding: 10px; 
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--blue-darkest);
 }
 
 /******************************/
@@ -166,7 +175,7 @@ input[type=range]::-webkit-slider-thumb {
     margin-top: -14px;
     width: 18px;
     border: 0;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    /*clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);*/
 
 }
 
@@ -176,9 +185,9 @@ input[type="range"]::-moz-range-thumb {
     background: var(--blue-darkest);
     height: 38px;
     margin-top: -14px;
-    width: 12px;
+    width: 18px;
     border: 0;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    /*clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);*/
 }
 
 #spend-input::-webkit-slider-thumb {
@@ -358,6 +367,7 @@ button.help {
     right: 10px;
     z-index: 1;
     padding: 0px;
+    /*display: none;  nobody is using this in user testing, takes up extra space on the page */
 }
 button.help:hover {
     opacity: 0.75;
@@ -470,10 +480,20 @@ section.overlay#nav-help button {
     display: flex;
     justify-content: center;
     display: none; 
+    position: absolute;
+    left:0 ;
+    right: 0;
+    margin: 0 auto;
+    top: 25%;
 }
 
 #break-the-cycle button {
-    font-size: 3.5rem;
+    font-size: 3rem;
+    padding: 6px 20px 6px 6px;
+}
+
+#break-the-cycle img {
+    width: 120px;
 }
 
 /***********************************/
@@ -599,7 +619,7 @@ section.game .game-body[player="ceo"] img.character-full {
 
 
 section.game .game-body>p{
-    width: 70%; /* this is the Goal p, probably should move it over */
+    width: 65%; /* this is the Goal p, probably should move it over */
 }
 section.game .results {
     display: flex;
@@ -614,7 +634,7 @@ section.game .results .controls p {
 }
 
 section.game .results .controls h3 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 section.game .results .taxes-owed {
@@ -641,8 +661,8 @@ section.game .results .bar {
     margin-top: 40px;
     text-align: center;
     visibility: hidden;
-    background-color: #444444CC;
-    color:white;
+    background-color: #fFFFFFDD;
+    color:black;
     opacity:0;
     border-radius: 14px;
 }
@@ -726,10 +746,62 @@ label[for="salary-stock"] div:nth-last-of-type(1) {
     margin-bottom: 30px;
     width: 75%;
 }
+.switch {
+    position: relative;
+    display: inline-block;
+    min-width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .switch .toggle {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 34px;
+    background-color: var(--grey-primary);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .switch .toggle:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--blue-darkest);
+    -webkit-transition: .4s;
+    border-radius: 50%;
+    transition: .4s;
+  
+  }
+  
+  .switch input:focus + .toggle {
+    box-shadow: 0 0 5px #2196F3;
+  }
+  
+  .switch input:checked + .toggle:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
 
 label[for="spend-input"] {
-    font-size:1.25rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--blue-darkest);
 }
+
 section.game-body[game="spend"] input[type=range] {
     width: 65px;
     margin: 0;
@@ -753,7 +825,6 @@ section.game-body[game="spend"] input[type=range]::-webkit-slider-thumb {
 section.game-body[game="spend"] input[type="range"]::-moz-range-thumb {
     margin-top: 0;
       width: 38px;
-
   }
 
 section.game-body[game="spend"][player="ceo"] .results span.inner-bar{
@@ -792,6 +863,97 @@ section.game-body[game="file-taxes"] .controls .svg-container {
     border: 1px solid var(--blue-darker);
     margin-bottom: 18px;
 }
+section.game-body[game="file-taxes"] .controls .checkbox-group {
+    margin-left: 16px;
+    margin-bottom: 16px;
+}
+/* The container */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 1.65rem;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 1.3rem;
+    width: 1.3rem;  
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid var(--blue-darkest);
+  }
+
+  input:focus + .checkmark     {
+    box-shadow: 0 0 5px #2196F3;
+  }
+
+  
+  /* On mouse-over, add a grey background color */
+  .checkbox-container:hover input ~ .checkmark {
+    background-color: #d4d4d4;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .checkbox-container input:checked ~ .checkmark {
+    background-color: var(--blue-darkest);
+  }
+  
+  .checkbox-container input:disabled ~ .checkmark {
+    background-color: #DFDFDF;
+    border-color: var(--grey-primary);
+  }
+  
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .checkbox-container .checkmark:after {
+    left: 0.4rem;
+    top: 0.2rem;
+    width: 0.25rem;
+    height: 0.55rem;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    transform: rotate(30deg);
+  }
+
+section.game-body[game="file-taxes"] .controls label {
+    font-size: 1.3rem;
+    font-weight: bold; 
+    color: var(--blue-darkest);
+}
+
 section.game-body[game="file-taxes"] .controls svg {
     border-left: 2px solid var(--grey-primary);
     border-bottom: 2px solid var(--grey-primary);
@@ -895,7 +1057,14 @@ section.game-body[game="file-taxes"] .interaction-response button{
         flex-wrap: wrap;
     }
 
-
+    #break-the-cycle button {
+        font-size: 2.5rem;
+        padding: 0 16px 0 0;
+    }
+    
+    #break-the-cycle img {
+        width: 90px;
+    }
     #main-games-nav div.nav-div[current="1"]  {
         width: 100%;
         margin-top:7%;
