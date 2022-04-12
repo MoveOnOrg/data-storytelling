@@ -92,6 +92,15 @@ button.btn-tertiary:not(.player-tabs button):hover{
     color: black;
 }
 
+.btn-group {
+    display: flex; 
+    gap: 6px;
+    justify-content: center;
+}
+
+.centered {
+    text-align: center;
+}
 
 /**************************/
 /******** TOOLTIPS ********/
@@ -208,7 +217,8 @@ input[type="range"]::-moz-range-thumb {
 section.overlay {     
     background-color: white;
     left: 50%;
-    max-width: 50%;
+    /* max-width: 50%;  not sure if changing this will break something? */
+    width: 60%; 
     position: fixed;
     top: 50%;
     max-height: 95%;
@@ -240,8 +250,17 @@ div#overlay-background{
     height: 100%;
     top:0;
     left:0;
-    background-color: rgba(0, 0, 0, 0.73);
+    background-color: rgba(0, 0, 0, 0.85);
     z-index: 1;
+}
+
+section.overlay#intro img {
+    width: 100%;
+    margin-top: -24px;
+}
+
+img#opening-img-mobile {
+    display: none;
 }
 
 /*********************/
@@ -382,11 +401,7 @@ section.overlay#nav-help {
     display: none;
     padding: 40px 40px 20px;
 }
-section.overlay#nav-help .btn-group {
-    display: flex; 
-    gap: 6px;
-    justify-content: center;
-}
+
 section.overlay#nav-help button {
     font-size: 1.2rem;
     margin-bottom: none;
@@ -653,7 +668,7 @@ section.game .results .bar {
 /****** INTERACTION RESPONSE SECTION ********/
 /********************************************/
 
-.interaction-response {
+.interaction-response, .text-overlay {
     flex: 1;
     position: relative;
     padding: 12px 24px ;
@@ -672,6 +687,11 @@ section.game .results .bar {
 }
 .interaction-response .interaction-content {
     visibility: hidden;
+}
+
+.text-overlay {
+    visibility: visible;
+    opacity: 1;
 }
 
 
@@ -967,12 +987,78 @@ section.game-body[game="file-taxes"] .interaction-response button{
     display:none;
 }
 
+/****************************/
+/**** BREAK THE CYCLE *******/
+/****************************/
+
+section[game='break-the-cycle'] {
+    width: 900px;
+}
+section[game='break-the-cycle'] h2 {
+    font-size: 2.5rem;
+}
+section[game='break-the-cycle'] h3 {
+    font-size: 1.7rem;
+}
+
+#rigged-system-explainer { 
+    display: flex;
+    position: relative;
+    max-width: 800px;
+    min-width: 800px;
+    margin: 0 auto;
+    height: 300px;
+    align-items: end;
+    padding-bottom: 20px;
+    gap: 100px;
+}
+
+#rigged-system-explainer div { 
+    flex: 1;
+    width: 70%;
+    margin: 0 0 0 auto ;
+
+}
+
+#rigged-system-explainer img { 
+    position: absolute;
+    width: 37%;
+    bottom:0;
+}
+#rigged-system-explainer .ceo div {
+    margin: 0 auto 0 0;
+}
+#rigged-system-explainer .ceo img { 
+    right:-10px;
+    transform: scaleX(-1);
+}
+
+#rigged-system-explainer h2 { 
+    font-size: 1.7rem;
+    margin-bottom: .2rem;
+}
+
+
+
 
 
 /**************************/
 /**** MOBILE STYLES *******/
 /**************************/
 @media (max-width: 850px) {
+
+    img#opening-img-desktop {
+        display: none;
+    }
+
+    img#opening-img-mobile {
+        display: block;
+    }
+
+    section.overlay#intro img#opening-img-mobile {
+        margin-top: -6px;
+    }    
+
     header {
         text-align: start;
     }
@@ -1133,7 +1219,7 @@ section.game-body[game="file-taxes"] .interaction-response button{
     section.overlay {
         max-width: 90%;
         width: 90%;
-        top: 10%;
+        top: 3%;
         transform: translate(-50%, 0%);
     }
     section.overlay .overlay-body{
@@ -1250,4 +1336,48 @@ section.game-body[game="file-taxes"] .interaction-response button{
         padding: 5px;
         width: 115%; /* goes into the margin-right */
     }
+
+    section[game='break-the-cycle'] h2 {
+        font-size: 1.7rem;
+        margin-bottom: 40px;
+    }
+
+    #rigged-system-explainer { 
+        flex-direction: column;
+        position: relative;
+        max-width: 100%;
+        min-width: 100%;
+        align-items: start;
+        padding-bottom: 20px;
+        gap:30px;
+        margin-bottom: 30px;
+    }
+
+    #rigged-system-explainer>div { 
+        position: relative;
+        width: 100%;
+        margin: 0 0 0 auto ;
+
+    }
+
+    #rigged-system-explainer img { 
+        position: absolute;
+        width: 45%;
+        bottom:0;
+    }
+    #rigged-system-explainer .ceo div {
+        /*margin: 0 0 0 auto; */
+    }
+    #rigged-system-explainer .ceo img { 
+        right:0px;
+        margin-bottom: -30px;
+        margin-right: -40px;
+    }
+
+    #rigged-system-explainer h2 { 
+        font-size: 1.7rem;
+        margin-bottom: .2rem;
+    }
+
+
 }
