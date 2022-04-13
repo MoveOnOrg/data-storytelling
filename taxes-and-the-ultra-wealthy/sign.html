@@ -24,6 +24,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
+      .giraffe section.game { 
+        display: block;
+      }
+      .giraffe .petition-container {
+        display: flex;
+      }
+      .giraffe .game-body img {
+        position: absolute;
+        bottom: 0;
+        width: 20%;
+      } 
+      .giraffe .game-body img.sad-ceo {
+        right: 0;
+      }
+      .giraffe .game-body img.happy-nurse {
+        left: 0;
+      }
+      .giraffe #introduction-text {
+        text-align: center;
+      }
       .giraffe .fine-print.incontentblock {
           position: absolute;
           right: 0;
@@ -44,12 +64,9 @@
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
       }
-      .giraffe .bg-ice-blue {
-          background-color: var(--blue-light3); /* #e5f5ff;*/
-      }
-
-      .giraffe .p-4 {
-          padding: 1.5rem!important;
+      .giraffe .form-container {
+        padding-bottom: 24px; 
+        width: clamp(300px, 50%, 500px);
       }
 
       .giraffe .col-md-7 {
@@ -76,7 +93,8 @@
           margin-left: -15px;
       }
       .giraffe h2 {
-          font-size: 2.25rem;
+          font-size: 2rem;
+          margin-bottom: 4px;
       }
       /* .giraffe h1, .giraffe h2, .giraffe h3, .giraffe h4, .giraffe h5 {
           text-transform: none;
@@ -367,54 +385,25 @@
     <div
       class="container"
       role="main" >
-      
-      <div class="row">
-        
-        
-        
-        
-        
-        
-        
-  <div class="col-md-12 mb-5">
-    
-    
-
-    
-
-    <div id="content-heading" class="mt-5 mb-3 row">
-      <div class="col-md-12">
-        
-        
-        
-        
+      <section class='game'>
+        <section class='game-body'>
+          <img class='happy-nurse' src='happy-nurse.png'>
+          <img class='sad-ceo' src='ceo_sad.png'>
           <div id="introduction-text" class="mt-3">
-            <p>Tell Congress: Pass a Billionaires Income Tax and finally start taxing their wealth like our work</p>
+            <h2>SIGN THE PETITION</h2> 
+            <p>Tell Congress: Pass a Billionaires Tax and invest in our communities NOW!
+            </p>
           </div>
-        
-      </div>
-    </div>
-
-    <form id="act" class="ak-form" name="act" method="POST" action="https://act.moveon.org/act/" accept-charset="utf-8" data-viewable="true">
+      <form id="act" class="ak-form" name="act" method="POST" action="https://act.moveon.org/act/" accept-charset="utf-8" data-viewable="true">
 
         <div class="row justify-content-center">
-
-            <div class="col-md-7">
-
-              <div class="content-block bg-ice-blue p-4">
-                
+            <div class='form-container'>
 <div id="known_user">
   <h3>Welcome, <span id="known_user_name"></span>!</h3>
   <p>Not <strong><span id="known_user_name"></span></strong>?  <a href="https://act.moveon.org?" onclick="return actionkit.forms.logOut()">Log Out.</a></p>
 </div>
 <div id="unknown_user" class="user-form ak-user-form">
-  
-  
-
   <div class="fine-print fine-print-message  incontentblock ">U.S. and U.S. territories only</div>
-  
-  
-
 
 <!-- user_field -->
   <div id="fieldbox-name" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
@@ -453,12 +442,12 @@
   </div>
 <!-- /user_field -->
 <!-- user_field -->
-  <div id="fieldbox-address1" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
+ <!-- <div id="fieldbox-address1" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
       input-block
       text-input
       label-before-input
   ">
-      <label for="id_address1" class="text-dark">
+     <label for="id_address1" class="text-dark">
         Street address
       </label>
          <input id="id_address1"
@@ -467,7 +456,7 @@
           class="
           "
           />
-  </div>
+  </div>--> 
 <!-- /user_field -->
 <!-- user_field -->
   <div id="fieldbox-zip" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
@@ -554,7 +543,7 @@
 
 
               </div>
-            </div>
+           
           
 
         </div>
@@ -681,7 +670,7 @@
       </div>
     </form>
     
-  </div>
+  
 
   <script>
     var moSurveyActionkitBeforeValidation = function() {
@@ -852,6 +841,7 @@
         
         
       </div><!-- .row -->
+      </section></section>
     </div><!-- .container -->
 
     <script>
