@@ -317,7 +317,25 @@ header p {
 }
 
 
+/*********************/
+/****** FOOTER *******/
+/*********************/
 
+footer{ 
+    background: black;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font-size: 0.8rem;
+    color: var(--blue-light);
+    padding: 7px;
+    text-align: right;
+}
+footer a { 
+    font-size: 0.8rem;
+    color: var(--blue-light);
+    text-decoration: underline;
+}
 
 
 /***********************************/
@@ -1076,6 +1094,11 @@ section[game='break-the-cycle'] h3 {
         margin: 0 0 -10px;
     }
 
+    footer{ 
+        padding: 4px;
+        text-align: center;
+    }
+
     button.help img {
         display:none;
     }
@@ -1294,6 +1317,8 @@ section[game='break-the-cycle'] h3 {
         position: fixed;
         right: 0;
         border-radius: 0;
+        background-color: #fFFFFFEE;
+
     }
     .interaction-response h2 {
         font-size: 1.4rem;

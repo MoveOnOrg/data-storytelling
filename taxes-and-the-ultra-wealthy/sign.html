@@ -23,7 +23,139 @@
     <link href='styles.css' rel='stylesheet' />
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
-    
+    <style>
+      .giraffe .fine-print.incontentblock {
+          position: absolute;
+          right: 0;
+          top: 0;
+          color: #000;
+          padding-right: 1.5rem!important;
+      }
+      .giraffe .fine-print.fine-print-message {
+          font-family: Roboto,sans-serif;
+          font-style: italic;
+          font-size: .8em!important;
+          line-height: 1.5em!important;
+          font-weight: 400!important;
+          padding-top: 5px;
+      }
+
+      .giraffe .content-block {
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+      }
+      .giraffe .bg-ice-blue {
+          background-color: var(--blue-light3); /* #e5f5ff;*/
+      }
+
+      .giraffe .p-4 {
+          padding: 1.5rem!important;
+      }
+
+      .giraffe .col-md-7 {
+          -webkit-box-flex: 0;
+          -ms-flex: 0 0 58.33333%;
+          flex: 0 0 58.33333%;
+          max-width: 58.33333%;
+          position: relative; /* my addition so "US territories" message goes in right spot works */ 
+      }
+
+      
+      .giraffe .justify-content-center {
+          -webkit-box-pack: center!important;
+          -ms-flex-pack: center!important;
+          justify-content: center!important;
+      }
+      .giraffe .row {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+          margin-right: -15px;
+          margin-left: -15px;
+      }
+      .giraffe h2 {
+          font-size: 2.25rem;
+      }
+      /* .giraffe h1, .giraffe h2, .giraffe h3, .giraffe h4, .giraffe h5 {
+          text-transform: none;
+          font-family: "Roboto Condensed",sans-serif;
+          font-weight: bolder;
+          line-height: 1.2em;
+          margin-bottom: 0.3em;
+      }*/
+      .giraffe form .input-block {
+          font-size: 16px;
+      }
+      .giraffe .mt-4, .giraffe .my-4 {
+          margin-top: 1.5rem!important;
+      }
+
+      .giraffe form .input-block.label-before-input label {
+          display: block;
+          margin: 0 0 0.5em 0;
+          position: relative;
+          width: 100%;
+          top: 0;
+      }
+      .giraffe form .input-block label {
+          position: absolute;
+          top: -1.5625rem;
+          left: 0;
+          font-weight: 400;
+          font-size: .95rem;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          align-items: center;
+          height: 100%;
+      }
+      .giraffe .text-dark {
+          color: #343a40!important;
+      }
+
+
+      .giraffe form .input-block {
+          position: relative;
+          color: #222 ;
+          font-size: 1rem ;
+          line-height: 1.2 ;
+          /* line-height was here instead of height  before*/ 
+      }
+
+      .giraffe form .input-block input, .giraffe form .input-block select {
+          height: calc(1rem + 10px);
+          padding: 5px;
+          -webkit-border-radius: 0;
+          border-radius: 0;
+          font-size: inherit;
+          font-family: inherit;
+          line-height: inherit;
+          -webkit-transition: all .3s;
+          -o-transition: all .3s;
+          transition: all .3s;
+          position: relative;
+          background-color: transparent;
+          z-index: 1;
+          margin-bottom: 0;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          width: 100%;
+          border: 0;
+          border-bottom: 2px solid rgba(0,0,0,.42);
+      }
+
+      .giraffe form .checkbox-input.giraffe-has-errors input, .giraffe form .checkbox-input.giraffe-has-errors select, .giraffe form .checkbox-input.giraffe-has-errors textarea, .giraffe form .checkbox-input.giraffe-has-errors.border input, .giraffe form .checkbox-input.giraffe-has-errors.border select, .giraffe form .checkbox-input.giraffe-has-errors.border textarea, .giraffe form .input-block.giraffe-has-errors input, .giraffe form .input-block.giraffe-has-errors select, .giraffe form .input-block.giraffe-has-errors textarea, .giraffe form .input-block.giraffe-has-errors.border input, .giraffe form .input-block.giraffe-has-errors.border select, .giraffe form .input-block.giraffe-has-errors.border textarea, .giraffe form .radio-input.giraffe-has-errors input, .giraffe form .radio-input.giraffe-has-errors select, .giraffe form .radio-input.giraffe-has-errors textarea, .giraffe form .radio-input.giraffe-has-errors.border input, .giraffe form .radio-input.giraffe-has-errors.border select, .giraffe form .radio-input.giraffe-has-errors.border textarea {
+          color: #c3645c;
+          border-color: #c3645c;
+      }
+
+
+
+    </style>
     
     
       <!-- the code below allows optimizely to track user behavior for experiments. -->
@@ -227,12 +359,10 @@
     </div>
 </header>
 
+<footer>
+  Paid for by MoveOn.org Political Action, <a href="https://front.moveon.org/about-moveon-political-action/">pol.moveon.org</a>, not authorized by any candidate or candidate's committee.
+</footer>
 
-  
-    
-
-
-    
      
     <div
       class="container"
@@ -266,20 +396,11 @@
     </div>
 
     <form id="act" class="ak-form" name="act" method="POST" action="https://act.moveon.org/act/" accept-charset="utf-8" data-viewable="true">
-      
-
-      
 
         <div class="row justify-content-center">
 
-          
-
-          
             <div class="col-md-7">
-              
 
-
-              
               <div class="content-block bg-ice-blue p-4">
                 
 <div id="known_user">
@@ -294,7 +415,6 @@
   
   
 
-  
 
 <!-- user_field -->
   <div id="fieldbox-name" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
