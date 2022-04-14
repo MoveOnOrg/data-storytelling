@@ -435,7 +435,7 @@ button.help {
     right: 10px;
     z-index: 1;
     padding: 0px;
-    /*display: none;  nobody is using this in user testing, takes up extra space on the page */
+    display: none;  /* nobody is using this in user testing, takes up extra space on the page */
 }
 button.help:hover {
     opacity: 0.75;
