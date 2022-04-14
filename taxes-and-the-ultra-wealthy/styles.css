@@ -23,6 +23,15 @@ html {
     line-height: 1.4;
 }
 
+.underline{
+    text-decoration: underline;
+}
+ul.no-bullets {
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+  }
+  
 h2 {
     margin-bottom: 2rem;
 }
@@ -258,6 +267,11 @@ section.overlay#intro img {
     width: 100%;
     margin-top: -24px;
 }
+section.overlay#intro .source {
+    text-align: right;
+    margin-right: 70px;
+    margin-top: -10px;
+}
 
 img#opening-img-mobile {
     display: none;
@@ -270,10 +284,19 @@ section.overlay#share .share-buttons {
 } 
 section.overlay#share .share-block {
     background-color: #FFF;
+    border: none;
+    padding: 0 50px;
 }
 section.overlay#share form {
     margin-bottom: 2rem;
 }
+section.overlay#share .share-block .btn-group {
+    justify-content: flex-end;
+}
+section.overlay#share .share-block .btn-group button {
+    font-size: 1rem;
+}
+
 
 /*********************/
 /****** HEADER *******/
@@ -433,6 +456,7 @@ section.overlay#nav-help {
 }
 section.overlay#share {
     display: none;
+    width: fit-content;
 }
 
 section.overlay#nav-help button {
@@ -544,6 +568,8 @@ section.overlay#nav-help button {
 #break-the-cycle img {
     width: 120px;
 }
+
+
 
 /***********************************/
 /****** GENERAL GAME SCREEN ********/
@@ -1034,7 +1060,9 @@ section[game='break-the-cycle'] h2 {
 section[game='break-the-cycle'] h3 {
     font-size: 1.7rem;
 }
-
+section.game[game='break-the-cycle'] a {
+    display: block;
+}
 #rigged-system-explainer { 
     display: flex;
     position: relative;
@@ -1079,23 +1107,36 @@ section[game='break-the-cycle'] h3 {
 #thanks {
     margin: 40px auto;
     text-align: center;
-    width: 90%;
+    width: fit-content;
 }
 #thanks h2 { 
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-transform: uppercase; 
+    margin-bottom: 0px;
+}
+#thanks .return {
+    text-align: right;
+}
+#thanks .return a {
+    font-size: 1rem; 
+    text-decoration: underline;
+    text-align: right;
 }
 .share-block {
-    background-color: #CAF4FF;
+    background-color: var(--blue-light3);
+    border: 1px solid black;
     padding: 24px;
     margin-bottom: 2rem;
+    width: fit-content;
+    margin: 0 auto;
 }
 .share-block p {
     margin-bottom: 2rem;
 }
 .share-buttons {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
+
 }
 .share_item__btn__wrapper {
     margin: 4px 0 0 0;
@@ -1189,6 +1230,12 @@ section[game='break-the-cycle'] h3 {
     section.overlay#intro img#opening-img-mobile {
         margin-top: -6px;
     }    
+    section.overlay#intro .source {
+        text-align: left;
+        margin-left: 5px;
+        margin-top: 6px;
+        font-size: 0.8rem;
+    }
 
     header {
         text-align: start;

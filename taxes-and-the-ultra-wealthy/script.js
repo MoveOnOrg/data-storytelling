@@ -3,6 +3,7 @@
 
 
 const tooltipTexts = {
+    propublicaSource: "Based on ProPublica's report on wealth and taxes of the 25 richest Americans (2014-2018). Click the get started button below to learn more.",
     salaryGameHint: "A large salary is taxed at a pretty high rate, but investment gains may never be taxed. <strong>Slide the slider all the way to the other end to see what happens</strong>.",
     salaryGameHintNurse: "Nurses don't usually have much investment income, but let's just pretend.",
     futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
@@ -107,6 +108,9 @@ d3.select('body')
             document.activeElement.click();
         }
     })
+
+d3.select('section.overlay#share .share-block button.close')
+    .on('click', hideOverlays)
 
 
 /******************************/
@@ -428,6 +432,7 @@ function removeTooltip(selection){
         .on('mouseout',  () => {})
 }
 
+d3.select('#intro .source').call(showTooltip, tooltipTexts.propublicaSource)
 d3.select('#salary-game-hint').call(showTooltip, tooltipTexts.salaryGameHint)
 d3.select('#salary-game-hint-nurse').call(showTooltip, tooltipTexts.salaryGameHintNurse)
 d3.select('#future-taxes-hint').call(showTooltip, tooltipTexts.futureTaxes)
