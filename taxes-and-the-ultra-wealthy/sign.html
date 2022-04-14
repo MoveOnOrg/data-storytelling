@@ -105,6 +105,7 @@
       }*/
       .giraffe form .input-block {
           font-size: 16px;
+          margin-top: 12px;
       }
       .giraffe .mt-4, .giraffe .my-4 {
           margin-top: 1.5rem!important;
@@ -112,7 +113,7 @@
 
       .giraffe form .input-block.label-before-input label {
           display: block;
-          margin: 0 0 0.5em 0;
+          margin: 0 0 3px 0;
           position: relative;
           width: 100%;
           top: 0;
@@ -121,7 +122,7 @@
           position: absolute;
           top: -1.5625rem;
           left: 0;
-          font-weight: 400;
+          font-weight: bold;
           font-size: .95rem;
           display: -webkit-box;
           display: -ms-flexbox;
@@ -163,15 +164,21 @@
           box-shadow: none;
           width: 100%;
           border: 0;
-          border-bottom: 2px solid rgba(0,0,0,.42);
+          /* border-bottom: 2px solid rgba(0,0,0,.42);*/ 
+          background-color: white;
       }
 
       .giraffe form .checkbox-input.giraffe-has-errors input, .giraffe form .checkbox-input.giraffe-has-errors select, .giraffe form .checkbox-input.giraffe-has-errors textarea, .giraffe form .checkbox-input.giraffe-has-errors.border input, .giraffe form .checkbox-input.giraffe-has-errors.border select, .giraffe form .checkbox-input.giraffe-has-errors.border textarea, .giraffe form .input-block.giraffe-has-errors input, .giraffe form .input-block.giraffe-has-errors select, .giraffe form .input-block.giraffe-has-errors textarea, .giraffe form .input-block.giraffe-has-errors.border input, .giraffe form .input-block.giraffe-has-errors.border select, .giraffe form .input-block.giraffe-has-errors.border textarea, .giraffe form .radio-input.giraffe-has-errors input, .giraffe form .radio-input.giraffe-has-errors select, .giraffe form .radio-input.giraffe-has-errors textarea, .giraffe form .radio-input.giraffe-has-errors.border input, .giraffe form .radio-input.giraffe-has-errors.border select, .giraffe form .radio-input.giraffe-has-errors.border textarea {
           color: #c3645c;
-          border-color: #c3645c;
+          border: 2px solid #c3645c;
       }
 
 
+      @media (max-width: 850px) {
+        .giraffe section.game .game-body {
+          padding: 30px;
+         }
+      }
 
     </style>
     
@@ -371,7 +378,7 @@
     <div class='main-title'>
         <a href='index.html'><img class='faceoff' src = "faceoff2.png" role='button' tabindex="1" alt = 'page icon, return to nav pge' /> </a>
         <div>
-          <h1>The Great Dodge</h1>
+          <h1>The Tax Dodge</h1>
           <p>So you want to be a tax evading billionaire</p>
         </div>                
     </div>
@@ -406,7 +413,7 @@
   <div class="fine-print fine-print-message  incontentblock ">U.S. and U.S. territories only</div>
 
 <!-- user_field -->
-  <div id="fieldbox-name" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
+  <div id="fieldbox-name" class=" mr-0 override-collapse fieldtype-user fieldinput-text
     required
       input-block
       text-input
@@ -424,7 +431,7 @@
   </div>
 <!-- /user_field -->
 <!-- user_field -->
-  <div id="fieldbox-email" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
+  <div id="fieldbox-email" class=" mr-0 override-collapse fieldtype-user fieldinput-text
     required
       input-block
       text-input
@@ -459,7 +466,7 @@
   </div>--> 
 <!-- /user_field -->
 <!-- user_field -->
-  <div id="fieldbox-zip" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
+  <div id="fieldbox-zip" class="  mr-0 override-collapse fieldtype-user fieldinput-text
     required
       input-block
       text-input
@@ -477,7 +484,7 @@
   </div>
 <!-- /user_field -->
 <!-- user_field -->
-  <div id="fieldbox-postal" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
+  <div id="fieldbox-postal" class="  mr-0 override-collapse fieldtype-user fieldinput-text
       input-block
       text-input
       label-before-input
@@ -494,7 +501,7 @@
   </div>
 <!-- /user_field -->
 <!-- user_field -->
-  <div id="fieldbox-phone" class=" mt-4 mr-0 override-collapse fieldtype-user fieldinput-text
+  <div id="fieldbox-phone" class="  mr-0 override-collapse fieldtype-user fieldinput-text
       input-block
       text-input
       label-before-input
