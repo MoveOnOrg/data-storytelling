@@ -366,10 +366,16 @@ d3.select('#break-the-cycle button')
         d3.selectAll('section.game[game="break-the-cycle"').style('display','block')        
     })
 
-d3.selectAll('#rigged-system-cta button')
-    .on('click', () => {
-        alert("Congrats! You've reached the end what we've built so far. Currently working on these CTA's")
+// d3.selectAll('#rigged-system-cta button')
+//     .on('click', () => {
+//         alert("Congrats! You've reached the end what we've built so far. Currently working on these CTA's")
+//     })
+
+d3.select('button#share-page')
+    .on('click', function() {
+        showOverlay('section.overlay#share')
     })
+
 
 /****************/
 /*** TOOLTIPS ***/
