@@ -1,7 +1,5 @@
 // to test any rounds d3.selectAll('.nav-div').attr('playable',1)
 
-
-
 const tooltipTexts = {
     propublicaSource: "Based on ProPublica's report on wealth and taxes of the 25 richest Americans (2014-2018). Click the \"get started\" button below to learn more.",
     salaryGameHint: "A large salary is taxed at a pretty high rate, but investment gains may never be taxed. <strong>Slide the slider all the way to the other end to see what happens</strong>.",
@@ -464,3 +462,18 @@ d3.select('button[player="nurse"][game="earn"]').call(showTooltip, tooltipTexts.
 d3.select('#spend-game-hint').call(showTooltip, tooltipTexts.spendGameHint)
 d3.select('#file-taxes-game-hint').call(showTooltip, tooltipTexts.fileTaxesGameHint)
 d3.select('svg[game="file-taxes"]').call(showTooltip, tooltipTexts.fileTaxesSvgGameHint)
+
+
+/*******************/
+/*** GA Tracking ***/
+/*******************/
+d3.selectAll('button').on('click.track', function(event) {
+    let id = d3.select(this).attr('id');
+    gaTrack(id);
+    console.log(`${id} clicked`);
+});
+
+
+function gaTrack(id) {
+    //google analytics code goes here
+}
