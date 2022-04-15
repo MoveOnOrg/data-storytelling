@@ -152,7 +152,7 @@ span.hint {
 }
 
 .slider-tooltip::after {
-    background: #FFFAF4;
+    background: #FFF;
     border-bottom: inherit;
     border-right: inherit;
     content: '';
@@ -660,6 +660,7 @@ section.game-round-opening .background a {
 }
 .player-tabs div {
     text-align:start;
+    color: black;
 }
 .player-tabs h2 {
     margin-bottom: 0px;
