@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="msapplication-TileImage" content="https://static.moveon.org/giraffe/images/favicons/favicon512.png" />
+    <meta name="facebook-domain-verification" content="ilj31syg7vrca80yfqbcts67g1vw1g" />
+    <link rel="icon" type="image/png" href="https://static.moveon.org/giraffe/images/favicons/favicon32.png" sizes="32x32" />
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://static.moveon.org/giraffe/images/favicons/favicon57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://static.moveon.org/giraffe/images/favicons/favicon114.png" />
     <link href='styles.css' rel='stylesheet' />
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script>
@@ -32,7 +37,7 @@
 
     <main>
         <section id='image-nav'> 
-            <button class='help'><span>help <span class='hint' tabindex="0">?</span></span><img src = "help-icon.png" alt = 'help button' /></button>
+            <button class='help' id='help-button'><span>help <span class='hint' tabindex="0">?</span></span><img src = "help-icon.png" alt = 'help button' /></button>
 
             <div id='main-games-nav'>       
                 <div class='nav-div' playable="1" game='earn' current="1" role='button' tabindex='2'>
@@ -42,7 +47,7 @@
                     <section>
                         <h3>Earn</h3>
                         <p>How to make money</p>
-                        <button class='btn-primary'>start</button>    
+                        <button class='btn-primary' id='start-game'>start</button>    
                     </section>
                 </div>
                 <div class = 'nav-arrow' game='spend'>
@@ -55,7 +60,7 @@
                     <section>
                         <h3>Spend</h3>
                         <p>How to buy things</p>
-                        <button class='btn-primary'>start</button>
+                        <button class='btn-primary' id='start-spend'>start</button>
                     </section>
 
                 </div>
@@ -69,11 +74,11 @@
                     <section>
                         <h3>File Taxes</h3>
                         <p>What to tell the IRS</p>
-                        <button class='btn-primary'>start</button>
+                        <button class='btn-primary' id='start-file'>start</button>
                     </section> 
                 </div>   
             </div>     
-            <div id='break-the-cycle'><button class='btn-primary'><img src="happy-nurse.png" alt="penguin nurse having hope">Break the <br />cycle</button></div>
+            <div id='break-the-cycle'><button class='btn-primary' id='break-the-cycle-button'><img src="happy-nurse.png" alt="penguin nurse having hope">Break the <br />cycle</button></div>
         </section>
         <div id='overlay-background'></div>
         <section class = 'overlay' id ='intro'>
@@ -91,7 +96,7 @@
             <p>If you get stuck, you can unlock all challenges here: </p>
             <div class='btn-group'>
                 <button id='unlock-all-challenges' class='btn-primary' type='button' tabindex='2'>Unlock All</button>
-                <button id='get-started' class='btn-primary' type='button' tabindex='3'>Close</button>
+                <button id='overlay-close' class='btn-primary' type='button' tabindex='3'>Close</button>
             </div>
         </section>
         <section class = 'overlay' id ='share'>
@@ -195,8 +200,8 @@
                   </div>
                 </form>
                 <div class='btn-group'>
-                    <a href='sign.html'><button class='btn-primary'>Sign the Petition</button></a>
-                    <button class='btn-primary close'>Close</button></a>
+                    <a href='sign.html'><button class='btn-primary' id='share-sign-petition'>Sign the Petition</button></a>
+                    <button id='share-close' class='btn-primary close'>Close</button></a>
                 </div>
 
             </div>
@@ -242,7 +247,7 @@
                             <h2>Nice Move!</h2>
                             <div class='interaction-content'>
                                 <p>You've joined Elon Musk, Larry Ellison, and many others who have at times chosen to take a salary of $1 or less as they find less-taxing ways to add to their billions.</p>
-                                <button class='btn-primary'>Play as nurse</button>
+                                <button class='btn-primary' id='play-as-nurse'>Play as nurse</button>
                             </div>
                         </div>                   
                 </section>
@@ -281,11 +286,11 @@
         <section class='game' game='spend'>
             <section class='game-wrapper'> 
                 <section class='player-tabs'>
-                    <button active = '1' playable= "1" game='spend' player='ceo' >
+                    <button active = '1' playable= "1" game='spend' player='ceo' id='spend-ceo-tab'>
                         <span></span>
                         <div><p>A billionaire</p><h2>CEO</h2></div>
                     </button>
-                    <button game='spend' player='nurse'>
+                    <button game='spend' player='nurse' id='spend-nurse-tab'>
                         <span></span>
                         <div><p>A hardworking</p><h2>Nurse</h2></div>    
                     </button>
@@ -311,7 +316,7 @@
                             <h2>You got it!</h2>
                             <div class='interaction-content'>
                                 <p>Billionaire Carl Icahn has had over $1.2 billion in low-interest loans, which he uses to pay for his extravagant lifestyle and to make more investments, all without owing taxes on his gains. </p>
-                                <button class='btn-primary'>Try as nurse</button>
+                                <button class='btn-primary' id='spend-try-as-nurse'>Try as nurse</button>
                             </div>
                         </div>     
                     </div>
@@ -361,11 +366,11 @@
         <section class='game' game='file-taxes'>
             <section class='game-wrapper'> 
                 <section class='player-tabs'>
-                    <button active = '1' playable= "1" game='file-taxes' player='ceo' >
+                    <button active = '1' playable= "1" game='file-taxes' player='ceo' id='file-ceo-tab'>
                         <span></span>
                         <div><p>A billionaire</p><h2>CEO</h2></div>
                     </button>
-                    <button game='file-taxes' player='nurse'>
+                    <button game='file-taxes' player='nurse' id='file-nurse-tab'>
                         <span></span>
                         <div><p>A hardworking</p><h2>Nurse</h2></div>    
                     </button>
@@ -408,7 +413,7 @@
                             <div class='interaction-content'>
                                 <p id='file-taxes-ceo-income-p'>Loopholes let corporations shift American-made profits to offshore havens that charge little or no tax.</p>
                                 <p id='file-taxes-ceo-expense-p'>Loopholes let corporations claim expenses they haven’t really incurred–and that they don’t report to investors.</p>
-                                <button class='btn-primary'>Try as nurse</button>
+                                <button class='btn-primary' id='file-try-as-nurse'>Try as nurse</button>
                             </div>
                         </div>     
                     </div>
@@ -496,7 +501,7 @@
                 <h3 id='cta'>You can help!</h3>
                 <div class='btn-group'>
                     <button id='share-page' class='btn-primary'>Share this Page</button>
-                    <a href='sign.html'><button class='btn-primary'>Sign the Petition</button></a>
+                    <a href='sign.html'><button class='btn-primary' id='break-cycle-sign-petition'>Sign the Petition</button></a>
                 </div>
                 <h3 >Learn more</h3>
                 <ul class='no-bullets'>
