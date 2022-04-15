@@ -5,11 +5,11 @@
 const tooltipTexts = {
     propublicaSource: "Based on ProPublica's report on wealth and taxes of the 25 richest Americans (2014-2018). Click the \"get started\" button below to learn more.",
     salaryGameHint: "A large salary is taxed at a pretty high rate, but investment gains may never be taxed. <strong>Slide the slider all the way to the other end to see what happens</strong>.",
-    futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
+    futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra-wealthy can find other ways to avoid taxes when they can choose their timing.",
     nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
-    spendGameHint: "When you sell a stock or other investments you have to pay capital gains taxes. If you don't sell your investments, you don't owe any taxes at all.",
-    fileTaxesGameHint: "Check these checkboxes and see how to chart changes",
-    fileTaxesSvgGameHint: "Check the checkboxes above to see how this chart changes"
+    spendGameHint: "When you sell a stock or other investments for a profit you have to pay taxes on your gains. If you don't sell your investments, you often don't owe any taxes at all.",
+    fileTaxesGameHint: "Check these boxes and see how the chart changes.",
+    fileTaxesSvgGameHint: "Check the boxes above to see how this chart changes."
 }
 
 
@@ -18,7 +18,10 @@ const tooltipTexts = {
 /***********************************************************/
 
 function focusOn(focusString){
-    d3.select(focusString).node().focus()
+    if(!window.matchMedia("only screen and (max-width: 450px)").matches){
+        console.log('focusing')
+        d3.select(focusString).node().focus()
+    }
 }
 // currently only overlay is opening screen, but these helper functions should help if we want to put them back elsewhere. 
 function showOverlay(selectString, focusString) {
@@ -117,6 +120,8 @@ d3.select('body')
 d3.select('section.overlay#share .share-block button.close')
     .on('click', hideOverlays)
 
+d3.selectAll('.signature-button').attr('href','sign.html' + (window.location.search || ''))
+    
 
 /******************************/
 /*** START GAME INTERACTION ***/
