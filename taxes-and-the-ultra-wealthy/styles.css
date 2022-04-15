@@ -137,7 +137,7 @@ span.hint {
 }
 /* .tooltip::after, .slider-tooltip::after */
 .tooltip-pointer {
-    background: #FFFAF4;
+    background: #FFF;
     border-bottom: inherit;
     border-right: inherit;
     content: '';
@@ -1585,6 +1585,8 @@ section[game='break-the-cycle'] #cta {
     }
     #rigged-system-explainer div.ceo  {
         justify-content: end;
+        -webkit-justify-content: flex-end;
+
     }
     #rigged-system-explainer div.ceo img { 
         right:0px;

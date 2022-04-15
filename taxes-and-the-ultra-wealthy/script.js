@@ -443,7 +443,7 @@ function showTooltip(selection, curText){
 }
 // this is to get the tooltip to go away with a click anywhere else on mobile. 
 d3.select('html').on("click", function(event) {
-    if(!(d3.select(event.target).classed("has-tooltip")) ){
+    if(!(d3.select(event.target).classed("has-tooltip")) & tooltip.style('opacity') == 1){
         console.log('hiding tooltip')
         tooltip.transition().duration(200).style('opacity',0);
     }
