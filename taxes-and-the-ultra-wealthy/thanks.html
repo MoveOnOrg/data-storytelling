@@ -9,6 +9,16 @@
     <link rel="icon" type="image/png" href="https://static.moveon.org/giraffe/images/favicons/favicon32.png" sizes="32x32" />
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://static.moveon.org/giraffe/images/favicons/favicon57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://static.moveon.org/giraffe/images/favicons/favicon114.png" />
+
+    <meta property="og:title" content="The Tax Dodge">
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://data-stories.moveon.org/the-tax-dodge/thetaxdodge_share.jpeg">
+    <meta property="og:url" content="https://data-stories.moveon.org/the-tax-dodge/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:description" content="So you want to be a tax-avoiding billionaire? Find out how...">
+    <meta property="og:site_name" content="The Tax Dodge">
+    <meta name="twitter:image:alt" content="chart showing 14% average federal tax rate for compared to 3.4% true tax rate for richest 25 Americans.">
+
     <link href='styles.css' rel='stylesheet' />
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script>
@@ -110,7 +120,7 @@
                       </a>
                     </div>
                     <div class="input-block-wrapper">
-                      <input type="text" value="https://data-stories.moveon.org/the-tax-dodge/?source=share" id="urlToCopy" readonly="" class="input-block mt-0">
+                      <input type="text" value="www.thetaxdodge.com/?source=share" id="urlToCopy" readonly="" class="input-block mt-0">
                       <script>
                       var copyUrlBtn = document.getElementById('copyUrlBtn');
                       copyUrlBtn.addEventListener('click', function(event) {
@@ -142,6 +152,20 @@
     <footer>
         Paid for by MoveOn.org Political Action, <a href="https://front.moveon.org/about-moveon-political-action/">pol.moveon.org</a>, not authorized by any candidate or candidate's committee.
     </footer>
+    <script>
+        var elements = document.querySelectorAll('button, [class^=btn]');
+        Array.prototype.forEach.call(elements, function(el, i) {
+            el.addEventListener('click', function () {
+                var elementid = this.type + "." + this.id + "." + this.className + "." + this.textContent.trim() + "." + this.value;
+                analytics.track('Button Clicked', {
+                    id: elementid,
+                    type: 'Button',
+                    pageTitle: document.title,
+                    pagePathURL: location.pathname
+                });
+            }, false);
+        });
+    </script>
 </body>
 <script type='text/javascript' src='https://unpkg.com/d3@7.2.0/dist/d3.min.js'></script>
 <script type='text/javascript' src='script.js'></script>
