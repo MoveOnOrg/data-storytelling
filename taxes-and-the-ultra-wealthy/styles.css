@@ -33,20 +33,20 @@ ul.no-bullets {
   }
   
 h2 {
-    margin-bottom: 2rem;
+    margin-bottom: 28px;
 }
 h3, input {
-    margin-bottom: 0.5rem;
+    margin-bottom: 7px;
 }
 
 p {
     font-size: 1.2rem; 
-    margin-bottom: 1rem;
+    margin-bottom: 14px;
 }
 
 .game-body p strong {
     font-size: 1.7rem; 
-    margin-bottom: 1rem;
+    margin-bottom: 14px;
 }
 
 a {
@@ -68,7 +68,7 @@ button {
     box-shadow: none;
     font-family: "Roboto Condensed",sans-serif;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 14px;
 }
 button.btn-primary {
     background-color: var(--blue-primary);
@@ -135,7 +135,8 @@ span.hint {
     width: 300px;
     z-index: 2;
 }
-.tooltip::after, .slider-tooltip::after {
+/* .tooltip::after, .slider-tooltip::after */
+.tooltip-pointer {
     background: #FFFAF4;
     border-bottom: inherit;
     border-right: inherit;
@@ -150,6 +151,20 @@ span.hint {
     width: 20px;
 }
 
+.slider-tooltip::after {
+    background: #FFFAF4;
+    border-bottom: inherit;
+    border-right: inherit;
+    content: '';
+    left: 50%;
+    height: 20px;
+    margin-left: -10px;
+    position: absolute;
+    top: -webkit-calc(100% - 10px); /*may require prefix for old browser support*/
+    top: calc(100% - 10px); /*i.e. half the height*/
+    transform: rotate(45deg);
+    width: 20px;
+}
 .slider-tooltip {
     width: fit-content;
     opacity: 0;
@@ -284,7 +299,7 @@ section.overlay#share .share-block {
     padding: 0 50px;
 }
 section.overlay#share form {
-    margin-bottom: 2rem;
+    margin-bottom: 28px;
 }
 section.overlay#share .share-block .btn-group {
     justify-content: flex-end;
@@ -322,7 +337,7 @@ header .attribution img.moveon-logo {
 }
 
 header .main-title{ 
-    padding: 1rem;
+    padding: 14px;
     margin-left: clamp(5px, 10%, 200px);
     text-align: left;
     display: flex;
@@ -409,7 +424,7 @@ div.bar span {
 
 /* bars in intro overlay */ 
 section#intro div {
-    margin-bottom: 1rem;
+    margin-bottom: 14px;
 }
 
 /********************************************/
@@ -598,14 +613,14 @@ section.game-round-opening .background {
     gap: 6px;
 }
 section.game-round-opening .background h2 {
-    margin-bottom: 0.1rem;
+    margin-bottom: 2px;
 }
 section.game-round-opening .background h2 .subtitle {
     font-size: 1.25rem;
     font-weight: normal;
 }
 section.game-round-opening .background p {
-    font-size: 1.25rem
+    font-size: 1.25rem;
 }
 
 section.game-round-opening .background a {
@@ -672,7 +687,7 @@ section.game .game-body {
     background-color: var(--blue-light3);
     color: black;
     border: 1px solid #000000;
-    padding: 1.5rem 3rem;
+    padding: 21px 42px;
     position: relative;
 }
 section.game .game-body img.character-full {
@@ -694,7 +709,7 @@ section.game .game-body>p{
 }
 section.game .results {
     display: flex;
-    padding-top: 0.5rem;
+    padding-top: 7px;
     align-items: flex-start;
 }
 section.game .results .controls  {
@@ -801,7 +816,7 @@ label[for="salary-stock"]{
 }
 
 label[for="salary-stock"] div {
-    line-height: 1.2rem;
+    line-height: 1.2;
     padding: 4px;
 }
 
@@ -1071,42 +1086,6 @@ section[game='break-the-cycle'] #cta {
     margin-top: 20px;
 }
 
-/*
-#rigged-system-explainer { 
-    display: flex;
-    position: relative;
-    max-width: 800px;
-    min-width: 800px;
-    margin: 0 auto;
-    height: 300px;
-    align-items: end;
-    padding-bottom: 20px;
-    gap: 100px;
-}
-
-#rigged-system-explainer div { 
-    flex: 1;
-    width: 70%;
-    margin: 0 0 0 auto ;
-}
-
-#rigged-system-explainer img { 
-    position: absolute;
-    width: 37%;
-    bottom:0;
-}
-#rigged-system-explainer .ceo div {
-    margin: 0 auto 0 0;
-}
-#rigged-system-explainer .nurse img { 
-    left:0px;
-}
-#rigged-system-explainer .ceo img { 
-    right:-10px;
-    transform: scaleX(-1);
-}
-*/
-
 #rigged-system-explainer { 
     display: flex;
     position: relative;
@@ -1114,6 +1093,7 @@ section[game='break-the-cycle'] #cta {
     min-width: 800px;
     margin: 0 auto;
     align-items: end;
+    -webkit-align-items: flex-end;
     gap: 100px;
 }
 
@@ -1177,12 +1157,12 @@ section[game='break-the-cycle'] #cta {
     background-color: var(--blue-light3);
     border: 1px solid black;
     padding: 24px;
-    margin-bottom: 2rem;
+    margin-bottom: 28px;
     width: fit-content;
     margin: 0 auto;
 }
 .share-block p {
-    margin-bottom: 2rem;
+    margin-bottom: 28px;
 }
 .share-buttons {
     display: flex;
@@ -1286,6 +1266,7 @@ section[game='break-the-cycle'] #cta {
         margin-left: 5px;
         margin-top: 6px;
         font-size: 0.8rem;
+        text-decoration: underline;
     }
 
     header {
@@ -1342,7 +1323,7 @@ section[game='break-the-cycle'] #cta {
     }   
 
     header .main-title{ 
-        padding: 1rem;
+        padding: 14px;
         margin-left: 10px;
         text-align: left;
         display: flex;
@@ -1472,7 +1453,7 @@ section[game='break-the-cycle'] #cta {
         width: 100%;
     }
     section.game {
-        padding: 1rem 0.6rem;
+        padding: 14px 8px;
         overflow: hidden;
     }
     section.game .game-body {
@@ -1499,7 +1480,7 @@ section[game='break-the-cycle'] #cta {
         margin-top: 0;
     }
     .player-tabs button {
-        padding: 0.2rem 0.8rem;
+        padding: 3px 12px;
     }
     .player-tabs h2 {
         font-size: 1.4rem;
@@ -1524,7 +1505,7 @@ section[game='break-the-cycle'] #cta {
         height: auto;
         margin: 0;
         overflow-y: scroll;
-        padding: 1rem 2rem;
+        padding: 14px 28px;
         position: fixed;
         right: 0;
         border-radius: 0;
@@ -1556,7 +1537,7 @@ section[game='break-the-cycle'] #cta {
     }
     label[for="spend-input"] {
         font-size: 1rem;
-        line-height: 1.2rem;
+        line-height: 1.2;
     }
     section.game .game-body img.character-full {
         width: 30%;
@@ -1613,7 +1594,7 @@ section[game='break-the-cycle'] #cta {
 
     #rigged-system-explainer h2 { 
         font-size: 1.7rem;
-        margin-bottom: .2rem;
+        margin-bottom: 3px;
     }
 
     .share_item__btn__wrapper {

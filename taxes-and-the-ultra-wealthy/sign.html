@@ -60,6 +60,9 @@
           padding-top: 5px;
       }
 
+      .giraffe .text-align-center {
+        text-align: center;
+      }
       .giraffe .content-block {
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -69,6 +72,11 @@
         width: clamp(300px, 50%, 500px);
       }
 
+      .giraffe label a {
+        color: inherit;
+        font-size: inherit;
+        text-decoration: underline;
+      }
       .giraffe .col-md-7 {
           -webkit-box-flex: 0;
           -ms-flex: 0 0 58.33333%;
@@ -93,8 +101,9 @@
           margin-left: -15px;
       }
       .giraffe h2 {
-          font-size: 2rem;
+          font-size: 2.5rem;
           margin-bottom: 4px;
+          font-family: 'Roboto Condensed',sans-serif;
       }
       /* .giraffe h1, .giraffe h2, .giraffe h3, .giraffe h4, .giraffe h5 {
           text-transform: none;
@@ -573,8 +582,8 @@
 
     
     
-    <div class="form-section--submit buttons text-align-center mt-5">
-      <div class="align-items-stretch d-inline-flex flex-column">
+    <div class="form-section--submit buttons mt-5">
+      <div class="text-align-center">
         <button type="submit" class="btn-primary">Sign</button>
 
         <!-- Skipping survey is the same as submitting it -->

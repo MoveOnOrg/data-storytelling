@@ -3,9 +3,8 @@
 
 
 const tooltipTexts = {
-    propublicaSource: "Based on ProPublica's report on wealth and taxes of the 25 richest Americans (2014-2018). Click the get started button below to learn more.",
+    propublicaSource: "Based on ProPublica's report on wealth and taxes of the 25 richest Americans (2014-2018). Click the \"get started\" button below to learn more.",
     salaryGameHint: "A large salary is taxed at a pretty high rate, but investment gains may never be taxed. <strong>Slide the slider all the way to the other end to see what happens</strong>.",
-    salaryGameHintNurse: "Nurses don't usually have much investment income, but let's just pretend.",
     futureTaxes: "This is showing taxes owed in the current year. As we'll soon see, the ultra wealthy can find other ways to avoid taxes when they can choose their timing.",
     nurseTab: "Slide the slider all the way to the other end before moving on to The Nurse" ,
     spendGameHint: "When you sell a stock or other investments you have to pay capital gains taxes. If you don't sell your investments, you don't owe any taxes at all.",
@@ -18,11 +17,14 @@ const tooltipTexts = {
 /*** GENERAL HELPER FUNCTIONS AND UNIVERSAL INTERACTIONS ***/
 /***********************************************************/
 
-
+function focusOn(focusString){
+    d3.select(focusString).node().focus()
+}
 // currently only overlay is opening screen, but these helper functions should help if we want to put them back elsewhere. 
-function showOverlay(selectString) {
+function showOverlay(selectString, focusString) {
     d3.select('#overlay-background').style('display','block')
     d3.select(selectString).style('display','block')
+    focusOn(focusString)
 }
 function hideOverlays() {
     d3.select('#overlay-background').style('display','none')
@@ -72,7 +74,9 @@ d3.selectAll('.player-tabs button')
 // for all buttons classed 'return-to-image-nav' return to main nav screen and makePlayable any nav-sections the button indicates
 d3.selectAll('.return-to-image-nav').on('click',function(){
     hideOverlays();
+    console.log('about to focus on current="1"')
     d3.select('#image-nav').style('display','block')
+    focusOn('.nav-div[current="1"]') // add backup for break the cycle when none are current
     d3.selectAll('section.game').style('display','none')
 })
 
@@ -88,6 +92,7 @@ d3.selectAll('div.nav-div')
             hideOverlays()
             d3.select('#image-nav').style('display','none')
             d3.select('section.game[game="'+curGame+ '"]').style('display','block')
+            focusOn('.player-tabs button[game="'+ curGame +'"][player="ceo"]')
         }
     })
 
@@ -97,11 +102,11 @@ d3.selectAll('div.interaction-response')
         responseDiv.classed('shrink', !responseDiv.classed('shrink'));
     })
 
-d3.select('button.help')
+/* d3.select('button.help')
     .on('click', function() {
-        showOverlay('section.overlay#nav-help')
+        showOverlay('section.overlay#nav-help', '')
     })
-
+*/ 
 d3.select('body')
     .on('keydown',function(e){
         if(e.key == 'Enter') {
@@ -144,7 +149,6 @@ let sliderOuterRect ;
 earnSliderCeo.on('input', function(event) {
     sliderRect = earnSliderCeo.node().getBoundingClientRect(); 
     sliderOuterRect = controlsEarnCeo.select('div.salary-slider').node().getBoundingClientRect(); 
-    console.log('sliderOuterRect',sliderOuterRect)
 
     let curValue = d3.select(this).property('value')
     controlsEarnCeo.select('label div.in-stock-options').html(2* curValue + '% in<br />investment gains')
@@ -155,7 +159,6 @@ earnSliderCeo.on('input', function(event) {
     } else if(curValue >= 20 & curValue<50){
         sliderTooltip.text(curValue > 35 ? 'Almost there!' : 'Keep going...').style('opacity',1)
         let sliderTooltipRect = sliderTooltip.node().getBoundingClientRect();
-        console.log('left',  (sliderOuterRect.width * 0.1) + (sliderRect.width * (curValue/50) ), sliderOuterRect.width , sliderRect.width, sliderTooltipRect, sliderOuterRect, sliderTooltipRect.height, sliderTooltipRect.width, sliderRect.width)
         sliderTooltip
             .style('top', -(sliderTooltipRect.height + 20) + 'px')
             .style('left', (9 * (25-curValue)/25) // to deal with 18px width of thumb 
@@ -377,7 +380,7 @@ d3.select('#break-the-cycle button')
 
 d3.select('button#share-page')
     .on('click', function() {
-        showOverlay('section.overlay#share')
+        showOverlay('section.overlay#share', '.share-item-facebook')
     })
 
 
@@ -388,20 +391,33 @@ d3.select('button#share-page')
 let tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0);
+let tooltipText = tooltip.append('div').attr('class', 'tooltip-text')
+let tooltipPointer = tooltip.append('div').attr('class', 'tooltip-pointer')
 
 function showTooltip(selection, curText){ 
+    selection.classed('has-tooltip', true)
     selection
         .on('mouseover', function(event) {
             tooltip.transition()
                 .duration(200)
                 .style('opacity', 1);
-            tooltip.html(curText);
+            tooltipText.html(curText);
         })
         .on('mousemove', function(event) {
             let rect = d3.select('.tooltip').node().getBoundingClientRect();
+            let left = event.pageX - rect.width/2; 
+            let pointerLeft = '50%';  
+            if(left < 0 ){
+                left = 0; 
+                pointerLeft = event.pageX+'px';
+            } else if((left + rect.width) > window.innerWidth){
+                left = window.innerWidth - rect.width;
+                pointerLeft = (event.pageX - left) + 'px';
+            }
             tooltip
-                .style('left', `${event.pageX - rect.width/2}px`)
+                .style('left', `${left}px`)
                 .style('top', `${event.pageY - rect.height - 10}px`);
+            tooltipPointer.style('left',pointerLeft)
         })
         .on('mouseout', function(d) {
             tooltip.transition()
@@ -409,7 +425,7 @@ function showTooltip(selection, curText){
                 .style('opacity', 0);
         })
         .on('keydown', function(event) {
-            tooltip.html(curText);
+            tooltipText.html(curText);
             let rect = d3.select('.tooltip').node().getBoundingClientRect();
             if (event.keyCode == 13){ // enter key
                 let boundingRect = selection.node().getBoundingClientRect() ;
@@ -425,16 +441,24 @@ function showTooltip(selection, curText){
             tooltip.transition().duration(200).style('opacity',0);
         })
 }
+// this is to get the tooltip to go away with a click anywhere else on mobile. 
+window.addEventListener("click", function(event) {
+    if(!(d3.select(event.target).classed("has-tooltip")) & (tooltip.style('opacity') == 1) ){
+        console.log('hiding tooltip')
+        tooltip.transition().duration(200).style('opacity',0);
+    }
+});
+
 function removeTooltip(selection){ 
+    selection.classed('has-tooltip', false)
     selection
         .on('mouseover', () => {})
         .on('mousemove',  () => {})
         .on('mouseout',  () => {})
 }
 
-d3.select('#intro .source').call(showTooltip, tooltipTexts.propublicaSource)
+d3.select('#intro .source>span').call(showTooltip, tooltipTexts.propublicaSource)
 d3.select('#salary-game-hint').call(showTooltip, tooltipTexts.salaryGameHint)
-d3.select('#salary-game-hint-nurse').call(showTooltip, tooltipTexts.salaryGameHintNurse)
 d3.select('#future-taxes-hint').call(showTooltip, tooltipTexts.futureTaxes)
 d3.select('button[player="nurse"][game="earn"]').call(showTooltip, tooltipTexts.nurseTab)
 d3.select('#spend-game-hint').call(showTooltip, tooltipTexts.spendGameHint)
