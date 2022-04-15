@@ -389,25 +389,41 @@ let tooltip = d3.select('body').append('div')
     .attr('class', 'tooltip')
     .style('opacity', 0);
 
+let tooltipContent = tooltip.append('div')
+    .attr('class', 'tooltip-content');
+
+tooltip.append('div')
+    .attr('class', 'tooltip-close')
+    .html('x');
+
+tooltip.on('click', function() {
+    tooltip.transition()
+        .duration(200)
+        .style('opacity', 0);
+});
+
 function showTooltip(selection, curText){ 
     selection
         .on('mouseover', function(event) {
             tooltip.transition()
                 .duration(200)
                 .style('opacity', 1);
-            tooltip.html(curText);
+            tooltip.classed('active', true);
+            tooltipContent.html(curText);
         })
         .on('mousemove', function(event) {
             let rect = d3.select('.tooltip').node().getBoundingClientRect();
+            let leftPos = event.pageX - rect.width/2;
+
+            if ((leftPos + rect.width) > window.innerWidth) { //make sure tooltip doesnt go off right side of screen
+                leftPos -= (leftPos + rect.width) - window.innerWidth;
+            }
             tooltip
-                .style('left', `${event.pageX - rect.width/2}px`)
-                .style('top', `${event.pageY - rect.height - 10}px`);
+                .style('left', `${leftPos<0 ? 0 : leftPos}px`)
+                .style('top', `${event.pageY - rect.height - 20}px`);
+            tooltip.classed('active', true);
         })
-        .on('mouseout', function(d) {
-            tooltip.transition()
-                .duration(200)
-                .style('opacity', 0);
-        })
+        .on('mouseout', closeTooltip)
         .on('keydown', function(event) {
             tooltip.html(curText);
             let rect = d3.select('.tooltip').node().getBoundingClientRect();
@@ -417,13 +433,16 @@ function showTooltip(selection, curText){
                     .style('left', `${document.body.scrollLeft + boundingRect.x + boundingRect.width/2 -rect.width/2}px`)
                     .style('top', `${document.body.scrollTop + (boundingRect.y - boundingRect.height/2) - rect.height}px`)
                     .transition().duration(200).style('opacity',1);
+                tooltip.classed('active', true);
             } else if (event.keyCode == 27) { // escape key
-                tooltip.transition().duration(200).style('opacity',0);
+                closeTooltip();
             }
         })
-        .on('focusout', function() {
-            tooltip.transition().duration(200).style('opacity',0);
-        })
+        .on('focusout', closeTooltip)
+}
+function closeTooltip() {
+    tooltip.transition().duration(200).style('opacity',0);
+    tooltip.classed('active', false);
 }
 function removeTooltip(selection){ 
     selection

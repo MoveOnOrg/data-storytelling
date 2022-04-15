@@ -133,7 +133,10 @@ span.hint {
     pointer-events: none;
     text-align: center;
     width: 300px;
-    z-index: 2;
+    z-index: 200;
+}
+.tooltip.active {
+    pointer-events: auto;
 }
 .tooltip::after, .slider-tooltip::after {
     background: #FFFAF4;
@@ -157,6 +160,13 @@ span.hint {
     font-size: 1rem;
     font-weight: bold;
     color: var(--blue-darkest);
+}
+
+.tooltip-close {    
+    display: none;
+    position: absolute;
+    right: 10px;
+    top: 5px;
 }
 
 /******************************/
@@ -1573,6 +1583,10 @@ section[game='break-the-cycle'] #cta {
         width: 115%; /* goes into the margin-right */
     }
 
+    section.game-body[game="file-taxes"] .controls label {
+        font-size: 1rem;
+    }
+
     section[game='break-the-cycle'] h2 {
         font-size: 1.7rem;
     }
@@ -1616,7 +1630,35 @@ section[game='break-the-cycle'] #cta {
         margin-bottom: .2rem;
     }
 
+    section.overlay#share .share-block {
+        padding: 0 40px;
+    }
+    section.overlay#share .share-block .btn-group {
+        justify-content: center;
+    }
+    .share-buttons {
+        gap: 10px;
+    }
+    .share-block .copy-url-wrapper .share_item__btn__wrapper {
+        min-width: 115px;
+        width: auto;
+    }
     .share_item__btn__wrapper {
         width: 100%;
+    }
+    .share_item__btn__wrapper svg {
+        margin-right: 0.5rem;
+    }
+
+    .tooltip {
+        font-size: 1rem;
+        line-height: 1.4rem;
+        padding-top: 25px;
+    }
+    .tooltip-close {
+        color: #999;
+        font-family: sans-serif;
+        font-weight: bold;
+        display: block;
     }
 }
