@@ -1167,7 +1167,10 @@ section[game='break-the-cycle'] #cta {
 }
 .share-buttons {
     display: flex;
-    gap: 20px;
+    /*gap: 20px;*/
+    column-gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 
 }
 .share_item__btn__wrapper {
@@ -1603,4 +1606,8 @@ section[game='break-the-cycle'] #cta {
     .share_item__btn__wrapper {
         width: 100%;
     }
+    #thanks .return {
+        text-align: center;
+    }
+    
 }
