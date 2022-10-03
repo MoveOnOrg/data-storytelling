@@ -29,7 +29,6 @@ const bubblesIn = function(x) {
 }
 
 d3.select('.wrapper').style('top', 100*mapTopVh + 'vh')
-
 d3.select('#full-height-for-scroll').style('height', 100*(1 + maxOffset) + "vh")
 
 const svg = d3.select('.wrapper>svg')
@@ -93,8 +92,8 @@ function getScrollProportion() {
 update = function(frame) { 
     
     if(frame>0 & !hideArrow) {
-    hideArrow = true; 
-    d3.select('.scroll-arrow').transition().style('opacity',0)
+        hideArrow = true; 
+        d3.select('.scroll-arrow').transition().style('opacity',0)
     }
     
 

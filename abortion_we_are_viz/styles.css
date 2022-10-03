@@ -13,17 +13,18 @@ header {
 }
 h1 {
     position: absolute;
-    top: 25vh;
-    left: 0;
-    width: 100%;
+    top: 30%;
+    left: 50%;
     text-align: center;
     color: #ea1c24;
     font-family: 'Roboto Condensed', sans-serif;
-    font-size: 3rem ;
-    font-weight: bold ;
-    margin: 0 0 50px ;
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 0 auto;
     text-align: center;
-    text-transform: uppercase ;
+    text-transform: uppercase;
+    transform: translate(-50%, -30%);
+    width: 90%;
   }
 h1 span {
     background-color: #000;
@@ -33,14 +34,18 @@ h1 span {
     box-decoration-break: clone;
 }
 
+
 .wrapper {
-    position: sticky;
+    position: fixed;
     height: 610px;
     width: min(100%, 975px);
     margin: 0 auto;
     /* top set in javascript to center map */ 
-    background-color: white;
+    background-color: white;    
+    left: 50%;
+    transform: translateX(-50%);
 }
+
 .map-text {
     position: absolute;
     font-family: 'roboto', sans-serif;
@@ -49,7 +54,7 @@ h1 span {
     max-width: none;
 }
 #scrolling-texts>div {
-    line-height: 1.5;
+    line-height: 26px;
 }
 
 .map-text b {
@@ -73,11 +78,10 @@ h1 span {
 .scroll-arrow {
     z-index: 10;
     position: absolute;
-    bottom: 20%;
+    bottom: 15%;
     left: 50%;
     animation: arrowAnim 3s ease-in-out infinite;
     opacity: 1;
-    text-align: center;
     transition: all 0.5s ease-out;
     opacity: 0;
 }
@@ -91,6 +95,8 @@ h1 span {
 }
 button {
     background-color: #00abff;
+    border: 2px solid black;
+    color: black;
     text-transform: uppercase;
     font-size: 20px;   
     font-family: 'Roboto Condensed', sans-serif;
@@ -99,21 +105,32 @@ button {
 
 @keyframes arrowAnim {
     0%, 100% {
-    transform: translateY(1rem);
+    transform: translate(-50%, 1rem);
     }
     50% {
-    transform: translateY(-1rem);
+    transform: translate(-50%, -1rem);
     }
 }
 
 @media (max-width: 481px) {
-        h1 { 
-          font-size: 2rem ;
-          margin-bottom: 20px ;
-          padding-top: 3vh ;
-        }
-        h1 span {
-          line-height: 3rem ;
-        }    
-
+    h1 { 
+        font-size: 2rem ;
+    }
+    h1 span {
+        line-height: 3rem ;
+    }
+    #scrolling-texts .map-text:nth-child(even) {
+        left: 5% !important;
+        margin-right: 5%;
+        right: auto !important;
+    }
+    #scrolling-texts .map-text:nth-child(odd) {
+        left: auto !important;
+        margin-left: 5%;
+        right: 5% !important;
+    }
+    .map-text#we-vote {
+        left: 5%;
+        top: 0;
+    }
 }
