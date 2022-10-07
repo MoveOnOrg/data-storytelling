@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<style>
+  * {
+    margin: 0px;
+    box-sizing: content-box;
+  }
+  html { 
+    font-size: 16px; 
+    background-color: #000;
+    color: #FFF
+  }
+  
+  
+  div#vertical-scroll-container {
+    height: 2000vh;
+  }
+  
+  .text-divs { 
+    width: 500%;
+    position: absolute ;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .text-divs.top{ 
+    position: absolute;
+    bottom: 100%; 
+    left: 0;
+    height: 75vh;
+  }
+  
+  
+  .text-divs>div {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: white;
+    font-size: larger;
+    font-weight: bold;
+  }
+  .text-divs>div>span {
+    background-color: #cccccc44;
+    padding: 20px;
+    max-width: 200px;
+  }
+  
+  #timeline-div{
+    width: 500%;
+    height: 20vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+  }
+
+  #timeline-div>div{
+    flex:1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+  }
+  
+  .wrapper {
+    width: 100%;
+    height: 25vh;
+    position:fixed;
+    top:75vh;
+    left: 0;
+  }
+</style>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>MoveOn: Make America What Again?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://front.moveon.org/wp-content/uploads/2018/04/cropped-38875418-52635f78-4228-11e8-82da-b221a5a85253-32x32.png" sizes="32x32">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="wrapper">
+        <div id="timeline-div">
+            <div >1600</div>   
+            <div >1850</div>   
+            <div >1930</div>   
+            <div >1972</div>   
+            <div >2022</div>   
+        </div>
+        <div class="text-divs top">
+            <div><span>This is my 1st text. I have a lot to say. It runs onto many lines. </span></div>
+            <div><span>This is my 2nd text. I have a lot to say. It runs onto many lines. So very very much to say. I really do. </span></div>
+            <div><span>This is my 3rd text. I have a lot to say. It runs onto many lines. </span></div>
+            <div><span>This is my 4th text. I have a lot to say. It runs onto many lines. </span></div>
+            <div><span>This is my 5th text. I have a lot to say. It runs onto many lines. </span></div>
+        </div> 
+
+        <!-- <div id="text-divs bottom">
+            <div>This is my first text</div>
+            <div>This is my second text</div>
+            <div>This is my third text</div>
+            <div>This is my fourth text</div>
+            <div>This is my fifth text</div>
+            <div>This is my sixth text</div>
+        </div>  -->
+
+    </div>
+    <div id="vertical-scroll-container">
+    </div>
+
+    <script type='text/javascript' src='https://unpkg.com/d3@7.2.0/dist/d3.min.js'></script>
+  </body>
+  <script>
+    const timeline = d3.select('#timeline-div')
+    const textContent = d3.selectAll('.text-divs')
+
+    function getScrollProportion() {
+        var h = document.documentElement, 
+            b = document.body,
+            st = 'scrollTop',
+            sh = 'scrollHeight';
+        let scrollProp = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight);
+        //console.log('scrollProp',scrollProp)
+        let imgPos = scrollFunction(scrollProp);
+        timeline.style('margin-left',imgPos[0] +'vw')
+        timeline.style('margin-top',imgPos[1] + 'vh' )
+        textContent.style('left',-500-imgPos[0] +'vw')
+        //textContent.style('margin-top',imgPos[1] + 'vh' )
+
+        requestAnimationFrame(getScrollProportion)
+        return scrollProp; 
+    }
+    const xRange = [-500,0]
+    const yRange = [0,-80]
+    scrollFunction = function(x) { 
+        const cutPoints = [0.05, 0.45, 0.55]
+        let scaleX, scaleY; 
+        if (x < cutPoints[0]){ 
+            scaleX = d3.scaleLinear().domain([0.0,cutPoints[0]]).range([xRange[0], xRange[0]])
+            scaleY = d3.scaleLinear().domain([0.0,cutPoints[0]]).range([yRange[0], yRange[0]])
+        } else if(x < cutPoints[1]) { 
+            scaleX = d3.scaleLinear().domain([cutPoints[0],cutPoints[1]]).range([xRange[0], xRange[1]])
+            scaleY = d3.scaleLinear().domain([cutPoints[0],cutPoints[1]]).range([yRange[0], yRange[0]])
+        } else if (x< cutPoints[2]) { 
+            scaleX = d3.scaleLinear().domain([cutPoints[1],cutPoints[2]]).range([xRange[1], xRange[1]])
+            scaleY = d3.scaleLinear().domain([cutPoints[1],cutPoints[2]]).range([yRange[0], yRange[1]])
+        } else { 
+            scaleX = d3.scaleLinear().domain([cutPoints[2],1]).range([xRange[1], xRange[0]])
+            scaleY = d3.scaleLinear().domain([cutPoints[2],1]).range([yRange[1], yRange[1]])
+        }
+        //console.log("scaleX/Y:", scaleX(x), scaleY(x));
+        return [scaleX(x), scaleY(x)]
+    } 
+
+    requestAnimationFrame(getScrollProportion)
+  </script>
+</html>
+
