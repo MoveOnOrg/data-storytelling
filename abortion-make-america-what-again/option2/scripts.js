@@ -3,17 +3,16 @@ const timelineText = d3.select('.timeline-text');
 
 const viewportWidth = window.innerWidth;
 const numSteps = timeline.node().children.length;
-const stepOverlapFactor = 0.7; // this lets the next year in the timeline show before the last one is totally gone. 
-//const textDelayFactor = 0.05; // this is how far to scroll before first text changes. 
-const totalLength = (/*textDelayFactor + */numSteps) * viewportWidth * stepOverlapFactor;  
+const stepOverlapFactor = 0.75; // this lets the next year in the timeline show before the last one is totally gone. 
+const totalLength = (numSteps) * viewportWidth * stepOverlapFactor;  
 const startTopPos = parseInt(timeline.style('top'));
-
+console.log(totalLength)
 const scrollScale = d3.scaleLinear().domain([0, 100]).range([0, numSteps]);
 const topScale = d3.scaleLinear().domain([100, 120]).range([startTopPos, 50]);
 
 let heightOffset = 0;
 let lastScroll = 0;
-let lastscrollIndex;
+let lasttextIndex;
 let scrollPercent = 0;
 
 const textArray = [
@@ -29,6 +28,8 @@ const textArray = [
   "The Civil Rights movement expanded more rights to Black people through its fight for political and economic power. And activists won LGBTQ+ rights including marriage equality.",
   "Together, we moved beyond the judges of the 1600s and the laws of the 1800s and made progress toward freedom and equal rights. And we'll do it again.",
 ];
+
+const textStepScale = d3.scaleLinear().domain([0, 220]).range([0, textArray.length]);
 
 function initTimeline() {
   //set up dimensions and position of timeline
@@ -67,15 +68,13 @@ function onScroll() {
 
   //calculate scroll progress
   scrollPercent = Math.round(window.scrollY / totalLength * 100);
-  console.log('scrollPercent', scrollPercent)
+  
   //calculate scroll index
-  const scrollIndex = Math.floor((scrollDir==='down') ? scrollScale(scrollPercent) : (scrollScale(scrollPercent)-1));
-  console.log('scrollIndex', scrollIndex)
+  const textIndex = Math.floor((scrollDir==='down') ? textStepScale(scrollPercent) : (textStepScale(scrollPercent)-1));
 
   //update timeline text
-  const text = textArray[scrollIndex];
-  if (lastscrollIndex!==scrollIndex) updateText(text);
-  //if (text!==undefined ) updateText(text);
+  const text = textArray[textIndex];
+  if (lasttextIndex!==textIndex) updateText(text);
 
   //set position of timeline
   if (scrollPercent>=100 && scrollPercent<=120) {
@@ -89,7 +88,7 @@ function onScroll() {
 
   //save last scroll position
   lastScroll = window.scrollY;
-  lastscrollIndex = scrollIndex;
+  lasttextIndex = textIndex;
 }
 
 
