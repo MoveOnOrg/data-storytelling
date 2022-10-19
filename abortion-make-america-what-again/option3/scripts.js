@@ -148,6 +148,10 @@ updateScene = function(direction){
   updateImg(curStep)
 }
 
+if(mobileStyle && viewportHeight < 670) {
+  d3.selectAll('.timeline-text>div p').style('font-size','1.1rem')
+}
+
 d3.select('.cta .share-btn').on('click', ()=>{
   isMoving =1; // just to keep people from navigating through background when overlay is open
   d3.select('section.overlay').style('display','block')

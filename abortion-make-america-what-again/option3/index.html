@@ -2,9 +2,21 @@
 <html>
   <head>
     <meta charset='utf-8' />
+
+    <meta property="og:title" content="Make America What Again?">
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="img/makeamericawhatagain_share.jpg">
+    <meta property="og:url" content="https://data-stories.moveon.org/make-america-what-again/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:description" content="An interactive timeline of the fight for repro rights in America.">
+    <meta property="og:site_name" content="Make America What Again?">
+    <meta name="twitter:image:alt" content="Protesters holding a 'Roe the Vote, Nov. 8, 2022' sign with text over saying 'An interactive timeline of the fight for repro rights'.">
+
+
     <title>MoveOn: Make America What Again</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://front.moveon.org/wp-content/uploads/2018/04/cropped-38875418-52635f78-4228-11e8-82da-b221a5a85253-32x32.png" sizes="32x32">
+    <script src="https://kit.fontawesome.com/90f497c1b4.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href='styles.css' rel='stylesheet' />
   </head>
@@ -26,6 +38,10 @@
             </g>
           </svg>
         </div>
+        <footer>
+          Paid for by MoveOn.org Political Action, <a href="https://front.moveon.org/about-moveon-political-action/">pol.moveon.org</a>, not authorized by any candidate or candidate's committee.
+        </footer>
+
       </div>
 
       <div class='timeline-img'></div>
@@ -77,9 +93,9 @@
         <div>
           <h3 class='blue'><span>On November 8th,<br/> we do it again!</span></h3>
                   <div class='cta btn-group'>
-                    <button class='share-btn'>Share ></button>
-                    <a class='btn' target='_blank' href='https://www.mobilize.us/moveon/event/480027/'>Volunteer ></a>
-                    <a class='btn' target='_blank' href='https://front.moveon.org/makeaplan/'>Vote ></a>
+                    <button class='share-btn'>Share <i class="fa-solid fa-caret-right"></i></button>
+                    <a class='btn' target='_blank' href='https://www.mobilize.us/moveon/event/480027/?utm_source=abortiontimeline'>Volunteer <i class="fa-solid fa-caret-right"></i></a>
+                    <a class='btn' target='_blank' href='https://front.moveon.org/makeaplan/?utm_source=abortiontimeline'>Vote <i class="fa-solid fa-caret-right"></i></a>
                   </div>
         </div>
          
@@ -123,7 +139,7 @@
                     </a>
                   </div>
 
-                  <div class="share_item__btn__wrapper">
+                  <div class="share_item__btn__wrapper" id="sms_share_wrapper">
                     <a class="share_item__btn share-item-sms" target="_blank"
                       href="sms:&body=https%3A%2F%2Fdata-stories.moveon.org%2Fmake-america-what-again%2F%3Fsource%3Dshare">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
