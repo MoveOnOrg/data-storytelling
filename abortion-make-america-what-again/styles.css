@@ -412,7 +412,7 @@ section.overlay#share .share-block .btn-group button {
     text-align: center;
   }
   .scroll-arrow {
-    bottom: 10vh;
+    bottom: 25vh;
   }
   .scroll-arrow svg {
     height: 100px;
