@@ -1,16 +1,37 @@
 html { 
     box-sizing: content-box;
+    font-family: 'Roboto', sans-serif;
 }
 header { 
     position: fixed;
     left: 0;
     top: 0; 
-    height: 40px;
+    height: 50px;
     width: 100%;
-    background-color: black;
     display: flex;
     justify-content: end;
 }
+header .moveon-logo { 
+    padding: 10px;
+}
+
+footer {
+    background: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    font-size: 12pt;
+    color: #808080;
+    padding: 7px;
+    text-align: right;
+    transition: opacity 0.2s;
+  }
+  footer a {
+    color: #808080;
+  }
+  footer.inactive {
+    opacity: 0;
+  }
 h1 {
     position: absolute;
     top: 30%;
@@ -34,6 +55,22 @@ h1 span {
     box-decoration-break: clone;
 }
 
+h2 { 
+    font-size: 2.5rem;
+    font-weight: bolder;
+    padding: 0;
+    margin: 0 0 12px;
+    font-family: "Roboto Condensed", sans-serif;
+  }
+  
+  h2 span {
+      color: #FFF;
+      background-color: #00abff;
+      line-height: 3.5rem;
+      padding: 2px 10px;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+  }
 
 .wrapper {
     position: fixed;
@@ -55,6 +92,23 @@ h1 span {
 }
 #scrolling-texts>div {
     line-height: 26px;
+    transition: background-color 0.5s, color 0.5s;
+    color: #A52A2A; 
+    background-color: #FFFFFFAA;
+}
+
+#scrolling-texts>div:first-of-type {
+    color: black; 
+}
+#scrolling-texts>div.map-text:first-of-type b {
+    color: #A52A2A;
+}
+
+#scrolling-texts>div.inactive {
+    background-color: #FFFFFF00; /* transparent */ 
+}
+#scrolling-texts>div.inactive:not(:first-of-type) {
+    color: #CCCCCC;
 }
 
 .map-text b {
@@ -67,6 +121,12 @@ h1 span {
 
 .map-text b.larger { 
     font-size: 26px;
+    /* background-color: black; 
+    display: block;
+    padding: 6px;*/
+    color: #A52A2A;
+    font-family: 'Roboto Condensed', sans-serif;
+    margin-bottom: 8px;
 }
 
 .map-text#we-vote { 
@@ -85,6 +145,14 @@ h1 span {
     transition: all 0.5s ease-out;
     opacity: 0;
 }
+
+#bubbles-g {
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+#bubbles-g.active {
+    opacity: 1;
+}
 .scroll-arrow svg {
     height: 125px;
     width: 67px;
@@ -93,12 +161,16 @@ h1 span {
     height: 0;
     opacity: 0;
 }
-button {
+button, a.btn {
+    cursor: pointer;
     background-color: #00abff;
-    border: 2px solid black;
-    color: black;
+    border:none;
+    padding: 6px;
+    text-decoration: none;
+    background-color: #FFF;
+    color: #00abff;
     text-transform: uppercase;
-    font-size: 20px;   
+    font-size: 25px;   
     font-family: 'Roboto Condensed', sans-serif;
     opacity: 0;
 }
