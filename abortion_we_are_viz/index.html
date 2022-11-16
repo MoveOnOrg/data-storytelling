@@ -19,20 +19,21 @@
         <svg id = "map" viewBox = "0 0 975 610"></svg>
         <div id = "scrolling-texts"></div>
         <div id = "we-vote" class = "map-text">
-            <h2><span>This November<br/> We Will Not Stay Silent</span></h2>
+            <h2><a target="_blank" href="https://front.moveon.org/roe-thevote/?utm_source=abortion-map" ><span>This November<br/> We Will Not Stay Silent</span></a></h2>
 
-            <a href="https://front.moveon.org" class="btn">Learn More  <i class="fa-solid fa-caret-right"></i></a></b>
+            <a target="_blank" href="https://front.moveon.org/roe-thevote/?utm_source=abortion-map" class="btn">Learn More  <i class="fa-solid fa-caret-right"></i></a></b>
         </div>
     </div>
     <div id = 'full-height-for-scroll'>
 
     </div>
-    <h1><span>15 States have banned abortion <br/>since the fall of Roe</span></h1>
+    <h1><span>Republicans <span style="color:white;">banned abortion</span> in many states since the fall of Roe</span></h1>
     <header>
-        <img class='moveon-logo' src = "moveon-logo.png" alt = 'moveon logo'/> 
+        <section><img class='moveon-logo' src = "moveon-logo.png" alt = 'moveon logo'/> </section>
     </header> 
     <footer>
-      Paid for by MoveOn.org Political Action, <a href="https://front.moveon.org/about-moveon-political-action/">pol.moveon.org</a>, not authorized by any candidate or candidate's committee.
+      <div class="annotation inactive">*Courts currently blocking bans in AZ, IN, OH & SC</div>
+      <div>Paid for by MoveOn.org Political Action, <a href="https://front.moveon.org/about-moveon-political-action/">pol.moveon.org</a>, not authorized by any candidate or candidate's committee.</div>
     </footer>
   <div class='scroll-arrow'>
       <svg viewBox="0 0 67 125">
@@ -45,7 +46,8 @@
       </svg>
     </div>
 </body>
-<!-- to deal with server side caching, we redirect to new v number for now. Should remove in production-->
+<!-- to deal with server side caching, we redirect to new v number for now. 
+  Removing now for production. 
 <script>
   const vParam = new URLSearchParams(window.location.search).get('v');
   if (vParam == "3" || vParam == null){ 
@@ -53,6 +55,7 @@
     console.log('v: ', v)
     window.location = "index.html?v=" + v;
   }
+  -->
 </script>
 <script type='text/javascript' src='https://unpkg.com/d3@7.2.0/dist/d3.min.js'></script>
 <script type='text/javascript' src='script.js'></script>

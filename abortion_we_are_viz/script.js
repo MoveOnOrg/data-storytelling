@@ -7,12 +7,13 @@ const mapTopVh  = ((window.innerHeight * 0.5) - (mapHeight * 0.5))/ window.inner
 const mapTopToScreenBottomVh = 1 - mapTopVh;
 
 const texts = [
-    {top:  10/610, right: 50/975, html: "<b class='larger'>We are the 1 million MoveOn Members</b><br />of reproductive age <b>whose right to abortion<br /> has been stripped</b> this summer"},
-    {top:  90/610, left: 50/975, html: "<b>100K</b> of us are under <b class='smaller'>22 or younger<b>"},
+    {top:  10/610, right: 50/975, html: "<h3><span>Stripping 1 million MoveOn members<br />of our reproductive freedom</span></h3>"},
+    //{top:  10/610, right: 50/975, html: "<b class='larger'>Stripping 1 million MoveOn Members</b><br /><b style='color:black;'>of our reproductive freedom"},
+    {top:  90/610, left: 50/975, html: "<b>100K</b> of us are <b class='smaller'>22 or younger<b>"},
     {top:  175/610, left: 700/975, html: "<b>450K</b> of us are <b class='smaller'>parents<b>"},
-    {top:  350/610, left: 730/975, html: "<b>300K</b> of us are <b class='smaller'>BIPOC<b>"},
+    {top:  330/610, left: 745/975, html: "<b>300K</b> of us are <b class='smaller'>BIPOC<b>"},
     {top:  195/610, left: 265/975, html:"<b>20K</b> of us have <b class='smaller'>graduate degrees<b>" },
-    {top:  290/610, left: 10/975, html: "<b>180K</b> of us did not finish schooling <b class='smaller'>beyond high school.<b>"},
+    {top:  290/610, left: 10/975, html: "<b>180K</b> of us did not finish schooling <b class='smaller'>beyond high school<b>"},
 ]
 console.log(texts)
 // array of text initial positions. On smaller screens each text gets window height. On larger screens, each gets height - ending position 
@@ -83,7 +84,7 @@ sparkleMap = function() {
                 })
         return ;
         */ 
-        const curBubbles = d3.shuffle(bubbles.filter(d=> Math.random()< 0.16))
+        const curBubbles = d3.shuffle(bubbles.filter(d=> Math.random()< 0.15))
         const curSparkles = sparklesG.selectAll('circle')
             .data(curBubbles)
             .join('circle')
@@ -97,7 +98,7 @@ sparkleMap = function() {
             .attr('opacity',1)
         curSparkles.transition()
             .delay((d,i) => 200 + i* 4)
-            .duration(200)
+            .duration(800)
             .attr('opacity',0)
             .on('end', () => {isSparkling = 0})
     }
@@ -126,7 +127,17 @@ update = function(frame) {
         d3.select('.scroll-arrow').transition().style('opacity',0)
     }
     
-    d3.select('footer').classed('inactive', frame > 0)
+    d3.select('footer .annotation').classed('inactive', frame < 0.1 || frame > goingBlueFrame)
+   /* if (frame > 0.1) { 
+        d3.select('footer')
+            .text('Courts currently blocking bans in AZ, IN, OH & SC')
+            .style('font-size', '.7rem')
+    } else { 
+        d3.select('footer')
+            .html('<div class="annotation">Courts currently blocking bans in AZ, IN, OH & SC</div><br/>Paid for by MoveOn.org Political Action, <a href="https://front.moveon.org/about-moveon-political-action/">pol.moveon.org</a>, not authorized by any candidate or candidate\'s committee.')
+            .style('font-size', '12pt')
+    }*/
+
 
     bubblesG.classed('active', frame > 0.01)
 
@@ -140,15 +151,17 @@ update = function(frame) {
         .classed('inactive',(d,i)=> (initialOffsets[i] <= (textFrame * maxOffset) ))
         .each(function(d,i) {
             if (i> 0 & !d3.select(this).classed("alreadySparkled") & !isSparkling){
-                if ( (smallerScreen ? 0 : d.top ) + initialOffsets[i] - (textFrame* maxOffset) < .9 ){
+                if ( (smallerScreen ? 0 : d.top ) + initialOffsets[i] - (textFrame* maxOffset) < .95 ){
                     d3.select(this).classed('alreadySparkled',true)
                     sparkleMap(); 
                 }
+            } else if(i> 0 & d3.select(this).classed("alreadySparkled")){
+                if ( (smallerScreen ? 0 : d.top ) + initialOffsets[i] - (textFrame* maxOffset) > .95 ){
+                    d3.select(this).classed('alreadySparkled',false)
+                }
             }
         })
-        //.style('background-color', (d,i)=> (i==0 | initialOffsets[i] <= (textFrame * maxOffset) ? '#FFFFFF00' : '#FFFFFFAA' ) )
-        //.style('color', (d,i)=> (i!=0 & initialOffsets[i] <= (textFrame * maxOffset) ? '#CCCCCC' : '#A52A2A' ) )
-                    
+
     d3.select(".map-text#banned-abortion") 
         .style('top',(d,i)=> ( - (textFrame* maxOffset) 
                     ) * 100 + '%')

@@ -13,18 +13,28 @@ header {
 }
 header .moveon-logo { 
     padding: 10px;
+    width: 70px;
 }
 
 footer {
     background: white;
     position: fixed;
-    width: 100%;
+    right:0;
     bottom: 0;
+    width: 100%;
     font-size: 12pt;
     color: #808080;
     padding: 7px;
     text-align: right;
     transition: opacity 0.2s;
+  }
+  footer .annotation {
+    font-size:0.7rem;
+    margin-bottom:8px;
+    transition: opacity 0.5s ease 1s;
+  }
+  footer .annotation.inactive {
+    opacity: 0;
   }
   footer a {
     color: #808080;
@@ -32,6 +42,7 @@ footer {
   footer.inactive {
     opacity: 0;
   }
+  
 h1 {
     position: absolute;
     top: 30%;
@@ -45,7 +56,7 @@ h1 {
     text-align: center;
     text-transform: uppercase;
     transform: translate(-50%, -30%);
-    width: 90%;
+    width: 70%;
   }
 h1 span {
     background-color: #000;
@@ -71,7 +82,26 @@ h2 {
       -webkit-box-decoration-break: clone;
       box-decoration-break: clone;
   }
+  h2 a{
+    text-decoration: none;
+   }
 
+  h3 { 
+    font-size: 2rem;
+    font-weight: bolder;
+    padding: 0;
+    margin: 0 0 12px;
+    font-family: "Roboto Condensed", sans-serif;
+  }
+  
+  h3 span {
+      color: #FFF;
+      background-color: #A52A2Acc;
+      line-height: 3rem;
+      padding: 2px 10px;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+  }
 .wrapper {
     position: fixed;
     height: 610px;
@@ -93,12 +123,13 @@ h2 {
 #scrolling-texts>div {
     line-height: 26px;
     transition: background-color 0.5s, color 0.5s;
-    color: #A52A2A; 
+    color: black;/*#A52A2A;*/ 
     background-color: #FFFFFFAA;
 }
 
 #scrolling-texts>div:first-of-type {
     color: black; 
+    background-color: #FFFFFF00; /* transparent */ 
 }
 #scrolling-texts>div.map-text:first-of-type b {
     color: #A52A2A;
@@ -187,10 +218,28 @@ button, a.btn {
 @media (max-width: 481px) {
     h1 { 
         font-size: 2rem ;
+        width: 90%
     }
     h1 span {
         line-height: 3rem ;
     }
+    h2{ 
+        font-size: 2rem ;
+    }
+    h2 span {
+        line-height: 3rem ;
+    }
+    h3{ 
+        font-size: 1.2rem ;
+    }
+    h3 span {
+        line-height: 2rem ;
+    }
+
+    button, a.btn {
+        font-size: 1rem;
+    }
+
     #scrolling-texts .map-text:nth-child(even) {
         left: 5% !important;
         margin-right: 5%;
