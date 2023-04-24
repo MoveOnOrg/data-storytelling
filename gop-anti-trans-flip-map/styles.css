@@ -1,0 +1,29 @@
+body {
+    background-color: rgb(60, 60, 60);
+}
+svg {
+    margin:3% 0;
+}
+svg text { 
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+button#flip { 
+    position: absolute;
+    color: white;
+    background-color: rgb(60, 60, 60);
+    bottom: 52%;
+    right: 3px;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+
+}
+.wrapper { 
+    background-color: white;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
