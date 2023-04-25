@@ -1,5 +1,6 @@
 body {
     background-color: rgb(60, 60, 60);
+    margin: 0;
 }
 svg {
     margin:3% 0;
@@ -21,9 +22,35 @@ button#flip {
     font-weight: bold;
 
 }
-.wrapper { 
+.maps-wrapper { 
     background-color: white;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    position: fixed;
+    top:0px;
+    left: 0px;
+    right:0px;
+}
+
+text.headline {
+    font-size: 24px; /* 18px for media */
+    text-anchor: middle;
+}
+
+text.state-label {
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.scroll-box {
+    position: relative;
+    height: 110vh;
+}
+
+@media (max-width: 975px) {
+    text.headline {
+        font-size: 18px;
+    }
+    
 }
