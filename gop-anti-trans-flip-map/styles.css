@@ -1,56 +1,111 @@
 body {
-    background-color: rgb(60, 60, 60);
+    /*background-color: rgb(60, 60, 60);*/
     margin: 0;
-}
-svg {
-    margin:3% 0;
-}
-svg text { 
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-}
-button#flip { 
-    position: absolute;
-    color: white;
-    background-color: rgb(60, 60, 60);
-    bottom: 52%;
-    right: 3px;
-    font-size: 18px;
-    font-family: 'Roboto', sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
-
 }
 .maps-wrapper { 
     background-color: white;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     position: fixed;
-    top:0px;
-    left: 0px;
+    top:50px;
+    left:0px;
     right:0px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+.maps-wrapper>svg {
+    padding:3% 0;
+}
+.maps-wrapper>svg:first-child {
+    padding-right: calc(3% + 15px); /* this is a hacky way of centering the right border -- should do something else */
+    border-right: 1px solid grey;
+}
+.maps-wrapper>svg text { 
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
 }
 
-text.headline {
+.maps-wrapper>svg text.headline {
     font-size: 24px; /* 18px for media */
     text-anchor: middle;
 }
 
-text.state-label {
+.maps-wrapper text.state-label {
     text-anchor: middle;
     dominant-baseline: central;
 }
 
-.scroll-box {
+div.scroll-box {
     position: relative;
     height: 110vh;
 }
 
+div.action-center {
+    position: fixed; 
+    bottom: 10%; 
+    left: 0;
+    right: 0;
+    width: 100%; 
+}
+div.action-center > div.button-grp {
+    display: flex;
+    justify-content: center; 
+    gap: 30px;
+    opacity: 0;
+}
+
+button, a.btn {
+    cursor: pointer;
+    border: 1px solid white;
+    padding: 9px;
+    text-decoration: none;
+    color: #FFF;
+    background-color: #00abff;
+    text-transform: uppercase;
+    font-size: 32px;   
+    font-family: 'Roboto Condensed', sans-serif;
+}
+div.details { 
+    position: fixed;
+    bottom: 20%; 
+    background-color: white;
+    opacity: 0.95;
+    max-width: 700px ;
+    width :100%;
+    margin: 0 auto ;
+    left: 0; 
+    right: 0;
+    background-color: #e5f5ff;
+    padding: 0 25px ;
+}
+
+div.details.hidden { 
+    opacity: 0;
+}
+
+
 @media (max-width: 975px) {
-    text.headline {
+    .maps-wrapper {
+        flex-direction: column;
+    }
+    .maps-wrapper>svg:first-child {
+        border-right: none;
+        border-bottom: 1px solid grey;
+    }
+    .maps-wrapper>svg text.headline {
         font-size: 18px;
     }
+
+    div.action-center > div.button-grp {
+        gap: 8px;
+    }
     
+    button, a.btn {
+        padding: 6px;
+        font-size: 20px;   
+    }
+
 }

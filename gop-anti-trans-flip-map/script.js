@@ -4,11 +4,21 @@ function hexagon(r=1, translateXY= [0,0], vertical = true) {
         return vertical ? coords.reverse() : coords
     })
 }
+d3.select('button#learn-more').on('click', function(){
+    d3.select('div.details').classed('hidden',false)
+})
+d3.select('button#share').on('click', function(){
+    d3.select('div.details').classed('hidden',false)
+})
+d3.select('button#sign').on('click', function(){
+    d3.select('div.details').classed('hidden',false)
+})
 
 const smallerScreen = window.innerWidth < 975;
 d3.json('dataCombined.json')
     .then( function (dataCombined) {
-        const hexContainerWidth = d3.min([window.innerWidth, window.innerHeight / (12/9)]);
+        console.log([620, window.innerWidth * (smallerScreen ? 1 : 0.6), (window.innerHeight-100) / (12/9)])
+        const hexContainerWidth = d3.min([610, window.innerWidth * (smallerScreen ? 1 : 0.45 )]) //, (window.innerHeight-100) / (12/9)]);
         const hexContainerHeight = hexContainerWidth * 6/10 ; 
         const spacing = 0.15;
         const radius = (1-spacing/2) * hexContainerWidth / 21; 
@@ -17,8 +27,9 @@ d3.json('dataCombined.json')
         const hexColumnWidth = 2 * radius * ( 1 + (spacing / 2) ) * Math.sin( 60 * Math.PI/180)
 
     d3.select('div.maps-wrapper')
-      .style('height', hexContainerHeight * 2.3 + 'px')
-      .style('width', hexContainerWidth + 'px' )
+      .style('height',(smallerScreen ? 2.3 : 1 ) * hexContainerHeight + 'px')
+      .style('width', (smallerScreen ? 1 : 2.2 ) * hexContainerWidth + 'px' )
+      .style('top', d3.max([60, 1/4 * (window.innerHeight - ((smallerScreen ? 2.3 : 1 ) * hexContainerHeight))]) + 'px') 
     d3.selectAll('svg').attr('width', hexContainerWidth + 'px').attr('height', hexContainerHeight + 'px')
     
     const headlines = [
@@ -27,8 +38,6 @@ d3.json('dataCombined.json')
         [{field: 'gov', match: 'D', headline: 'Democrat-Controlled States'},
         {field: 'discrimProtection', match: 1, headline: 'Banned Anti-Trans Discrimination'}]
     ]
-    const svg1 = d3.select('svg#map1')
-    //const svgLabel = svg1
 
     d3.selectAll('.maps-wrapper>svg').data(headlines)
         .join('svg')
@@ -65,6 +74,7 @@ d3.json('dataCombined.json')
     let midTransition = false
     let prevScrollP = 0
     let scrollP = 0; 
+    let hideArrow = false; 
 
     function flipMap(){
         showRepublicans = (showRepublicans + 1) % 2
@@ -85,11 +95,14 @@ d3.json('dataCombined.json')
                   })
           })
     }
-    d3.select('button#flip').on('click', function() {
-        flipMap()
-    })
 
     update = function() {
+        if(scrollP>0 & !hideArrow) {
+            hideArrow = true; 
+            d3.select('.scroll-arrow').classed('hide', true)
+            d3.select('div.action-center > div.button-grp').transition().duration(1000).delay(1200).style('opacity',1)
+        }
+    
         if(!midTransition){
             //console.log('scrollP', scrollP,'prevScrollP', prevScrollP, 'showRepublicans', showRepublicans)
             if((scrollP>prevScrollP | scrollP >=.99) & !showRepublicans){
@@ -104,34 +117,6 @@ d3.json('dataCombined.json')
         }
 
     }
-//    let mapState = 'Republican'
-
-    /*update = function(scrollP) { 
-        if(!midTransition){// | scrollP== 0 | scrollP == 1){
-            if(scrollP>prevScrollP & mapState == 'Republican'){
-                midTransition = true;
-                flipMap()
-                d3.select('body')
-                    .transition().style('background-color', 'black')
-                    .on('end', ()=>  {
-                        midTransition = false
-                        mapState = 'Democratic'
-                    })
-            } else if (scrollP<prevScrollP & mapState == 'Democratic'){
-                midTransition = true;
-                flipMap()
-
-                d3.select('body')
-                    .transition().style('background-color', 'white')
-                    .on('end', ()=>  {
-                        midTransition = false
-                        mapState = 'Republican'
-                    })
-            }    
-            prevScrollP = scrollP
-
-        }
-    }*/
     getScrollProportion()
   
   })

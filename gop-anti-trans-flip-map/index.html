@@ -9,21 +9,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Redressed&family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
     <link href='styles.css' rel='stylesheet' />
+    <link href='styles-header-footer.css' rel='stylesheet' />
+    <link href='styles-scroll-arrow.css' rel='stylesheet' />
 
     <title>GOP Anti-Trans Legislation Maps</title>
+    <script src="https://kit.fontawesome.com/90f497c1b4.js" crossorigin="anonymous"></script>
+
 </head>
+
 <body>
+    
     <div class="scroll-box"></div>
     <div class="maps-wrapper">
         <svg id="map1">
             <text class="headline"></text>
         </svg>
-        <hr />
         <svg id="map2">
             <text class="headline"></text>
         </svg>
-        <button id="flip">animate</button>
     </div>
+    <header>
+        <section><img class='moveon-logo' src = "moveon-logo.png" alt = 'moveon logo'/> </section>
+    </header> 
+    <footer>
+        <div>Paid for by MoveOn.org Political Action, <a href="https://front.moveon.org/about-moveon-political-action/">pol.moveon.org</a>, not authorized by any candidate or candidate's committee.</div>
+    </footer>
+    <div class="action-center">
+        <div class="button-grp">
+            <button id="sign">Sign <i class="fa-solid fa-caret-right"></i></button>
+            <button id="share">Share <i class="fa-solid fa-caret-right"></i></button>
+            <button id="learn-more">Learn More <i class="fa-solid fa-caret-right"></i></button>
+        </div>
+    </div>
+    <div class="details hidden">
+        <p>In 2023 Replubicans across the country have pushed an unprecentated attack against the rights and existance of trans Americans.  </p>
+        <p>These anti-trans laws doing x, y, z have been passed in _[number of]_ states across the country (src. Anti-Trans Tracker). Almost all of these laws come from states where have full Republican control of the state government. (src NCLS)</p>
+        <p>Meanwhile, a very different set of states had banned discrimination based on gender identity and sexuality in housing, jobs and public spaces as of Sept 2022 (src. Pew). Most of these states are states where Democrats have full control of the state government. (src NCLS)</p> 
+    </div>
+    <div class='scroll-arrow'>
+        <svg viewBox="0 0 67 125">
+          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g fill="#b2b2b2">
+              <polygon id="Triangle" transform="translate(33.500000, 108.500000) scale(1, -1) translate(-33.500000, -108.500000) " points="33.5 92 67 125 0 125"></polygon>
+              <rect x="28" y="0" width="11" height="92"></rect>
+            </g>
+          </g>
+        </svg>
+    </div>
+  
+
 </body>
 <script type='text/javascript' src='https://unpkg.com/d3@7.2.0/dist/d3.min.js'></script>
 <script type='text/javascript' src='script.js'></script>
