@@ -4,22 +4,13 @@ function hexagon(r=1, translateXY= [0,0], vertical = true) {
         return vertical ? coords.reverse() : coords
     })
 }
-d3.select('button#learn-more').on('click', function(){
-    d3.select('div.details').classed('hidden',false)
-})
-d3.select('button#share').on('click', function(){
-    d3.select('div.details').classed('hidden',false)
-})
-d3.select('button#sign').on('click', function(){
-    d3.select('div.details').classed('hidden',false)
-})
 
 const smallerScreen = window.innerWidth < 975;
 d3.json('dataCombined.json')
     .then( function (dataCombined) {
         console.log([620, window.innerWidth * (smallerScreen ? 1 : 0.6), (window.innerHeight-100) / (12/9)])
-        const hexContainerWidth = d3.min([610, window.innerWidth * (smallerScreen ? 1 : 0.45 )]) //, (window.innerHeight-100) / (12/9)]);
-        const hexContainerHeight = hexContainerWidth * 6/10 ; 
+        const hexContainerWidth = d3.min([610, window.innerWidth * (smallerScreen ? .9 : 0.45 )]) //, (window.innerHeight-100) / (12/9)]);
+        const hexContainerHeight = hexContainerWidth * 7/11 ; 
         const spacing = 0.15;
         const radius = (1-spacing/2) * hexContainerWidth / 21; 
         const initialHexTranslate = [ radius * (1+spacing), radius * Math.sin( 60 * Math.PI/180) * (1+spacing) ]
@@ -29,7 +20,7 @@ d3.json('dataCombined.json')
     d3.select('div.maps-wrapper')
       .style('height',(smallerScreen ? 2.3 : 1 ) * hexContainerHeight + 'px')
       .style('width', (smallerScreen ? 1 : 2.2 ) * hexContainerWidth + 'px' )
-      .style('top', d3.max([60, 1/4 * (window.innerHeight - ((smallerScreen ? 2.3 : 1 ) * hexContainerHeight))]) + 'px') 
+      .style('top', d3.max([60, 1/2 * (window.innerHeight - ((smallerScreen ? 2.3 : 1 ) * hexContainerHeight))]) + 'px') 
     d3.selectAll('svg').attr('width', hexContainerWidth + 'px').attr('height', hexContainerHeight + 'px')
     
     const headlines = [
@@ -45,7 +36,7 @@ d3.json('dataCombined.json')
             d3.select(this)
                 .select('text.headline').attr('x', '50%').attr('y', '8%')
                 .text(headlines[0][i].headline)
-            d3.select(this)
+            d3.select(this).append('g')
                 .selectAll('g').data(dataCombined).join('g')
                 .attr('transform', d0 => 'translate(' +
                     (initialHexTranslate[0] + (d0.col * hexColumnWidth) + ((d0.row % 2 == 1) ? (hexColumnWidth/2) : 0))
@@ -58,6 +49,35 @@ d3.json('dataCombined.json')
                     d3.select(this).append('text').attr('class','state-label').attr('fill','white')
                         .text(d1.statecode)  
                 })
+            if (i == 1) { 
+                let infoG = d3.select(this).append('g')
+                .attr('transform', 'translate(' +
+                (initialHexTranslate[0] + (10.7 * hexColumnWidth) )
+            + ', ' +
+                (initialHexTranslate[1] + (6.8 * rowHeight))
+            + ')')
+            infoG.append('path').attr('id','info-hex')
+                .attr('d', d3.line()(hexagon(radius*1.2, [0,0], true)))
+                .attr('tabindex', '0')
+                .attr('fill','#ccc').attr('stroke','black').attr('stroke-weight', '2px')
+                .on('mouseenter', () => {
+                    d3.select('section.overlay#rep-info').style('display','block')
+                    d3.select('#overlay-background').style('display','block')
+                })
+                .on('click', () => {
+                    d3.select('section.overlay#rep-info').style('display','block')
+                    d3.select('#overlay-background').style('display','block')
+                })
+                .on('keypress', function(event) {
+                    if (event.key === "Enter") {
+                        d3.select('section.overlay#rep-info').style('display','block')
+                        d3.select('#overlay-background').style('display','block') 
+                    } 
+                })
+            infoG.append('text').attr('class','state-label large').attr('fill','black')
+                .text('?')
+            
+            }
         })
 
     function getScrollProportion() {
@@ -74,9 +94,12 @@ d3.json('dataCombined.json')
     let midTransition = false
     let prevScrollP = 0
     let scrollP = 0; 
+    let triedScrolling = false; 
     let hideArrow = false; 
 
     function flipMap(){
+        triedScrolling = true
+        d3.select('div#scroll-to-flip').style('display','none')
         showRepublicans = (showRepublicans + 1) % 2
         d3.selectAll('svg')
           .each(function(_,i){
@@ -94,12 +117,29 @@ d3.json('dataCombined.json')
                         .on('end', () => {midTransition = false; prevScrollP = scrollP })
                   })
           })
+        d3.select('#info-hex')
+            .on('mouseenter', () => {
+                d3.select('section.overlay#'+ (showRepublicans ? 'dem' : 'rep')+  '-info').style('display','block')
+                d3.select('#overlay-background').style('display','block')
+            })
+            .on('click', () => {
+                d3.select('section.overlay#' + (showRepublicans ? 'dem' : 'rep') + '-info').style('display','block')
+                d3.select('#overlay-background').style('display','block')
+            })
+            .on('keypress', function(event) {
+                if (event.key === "Enter") {
+                    d3.select('section.overlay#' + (showRepublicans ? 'dem' : 'rep') + '-info').style('display','block')
+                    d3.select('#overlay-background').style('display','block') 
+                } 
+            })
+
     }
 
     update = function() {
         if(scrollP>0 & !hideArrow) {
             hideArrow = true; 
             d3.select('.scroll-arrow').classed('hide', true)
+            d3.select('div.action-center').style('display','block')
             d3.select('div.action-center > div.button-grp').transition().duration(1000).delay(1200).style('opacity',1)
         }
     
@@ -118,5 +158,27 @@ d3.json('dataCombined.json')
 
     }
     getScrollProportion()
+
+    //d3.select('.maps-wrapper').on('click', () => {flipMap()})
   
+    // opening and closing the share overlay. 
+    d3.select('.cta .share-btn').on('click', ()=>{
+        d3.select('section.overlay#share').style('display','block')
+        d3.select('#overlay-background').style('display','block')
+    })
+  
+    d3.select('#sources-btn').on('click', ()=>{
+        d3.select('section.overlay#sources').style('display','block')
+        d3.select('#overlay-background').style('display','block')
+    })
+
+    d3.selectAll('.close-share-overlay').on('click', ()=>{
+        if(!triedScrolling) { 
+            d3.select('#scroll-to-flip')
+                .style('top', d3.select('#map2').node().getBoundingClientRect().bottom + 'px')
+                .style('display','block')
+        } 
+        d3.selectAll('section.overlay').style('display','none')
+        d3.select('#overlay-background').style('display','none')
+    })
   })

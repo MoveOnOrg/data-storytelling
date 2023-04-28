@@ -1,0 +1,204 @@
+
+
+/****************************/
+/*** SHARE OVERLAY STYLES ***/
+/****************************/
+
+section.overlay {     
+    background-color: white;
+    left: 50%;
+    /* max-width: 50%;  not sure if changing this will break something? */
+    width: 60%; 
+    position: fixed;
+    top: 50%;
+    max-height: 95%;
+    overflow: auto;
+    transform: translate(-50%, -50%);
+    z-index: 25;
+    text-align: center;
+    box-shadow: 0 0 10px;
+    padding: 0 0 20px;
+    display: none;
+  }
+  section.overlay h2 {
+    background-color: #00abff;
+    padding: 10px 10%;
+    font-size: 1.7rem;
+    margin: 0 0 24px;
+    color: black;
+  }
+  /*
+  section.overlay.red h2 {
+    background-color: #ea1c24;
+  }
+*/
+  
+  section.overlay h3 {
+    font-size: 1.5rem;
+  }
+  section.overlay .overlay-body{
+    padding: 6px 5%;
+  }
+  section.overlay p{
+    font-weight: lighter;
+    text-align: left;
+  }
+  div#overlay-background{ 
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 24;
+    display: none;
+  }
+  section.overlay#share {
+    display: none;
+  }
+  
+  section.overlay#share .share-buttons {
+    column-gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  } 
+  section.overlay#share .share-block {
+    background-color: #FFF;
+    border: none;
+    padding: 0 50px;
+  }
+  section.overlay#share form {
+    margin-bottom: 28px;
+  }
+  section.overlay .btn-group {
+    justify-content: flex-end;
+  }
+  section.overlay .btn-group button,  section.overlay .btn-group a.btn {
+    font-size: 1rem;
+    border: none;
+    padding: 8px;
+  } 
+  
+  .share-block {
+    background-color: var(--blue-light3);
+    border: 1px solid black;
+    padding: 24px;
+    margin-bottom: 28px;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  .share-block p {
+    margin-bottom: 28px;
+  }
+  .share-buttons {
+    display: flex;
+    /*gap: 20px;*/
+    column-gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  
+  }
+  .share_item__btn__wrapper {
+    margin: 4px 0 0 0;
+    padding: 1px;
+  }
+  .share_item__btn__wrapper#sms_share_wrapper {
+    display: none;
+  }
+  .share_item__btn {
+    align-items: center;
+    display: flex;
+    padding: 13px 19px;
+    font-family: "Roboto Condensed", sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  .share_item__btn {
+    text-decoration: none;
+    color: #FFF;
+  }
+  .share_item__btn svg {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-right: 1em;
+    fill: #fff;
+  }
+  .share-item-facebook { background-color: #3B5998; }
+  .share-item-facebook:hover { background-color: #1877F2; }
+  .share-item-facebook-messenger {
+    border: 1px #3B5998 solid;
+    background-color: #FFF;
+    color: #3B5998;
+    padding: 12px 19px;
+  }
+  .share-item-facebook-messenger:hover { background-color: #0C188A; color: #FFF; }
+  .share-item-twitter { background-color: #1DA1F2; }
+  .share-item-twitter:hover { background-color: #51BDFF; }
+  .share-item-email { background-color: #D85040; }
+  .share-item-email:hover { background-color: #FF3E27; }
+  .share-item-sms { background-color: #3EA755; }
+  .share-item-sms:hover { background-color: #1F7231; }
+  .share-block .share-item-url {
+    background-color: #D2D2D2;
+    color: #000000;
+    cursor: pointer;
+    padding: 10px;
+  }
+  .share-block .share-item-url:hover {
+    background-color: #717171;
+    color: #FFF;
+  }
+  .share-block .copy-url-icon,
+  .share-block .fb-messenger-icon { display: flex; transition: all .3s; }
+  .share-block .copy-url-icon-hover,
+  .share-block .fb-messenger-icon-hover { display: none; transition: all .3s; }
+  .share-block .share-item-url:hover .copy-url-icon,
+  .share-block .share-item-facebook-messenger:hover .fb-messenger-icon { display: none; }
+  .share-block .share-item-url:hover .copy-url-icon-hover,
+  .share-block .share-item-facebook-messenger:hover .fb-messenger-icon-hover  { display: flex; }
+  .share-block .copy-url-wrapper { 
+    display: flex; 
+    margin-top: 12px;
+  }
+  .share-block .copy-url-wrapper .share_item__btn__wrapper {
+    min-width: 140px;
+    padding: 0; 
+  }
+  .share-block .input-block-wrapper { 
+    flex-grow: 1; 
+    margin-top: 4px;
+  }
+  .share-block .input-block-wrapper .input-block {
+    width: 100%;
+    margin-top: 0;
+    padding: 10px;
+    font-size: 16px;
+    color: #222;
+  }
+  
+
+
+  @media (max-width: 975px) {
+
+    button, a.btn {
+        font-size: 1.5rem;
+    }
+    .share_item__btn__wrapper {
+        width: 100%;
+    }
+    .share_item__btn__wrapper#sms_share_wrapper {
+        display: block;
+    }  
+    section.overlay {
+        max-width: 90%;
+        width: 90%;
+        top: 3%;
+        transform: translate(-50%, 0%);
+    }
+    section.overlay h2 {
+        padding: 10px 5%;
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+    }
+}
