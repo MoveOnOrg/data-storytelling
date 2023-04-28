@@ -46,7 +46,7 @@ d3.json('dataCombined.json')
                 .each(function(d1){
                     d3.select(this).append('path').attr('d', d3.line()(hexagon(radius)))
                         .attr('fill', d1[headlines[0][i].field] == headlines[0][i].match ? '#ea1c24' : "#DDD")
-                    d3.select(this).append('text').attr('class','state-label').attr('fill','white')
+                    d3.select(this).append('text').attr('class','state-label').attr('fill','white').attr('dominant-baseline', 'central') 
                         .text(d1.statecode)  
                 })
             if (i == 1) { 
