@@ -61,8 +61,12 @@ d3.json('dataCombined.json')
                 .attr('tabindex', '0')
                 .attr('fill','#ccc').attr('stroke','black').attr('stroke-weight', '2px')
                 .on('mouseenter', () => {
+                    d3.select('#info-hex').attr('fill', '#00abff')
                     d3.select('section.overlay#rep-info').style('display','block')
                     d3.select('#overlay-background').style('display','block')
+                })
+                .on('mouseexit', () => {
+                    d3.select('#info-hex').attr('fill', '#ccc')
                 })
                 .on('click', () => {
                     d3.select('section.overlay#rep-info').style('display','block')
@@ -74,9 +78,8 @@ d3.json('dataCombined.json')
                         d3.select('#overlay-background').style('display','block') 
                     } 
                 })
-            infoG.append('text').attr('class','state-label large').attr('fill','black')
+            infoG.append('text').attr('class','state-label large').attr('fill','black').attr('dominant-baseline', 'central') 
                 .text('?')
-            
             }
         })
 
@@ -118,9 +121,13 @@ d3.json('dataCombined.json')
                   })
           })
         d3.select('#info-hex')
-            .on('mouseenter', () => {
+            .on('mouseenter', function() {
+                d3.select(this).attr('fill', '#00abff')
                 d3.select('section.overlay#'+ (showRepublicans ? 'dem' : 'rep')+  '-info').style('display','block')
                 d3.select('#overlay-background').style('display','block')
+            })
+            .on('mouseexit', function() {
+                d3.select(this).attr('fill', '#ccc')
             })
             .on('click', () => {
                 d3.select('section.overlay#' + (showRepublicans ? 'dem' : 'rep') + '-info').style('display','block')
@@ -158,8 +165,6 @@ d3.json('dataCombined.json')
 
     }
     getScrollProportion()
-
-    //d3.select('.maps-wrapper').on('click', () => {flipMap()})
   
     // opening and closing the share overlay. 
     d3.select('.cta .share-btn').on('click', ()=>{
@@ -178,6 +183,7 @@ d3.json('dataCombined.json')
                 .style('top', d3.select('#map2').node().getBoundingClientRect().bottom + 'px')
                 .style('display','block')
         } 
+        d3.select('#info-hex').attr('fill','#ccc')
         d3.selectAll('section.overlay').style('display','none')
         d3.select('#overlay-background').style('display','none')
     })

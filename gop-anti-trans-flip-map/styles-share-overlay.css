@@ -52,6 +52,7 @@ section.overlay {
     background-color: rgba(0, 0, 0, 0.85);
     z-index: 24;
     display: none;
+    pointer-events: none;
   }
   section.overlay#share {
     display: none;
