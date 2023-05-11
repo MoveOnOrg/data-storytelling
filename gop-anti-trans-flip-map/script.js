@@ -59,14 +59,12 @@ d3.json('dataCombined.json')
             infoG.append('path').attr('id','info-hex')
                 .attr('d', d3.line()(hexagon(radius*1.2, [0,0], true)))
                 .attr('tabindex', '0')
-                .attr('fill','#ccc').attr('stroke','black').attr('stroke-weight', '2px')
+                .attr('fill','#ccc').attr('stroke','black')
                 .on('mouseenter', () => {
-                    d3.select('#info-hex').attr('fill', '#00abff')
-                    d3.select('section.overlay#rep-info').style('display','block')
-                    d3.select('#overlay-background').style('display','block')
+                    d3.select('#info-hex').attr('fill', '#00abff').attr('stroke-width', '2px')
                 })
-                .on('mouseexit', () => {
-                    d3.select('#info-hex').attr('fill', '#ccc')
+                .on('mouseleave', () => {
+                    d3.select('#info-hex').attr('fill', '#ccc').attr('stroke-width', '1px')
                 })
                 .on('click', () => {
                     d3.select('section.overlay#rep-info').style('display','block')
@@ -122,12 +120,10 @@ d3.json('dataCombined.json')
           })
         d3.select('#info-hex')
             .on('mouseenter', function() {
-                d3.select(this).attr('fill', '#00abff')
-                d3.select('section.overlay#'+ (showRepublicans ? 'dem' : 'rep')+  '-info').style('display','block')
-                d3.select('#overlay-background').style('display','block')
+                d3.select(this).attr('fill', '#00abff').attr('stroke-width','2px')
             })
             .on('mouseexit', function() {
-                d3.select(this).attr('fill', '#ccc')
+                d3.select(this).attr('fill', '#ccc').attr('stroke-width','1px')
             })
             .on('click', () => {
                 d3.select('section.overlay#' + (showRepublicans ? 'dem' : 'rep') + '-info').style('display','block')
